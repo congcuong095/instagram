@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { publicRoutes } from '@/routes';
+import { publicRoutes, privateRoutes } from '@/routes';
 import Header from '@/components/Header/Header';
-import Login from '@/pages/Login';
 
 function App() {
     let login = false;
@@ -12,7 +11,7 @@ function App() {
                 <div className="App">
                     <Header />
                     <Routes>
-                        {publicRoutes.map((route, index) => {
+                        {privateRoutes.map((route, index) => {
                             const Page = route.component;
                             return <Route key={index} path={route.path} element={<Page />} />;
                         })}
@@ -21,7 +20,18 @@ function App() {
             </Router>
         );
     } else {
-        return <Login />;
+        return (
+            <Router>
+                <div className="App">
+                    <Routes>
+                        {publicRoutes.map((route, index) => {
+                            const Page = route.component;
+                            return <Route key={index} path={route.path} element={<Page />} />;
+                        })}
+                    </Routes>
+                </div>
+            </Router>
+        );
     }
 }
 

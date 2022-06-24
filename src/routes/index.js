@@ -1,11 +1,12 @@
 import Home from '@/pages/Home';
+import Login from '@/pages/Login';
 import User from '@/pages/User';
 
-const publicRoutes = [
+const publicRoutes = [{ path: '/', component: Login }];
+
+const privateRoutes = [
     { path: '/', component: Home },
     { path: '/user', component: User },
 ];
-
-const privateRoutes = [];
 
 export { publicRoutes, privateRoutes };
