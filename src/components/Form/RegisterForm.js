@@ -1,4 +1,4 @@
-import styles from './AccountForm.module.scss';
+import styles from './Form.module.scss';
 import classNames from 'classnames/bind';
 
 import images from '@/assets/images';
@@ -8,7 +8,7 @@ import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
 
 const cx = classNames.bind(styles);
 
-function Register() {
+function RegisterForm() {
     return (
         <div className={cx('login')}>
             <div className={cx('login-main')}>
@@ -49,4 +49,4 @@ function Register() {
     );
 }
 
-export default Register;
+export default RegisterForm;

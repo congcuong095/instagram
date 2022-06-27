@@ -2,7 +2,7 @@ import styles from './Login.module.scss';
 import classNames from 'classnames/bind';
 import images from '@/assets/images';
 
-import { FirstLogin } from '@/components/AccountForm';
+import LoginForm from '@/components/Form/LoginForm';
 
 const cx = classNames.bind(styles);
 
@@ -13,7 +13,7 @@ function Login() {
                 <div className={cx('slider')}>
                     <img className={cx('slider-img')} src={images.loginSlide1} alt="" />
                 </div>
-                <FirstLogin />
+                <LoginForm />
             </div>
             <div className={cx('footer')}></div>
         </div>
