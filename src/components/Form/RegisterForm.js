@@ -5,6 +5,7 @@ import images from '@/assets/images';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
+import Button from '../Button';
 
 const cx = classNames.bind(styles);
 
@@ -14,15 +15,23 @@ function RegisterForm() {
             <div className={cx('login')}>
                 <div className={cx('login-main')}>
                     <div className={cx('login-header')}>
-                        <img className={cx('login-logo')} src={images.logo} alt="insatgram" />
+                        <a href="/">
+                            <img className={cx('login-logo')} src={images.logo} alt="insatgram" />
+                        </a>
                     </div>
-                    <h3>Đăng ký để xem ảnh và video từ bạn bè.</h3>
-                    <div className={cx('login-facebook')}>
-                        <FontAwesomeIcon icon={faFacebookSquare} className={cx('login-facebook-icon')} />
-                        <div>Đăng nhập bằng Facebook</div>
+                    <h3 className={cx('login-fb-title')}>Đăng ký để xem ảnh và video từ bạn bè.</h3>
+
+                    <div className={cx('login-btn')}>
+                        <Button
+                            primary
+                            leftIcon={<FontAwesomeIcon icon={faFacebookSquare} className={cx('login-facebook-icon')} />}
+                        >
+                            Đăng nhập bằng Facebook
+                        </Button>
                     </div>
+
                     <div className={cx('login-seperate')}>HOẶC</div>
-                    <div className={cx('login-input')}>
+                    <div className={cx('login-input-register')}>
                         <input
                             className={cx('login-input-name')}
                             type="text"
@@ -32,16 +41,24 @@ function RegisterForm() {
                         <input className={cx('login-input-accountname')} type="text" placeholder="Tên người dùng" />
                         <input className={cx('login-input-password')} type="password" placeholder="Mật khẩu" />
                     </div>
-                    <p>
+                    <p className={cx('login-term')}>
                         Những người dùng dịch vụ của chúng tôi có thể đã tải thông tin liên hệ của bạn lên Instagram.
-                        <a>Tìm hiểu thêm</a>
-                        Bằng cách đăng ký, bạn đồng ý với <a>Điều khoản</a>, <a>Chính sách dữ liệu</a> và{' '}
-                        <a>Chính sách cookie</a> của chúng tôi.
+                        <a href="/">Tìm hiểu thêm</a>
+                        <br />
+                        <br />
+                        Bằng cách đăng ký, bạn đồng ý với <a href="/">Điều khoản</a>, <a href="/">Chính sách dữ liệu</a>{' '}
+                        và <a href="/">Chính sách cookie</a> của chúng tôi.
                     </p>
-                    <button className={cx('login-btn')}>Đăng ký</button>
+                    <div className={cx('login-btn')}>
+                        <Button primary>Đăng ký</Button>
+                    </div>
+                    <div className={cx('register-mb')}></div>
                 </div>
                 <div className={cx('login-ask')}>
-                    Bạn có tài khoản <a href="/">Đăng nhập</a>
+                    Bạn có tài khoản?
+                    <a href="/" className={cx('login-ask-link')}>
+                        Đăng nhập
+                    </a>
                 </div>
                 <div className={cx('login-app')}>
                     <div className={cx('login-app-title')}>Tải ứng dụng</div>

@@ -21,7 +21,9 @@ function LoginForm({ haveAccount }) {
         <div className={cx('login')}>
             <div className={cx('login-main')}>
                 <div className={cx('login-header')}>
-                    <img className={cx('login-logo')} src={images.logo} alt="insatgram" />
+                    <a href="/">
+                        <img className={cx('login-logo')} src={images.logo} alt="insatgram" />
+                    </a>
                 </div>
                 {account ? (
                     <>Dang lam</>
@@ -35,9 +37,7 @@ function LoginForm({ haveAccount }) {
                             />
                             <input className={cx('login-input-password')} type="password" placeholder="Mật khẩu" />
                             <div className={cx('login-btn')}>
-                                <Button primary disabled>
-                                    Đăng nhập
-                                </Button>
+                                <Button primary>Đăng nhập</Button>
                             </div>
                         </div>
                         <div className={cx('login-seperate')}>HOẶC</div>
@@ -47,10 +47,13 @@ function LoginForm({ haveAccount }) {
                                 leftIcon={
                                     <FontAwesomeIcon icon={faFacebookSquare} className={cx('login-facebook-icon')} />
                                 }
+                                className={cx('login-facebook')}
                             >
                                 Đăng nhập bằng Facebook
                             </Button>
-                            <div className={cx('login-forgot-password')}>Quên mật khẩu</div>
+                            <a href="/account/resetpassword" className={cx('login-forgot-password')}>
+                                Quên mật khẩu
+                            </a>
                         </div>
                     </>
                 )}

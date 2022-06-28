@@ -12,7 +12,6 @@
     display: block;
     border-radius: 4px;
     min-width: 100px;
-
     width: 100%;
     + wrapper {
         margin-left: 8px;
@@ -23,8 +22,8 @@
     }
 }
 
-.icon + .wrapper,
-.wrapper + .icon {
+.icon + .title,
+.title + .icon {
     margin-left: 8px;
 }
 
@@ -32,7 +31,6 @@
 .primary {
     background-color: var(--facebook-color);
     color: #fff;
-    box-sizing: border-box;
     border-color: var(--facebook-color);
 }
 

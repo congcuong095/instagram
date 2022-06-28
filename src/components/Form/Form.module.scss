@@ -17,7 +17,7 @@
     border: 1px solid rgba(219, 219, 219, 1);
     border-radius: 1px;
     margin: 0 0 10px;
-    padding: 10px 0;
+    padding: 10px 40px;
     display: flex;
     flex-direction: column;
 }
@@ -31,6 +31,16 @@
     max-height: 100%;
     max-width: 100%;
     object-fit: contain;
+    cursor: pointer;
+}
+
+.login-fb-title {
+    color: rgba(142, 142, 142, 1);
+    font-size: 1.7rem;
+    font-weight: var(--font-bold);
+    line-height: 20px;
+    margin-bottom: 10px;
+    text-align: center;
 }
 
 .login-input {
@@ -39,18 +49,24 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
+}
 
-    width: 268px;
+.login-input-register {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 input {
-    margin: 0 40px 6px;
+    margin-bottom: 6px;
     padding: 9px 0 7px 8px;
     align-items: center;
     background: var(--secondary-background);
     border: 1px solid rgba(219, 219, 219, 1);
     border-radius: 3px;
-    box-sizing: border-box;
     color: var(--primary-text);
     font-size: 12px;
     width: 100%;
@@ -62,8 +78,20 @@ input {
     }
 }
 
+.login-term {
+    color: rgba(142, 142, 142, 1);
+    font-size: 1.2rem;
+    line-height: 16px;
+    margin: 10px;
+    text-align: center;
+    a {
+        font-weight: var(--font-bold);
+        color: currentColor;
+    }
+}
+
 .login-btn {
-    margin: 6px 0;
+    margin: 8px 0;
     width: 100%;
     text-align: center;
 }
@@ -101,27 +129,26 @@ input {
     width: 268px;
     display: flex;
     flex-direction: column;
+    line-height: normal;
 }
 
 .login-facebook {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    color: #385185;
-    font-weight: 500;
-    margin: 8px 0;
-    font-size: 1.4rem;
+    color: #385185 !important;
 }
 
 .login-facebook-icon {
-    font-size: 2rem;
-    margin-right: 8px;
+    font-size: 1.8rem !important;
 }
 
 .login-forgot-password {
     text-align: center;
     margin-top: 12px;
     font-size: 1.2rem;
+    color: rgba(0, 55, 107, 1) !important;
+}
+
+.register-mb {
+    margin-bottom: 20px;
 }
 
 .login-ask {
@@ -129,12 +156,10 @@ input {
     border: 1px solid rgba(219, 219, 219, 1);
     border-radius: 1px;
     margin: 0 0 10px;
-    padding: 10px 0;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 18px 0px;
-    margin-bottom: 10px;
 
     .login-ask-link {
         margin: 0 4px;
