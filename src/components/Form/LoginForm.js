@@ -6,6 +6,7 @@ import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
 import images from '@/assets/images';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Button from '@/components/Button';
 
 const cx = classNames.bind(styles);
 
@@ -33,14 +34,22 @@ function LoginForm({ haveAccount }) {
                                 placeholder="Số điện thoại, tên người dùng hoặc email"
                             />
                             <input className={cx('login-input-password')} type="password" placeholder="Mật khẩu" />
-                            <button className={cx('login-btn')}>Đăng nhập</button>
+                            <div className={cx('login-btn')}>
+                                <Button primary disabled>
+                                    Đăng nhập
+                                </Button>
+                            </div>
                         </div>
                         <div className={cx('login-seperate')}>HOẶC</div>
                         <div className={cx('login-info')}>
-                            <div className={cx('login-facebook')}>
-                                <FontAwesomeIcon icon={faFacebookSquare} className={cx('login-facebook-icon')} />
-                                <div>Đăng nhập bằng Facebook</div>
-                            </div>
+                            <Button
+                                text
+                                leftIcon={
+                                    <FontAwesomeIcon icon={faFacebookSquare} className={cx('login-facebook-icon')} />
+                                }
+                            >
+                                Đăng nhập bằng Facebook
+                            </Button>
                             <div className={cx('login-forgot-password')}>Quên mật khẩu</div>
                         </div>
                     </>
@@ -59,7 +68,7 @@ function LoginForm({ haveAccount }) {
                     </>
                 ) : (
                     <>
-                        Bạn chưa có tài khoản ư{' '}
+                        Bạn chưa có tài khoản ư?
                         <Link to="/register" className={cx('login-ask-link')}>
                             Đăng ký
                         </Link>
@@ -68,8 +77,10 @@ function LoginForm({ haveAccount }) {
             </div>
             <div className={cx('login-app')}>
                 <div className={cx('login-app-title')}>Tải ứng dụng</div>
-                <img src={images.appstore} alt="App Store" className={cx('login-appstore')} />
-                <img src={images.googleplay} alt="Google Play" className={cx('login-googleplay')} />
+                <div className={cx('login-app-img')}>
+                    <img src={images.appstore} alt="App Store" className={cx('login-appstore')} />
+                    <img src={images.googleplay} alt="Google Play" className={cx('login-googleplay')} />
+                </div>
             </div>
         </div>
     );

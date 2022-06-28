@@ -1,3 +1,10 @@
+.register {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 .login {
     max-width: 350px;
     display: flex;
@@ -32,6 +39,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    width: 268px;
 }
 
 input {
@@ -44,19 +53,19 @@ input {
     box-sizing: border-box;
     color: var(--primary-text);
     font-size: 12px;
-    width: 268px;
+    width: 100%;
     height: 36px;
     outline: none;
 
     &:focus {
-        border: 1px solid rgb(168, 168, 168, 1);
+        border: 1px solid rgba(168, 168, 168, 1);
     }
 }
 
 .login-btn {
-    width: 268px;
-    height: 36px;
-    margin-bottom: 6px;
+    margin: 6px 0;
+    width: 100%;
+    text-align: center;
 }
 
 .login-seperate {
@@ -67,15 +76,23 @@ input {
     position: relative;
 
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 15px;
-    &::before {
+    &:before {
+        content: '';
         position: absolute;
         top: 50%;
         left: 0;
-        height: 1px;
-        width: 40px;
-        background-color: var(--secondary-text);
+        width: 95px;
+        border-top: 1px solid rgba(219, 219, 219, 1);
+    }
+    &:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: 0;
+        width: 95px;
+        border-top: 1px solid rgba(219, 219, 219, 1);
     }
 }
 
@@ -94,10 +111,11 @@ input {
     font-weight: 500;
     margin: 8px 0;
     font-size: 1.4rem;
-    .login-facebook-icon {
-        font-size: 2rem;
-        margin-right: 8px;
-    }
+}
+
+.login-facebook-icon {
+    font-size: 2rem;
+    margin-right: 8px;
 }
 
 .login-forgot-password {
@@ -115,6 +133,8 @@ input {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 18px 0px;
+    margin-bottom: 10px;
 
     .login-ask-link {
         margin: 0 4px;
@@ -122,9 +142,20 @@ input {
 }
 
 .login-app {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .login-app-title {
+    margin: 10px 20px;
+}
+
+.login-app-img {
+    display: flex;
+    flex-direction: row;
+    margin: 10px 0;
 }
 
 .login-appstore {
