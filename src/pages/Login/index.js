@@ -5,31 +5,37 @@ import images from '@/assets/images';
 import LoginForm from '@/components/Form/LoginForm';
 import Button from '@/components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faSortDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 
 const cx = classNames.bind(styles);
 
 function Login() {
-    const slideArr = [images.loginSlide1, images.loginSlide2, images.loginSlide3, images.loginSlide4];
-    const [slide, setSlide] = useState(0);
+    const slideArr = document.querySelectorAll('.slide-img');
+    console.log(slideArr);
+    const [numb, setNumb] = useState('0');
 
-    useEffect(() => {
-        const timderId = setTimeout(() => {
-            if (slide == 3) {
-                clearTimeout(timderId);
-                setSlide(0);
-            } else {
-                setSlide(slide + 1);
-            }
-        }, 4000);
-    }, [slide]);
+    // useEffect(() => {
+    //     const timerId = setTimeout(() => {
+    //         slideArr.forEach((slide, index) => {
+    //             slide.classList.add('img-in')
+    //         })
+    //         slideArr[numb].classList.remove('img-in');
+    //         slideArr[numb].classList.add('img-out');
+    //         slideArr[numb + 1].classList.add('img-in');
+    //         slideArr[numb + 1].classList.remove('img-out');
+    //         setNumb(numb + 1);
+    //     }, 2000);
+    // }, [numb]);
 
     return (
         <div className={cx('container')}>
             <div className={cx('content')}>
                 <div className={cx('slider')}>
-                    <img className={cx('slider-img')} src={slideArr[slide]} alt="" />
+                    <img className={cx('slider-img', 'img-out')} src={images.loginSlide1} alt="" />
+                    <img className={cx('slider-img', 'img-in')} src={images.loginSlide2} alt="" />
+                    {/* <img className={cx('slider-img')} src={images.loginSlide3} alt="" />
+                    <img className={cx('slider-img')} src={images.loginSlide4} alt="" /> */}
                 </div>
                 <LoginForm />
             </div>

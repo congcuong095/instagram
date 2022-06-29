@@ -33,6 +33,53 @@
 .slider-img {
     position: absolute;
     margin: 27px 0 0 113px;
+    animation-name: opacity;
+    animation-duration: 5.5s;
+    animation-timing-function: ease-in-out;
+
+    @keyframes opacity {
+        0% {
+            opacity: 0;
+        }
+        50% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+}
+
+.img-in {
+    animation-name: opacity;
+    animation-duration: 6s;
+    animation-timing-function: ease-in;
+    animation-fill-mode: forwards;
+
+    @keyframes opacity {
+        0% {
+            opacity: 0;
+        }
+        50% {
+            opacity: 1;
+        }
+    }
+}
+
+.img-out {
+    animation-name: opacity;
+    animation-duration: 6s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+
+    @keyframes opacity {
+        0% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0;
+        }
+    }
 }
 
 .footer {
@@ -63,13 +110,15 @@
 }
 .footer-item {
     margin: 0 8px 12px;
+    font-size: 1.2rem;
+    line-height: 1.2rem !important;
 }
 .footer-link {
     color: rgba(142, 142, 142, 1) !important;
-    font-size: 12px;
 }
 
 .language {
     color: rgba(142, 142, 142, 1) !important;
     width: unset !important;
+    font-weight: var(--font-regular) !important;
 }
