@@ -36,9 +36,10 @@ function LoginForm({ haveAccount }) {
                                 placeholder="Số điện thoại, tên người dùng hoặc email"
                             />
                             <input className={cx('login-input-password')} type="password" placeholder="Mật khẩu" />
-                            <div className={cx('login-btn')}>
-                                <Button primary>Đăng nhập</Button>
-                            </div>
+
+                            <Button primary className={cx('login-btn')}>
+                                Đăng nhập
+                            </Button>
                         </div>
                         <div className={cx('login-seperate')}>HOẶC</div>
                         <div className={cx('login-info')}>

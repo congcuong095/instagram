@@ -21,14 +21,13 @@ function RegisterForm() {
                     </div>
                     <h3 className={cx('login-fb-title')}>Đăng ký để xem ảnh và video từ bạn bè.</h3>
 
-                    <div className={cx('login-btn')}>
-                        <Button
-                            primary
-                            leftIcon={<FontAwesomeIcon icon={faFacebookSquare} className={cx('login-facebook-icon')} />}
-                        >
-                            Đăng nhập bằng Facebook
-                        </Button>
-                    </div>
+                    <Button
+                        primary
+                        leftIcon={<FontAwesomeIcon icon={faFacebookSquare} className={cx('login-facebook-icon')} />}
+                        className={cx('login-btn')}
+                    >
+                        Đăng nhập bằng Facebook
+                    </Button>
 
                     <div className={cx('login-seperate')}>HOẶC</div>
                     <div className={cx('login-input-register')}>
@@ -49,9 +48,11 @@ function RegisterForm() {
                         Bằng cách đăng ký, bạn đồng ý với <a href="/">Điều khoản</a>, <a href="/">Chính sách dữ liệu</a>{' '}
                         và <a href="/">Chính sách cookie</a> của chúng tôi.
                     </p>
-                    <div className={cx('login-btn')}>
-                        <Button primary>Đăng ký</Button>
-                    </div>
+
+                    <Button primary className={cx('login-btn')}>
+                        Đăng ký
+                    </Button>
+
                     <div className={cx('register-mb')}></div>
                 </div>
                 <div className={cx('login-ask')}>

@@ -86,7 +86,7 @@ input {
     text-align: center;
     a {
         font-weight: var(--font-bold);
-        color: currentColor;
+        color: currentColor !important;
     }
 }
 
@@ -94,6 +94,7 @@ input {
     margin: 8px 0;
     width: 100%;
     text-align: center;
+    padding: 5px 9px !important;
 }
 
 .login-seperate {
@@ -162,6 +163,7 @@ input {
     padding: 18px 0px;
 
     .login-ask-link {
+        font-weight: var(--font-bold);
         margin: 0 4px;
     }
 }

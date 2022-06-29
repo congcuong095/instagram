@@ -6,15 +6,30 @@ import LoginForm from '@/components/Form/LoginForm';
 import Button from '@/components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faSortDown } from '@fortawesome/free-solid-svg-icons';
+import { useEffect, useState } from 'react';
 
 const cx = classNames.bind(styles);
 
 function Login() {
+    const slideArr = [images.loginSlide1, images.loginSlide2, images.loginSlide3, images.loginSlide4];
+    const [slide, setSlide] = useState(0);
+
+    useEffect(() => {
+        const timderId = setTimeout(() => {
+            if (slide == 3) {
+                clearTimeout(timderId);
+                setSlide(0);
+            } else {
+                setSlide(slide + 1);
+            }
+        }, 4000);
+    }, [slide]);
+
     return (
         <div className={cx('container')}>
             <div className={cx('content')}>
                 <div className={cx('slider')}>
-                    <img className={cx('slider-img')} src={images.loginSlide1} alt="" />
+                    <img className={cx('slider-img')} src={slideArr[slide]} alt="" />
                 </div>
                 <LoginForm />
             </div>
@@ -80,8 +95,6 @@ function Login() {
                             Instagram Lite
                         </a>
                     </div>
-                </div>
-                <div className={cx('footer-support')}>
                     <div className={cx('footer-item')}>
                         <a className={cx('footer-link')} href="/">
                             Tải thông tin người liên hệ lên & người không phải người dùng

@@ -45,11 +45,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-}
-.footer-support {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-wrap: wrap;
 }
 .footer-topics {
     display: flex;
@@ -75,5 +71,5 @@
 
 .language {
     color: rgba(142, 142, 142, 1) !important;
-    width: unset;
+    width: unset !important;
 }
