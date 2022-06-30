@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
 
 import images from '@/assets/images';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '@/components/Button';
 
@@ -12,17 +12,35 @@ const cx = classNames.bind(styles);
 
 function LoginForm({ haveAccount }) {
     const [account, setAccount] = useState(!!haveAccount);
+    const [activeButton, setActiveButton] = useState(false);
 
     const handleClick = () => {
         setAccount(false);
     };
+
+    // useEffect(() => {
+
+    // }, [active])
+
     const hanldeInput = (e) => {
-        if (e.target.value == '') {
-            e.target.nextSibling.style.display = 'none';
-        } else {
-            document.querySelector('[class*="login-btn"]').classList.remove('[class*="disabled"]');
+        const inputArr = Array.from(document.querySelectorAll('input[class*="login-input-"]'));
+
+        let inputFill = inputArr.every((input) => {
+            return input.value != '';
+        });
+        if (inputFill) {
+            setActiveButton(true);
             e.target.nextSibling.style.display = 'block';
             e.target.style.paddingTop = '14px';
+        } else {
+            setActiveButton(false);
+            e.target.nextSibling.style.display = 'block';
+            e.target.style.paddingTop = '14px';
+            inputArr.forEach((input) => {
+                if (input.value == '') {
+                    input.nextSibling.style.display = 'none';
+                }
+            });
         }
     };
 
@@ -58,7 +76,7 @@ function LoginForm({ haveAccount }) {
                                 <span className={cx('login-input-note')}>Mật khẩu</span>
                             </div>
 
-                            <Button primary disabled className={cx('login-btn')}>
+                            <Button primary disabled={!activeButton} className={cx('login-btn')}>
                                 Đăng nhập
                             </Button>
                         </div>
