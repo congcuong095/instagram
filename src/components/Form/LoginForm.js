@@ -16,6 +16,15 @@ function LoginForm({ haveAccount }) {
     const handleClick = () => {
         setAccount(false);
     };
+    const hanldeInput = (e) => {
+        if (e.target.value == '') {
+            e.target.nextSibling.style.display = 'none';
+        } else {
+            document.querySelector('[class*="login-btn"]').classList.remove('[class*="disabled"]');
+            e.target.nextSibling.style.display = 'block';
+            e.target.style.paddingTop = '14px';
+        }
+    };
 
     return (
         <div className={cx('login')}>
@@ -30,14 +39,26 @@ function LoginForm({ haveAccount }) {
                 ) : (
                     <>
                         <div className={cx('login-input')}>
-                            <input
-                                className={cx('login-input-name')}
-                                type="text"
-                                placeholder="Số điện thoại, tên người dùng hoặc email"
-                            />
-                            <input className={cx('login-input-password')} type="password" placeholder="Mật khẩu" />
+                            <div className={cx('login-input-wrapper')}>
+                                <input
+                                    className={cx('login-input-name')}
+                                    type="text"
+                                    placeholder="Số điện thoại, tên người dùng hoặc email"
+                                    onChange={(e) => hanldeInput(e)}
+                                />
+                                <span className={cx('login-input-note')}>Số điện thoại, tên người dùng hoặc email</span>
+                            </div>
+                            <div className={cx('login-input-wrapper')}>
+                                <input
+                                    onChange={(e) => hanldeInput(e)}
+                                    className={cx('login-input-password')}
+                                    type="password"
+                                    placeholder="Mật khẩu"
+                                />
+                                <span className={cx('login-input-note')}>Mật khẩu</span>
+                            </div>
 
-                            <Button primary className={cx('login-btn')}>
+                            <Button primary disabled className={cx('login-btn')}>
                                 Đăng nhập
                             </Button>
                         </div>

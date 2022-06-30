@@ -1,8 +1,6 @@
 .register {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin-top: 36px;
+    margin-bottom: 16px;
 }
 
 .login {
@@ -78,11 +76,24 @@ input {
     }
 }
 
+.login-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.login-input-note {
+    position: absolute;
+    top: 0;
+    left: 9px;
+    font-size: 1rem;
+    color: var(--secondary-text);
+    display: none;
+}
+
 .login-term {
     color: rgba(142, 142, 142, 1);
     font-size: 1.2rem;
     line-height: 16px;
-    margin: 10px;
     text-align: center;
     a {
         font-weight: var(--font-bold);

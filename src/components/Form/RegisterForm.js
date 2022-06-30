@@ -41,7 +41,7 @@ function RegisterForm() {
                         <input className={cx('login-input-password')} type="password" placeholder="Mật khẩu" />
                     </div>
                     <p className={cx('login-term')}>
-                        Những người dùng dịch vụ của chúng tôi có thể đã tải thông tin liên hệ của bạn lên Instagram.
+                        Những người dùng dịch vụ của chúng tôi có thể đã tải thông tin liên hệ của bạn lên Instagram.{' '}
                         <a href="/">Tìm hiểu thêm</a>
                         <br />
                         <br />
@@ -49,7 +49,7 @@ function RegisterForm() {
                         và <a href="/">Chính sách cookie</a> của chúng tôi.
                     </p>
 
-                    <Button primary className={cx('login-btn')}>
+                    <Button primary disabled className={cx('login-btn')}>
                         Đăng ký
                     </Button>
 

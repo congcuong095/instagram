@@ -38,3 +38,17 @@ a[href] {
     text-decoration: none;
     color: var(--facebook-color);
 }
+
+//Slider
+.img-in {
+    opacity: 1;
+    transition: opacity 1.5s ease-in;
+    z-index: 2;
+    visibility: visible;
+}
+
+.img-out {
+    opacity: 0;
+    transition: opacity 1.5s ease-out;
+    visibility: visible;
+}

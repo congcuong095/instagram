@@ -1,0 +1,19 @@
+.slider {
+    background-image: url(../../assets/images/login-background.png);
+    width: 100%;
+    flex-basis: 380.32px;
+    background-position: -46px 0;
+    background-size: 468.32px 634.15px;
+    height: 581.15px;
+    margin-bottom: 12px;
+    margin-right: 32px;
+    align-self: center;
+    position: relative;
+}
+
+.slider-img {
+    position: absolute;
+    margin: 27px 0 0 113px;
+    opacity: 0;
+    visibility: hidden;
+}
