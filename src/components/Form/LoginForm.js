@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
 
 import images from '@/assets/images';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '@/components/Button';
 
@@ -43,11 +43,7 @@ function LoginForm({ haveAccount }) {
             });
         }
     };
-<<<<<<< Updated upstream
 
-    const handleShowPass = (e) => {};
-=======
-    // Handle show password
     const [typePass, setTypePass] = useState('password');
 
     const handleShowPass = (e) => {
@@ -59,7 +55,6 @@ function LoginForm({ haveAccount }) {
             e.target.innerHTML = 'Ẩn';
         }
     };
->>>>>>> Stashed changes
 
     return (
         <div className={cx('login')}>
@@ -87,7 +82,7 @@ function LoginForm({ haveAccount }) {
                                 <input
                                     onChange={(e) => hanldeInput(e)}
                                     className={cx('login-input-password')}
-                                    type="password"
+                                    type={typePass}
                                     placeholder="Mật khẩu"
                                 />
                                 <span className={cx('login-input-note')}>Mật khẩu</span>

@@ -37,6 +37,9 @@
 
 .text {
     color: var(--facebook-color);
+    padding: 0;
+    width: unset;
+    min-width: 0;
 }
 
 .outline {

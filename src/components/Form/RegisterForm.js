@@ -1,5 +1,6 @@
 import styles from './Form.module.scss';
 import classNames from 'classnames/bind';
+import { useState } from 'react';
 
 import images from '@/assets/images';
 
@@ -10,6 +11,46 @@ import Button from '../Button';
 const cx = classNames.bind(styles);
 
 function RegisterForm() {
+    const [activeButton, setActiveButton] = useState(false);
+
+    const hanldeInput = (e) => {
+        const inputArr = Array.from(document.querySelectorAll('input[class*="login-input-"]'));
+
+        let inputFill = inputArr.every((input) => {
+            return input.value != '';
+        });
+        if (e.target.className.includes('password')) {
+            e.target.parentElement.querySelector('[class*="show"]').style.display = 'block';
+        }
+
+        if (inputFill) {
+            setActiveButton(true);
+            e.target.nextSibling.style.display = 'block';
+            e.target.style.paddingTop = '14px';
+        } else {
+            setActiveButton(false);
+            e.target.nextSibling.style.display = 'block';
+            e.target.style.paddingTop = '14px';
+            inputArr.forEach((input) => {
+                if (input.value == '') {
+                    input.nextSibling.style.display = 'none';
+                }
+            });
+        }
+    };
+
+    const [typePass, setTypePass] = useState('password');
+
+    const handleShowPass = (e) => {
+        if (typePass == 'text') {
+            setTypePass('password');
+            e.target.innerHTML = 'Hiển thị';
+        } else {
+            setTypePass('text');
+            e.target.innerHTML = 'Ẩn';
+        }
+    };
+
     return (
         <div className={cx('register')}>
             <div className={cx('login')}>
@@ -31,14 +72,45 @@ function RegisterForm() {
 
                     <div className={cx('login-seperate')}>HOẶC</div>
                     <div className={cx('login-input-register')}>
-                        <input
-                            className={cx('login-input-name')}
-                            type="text"
-                            placeholder="Số điện thoại, tên người dùng hoặc email"
-                        />
-                        <input className={cx('login-input-fullname')} type="text" placeholder="Tên đầy đủ" />
-                        <input className={cx('login-input-accountname')} type="text" placeholder="Tên người dùng" />
-                        <input className={cx('login-input-password')} type="password" placeholder="Mật khẩu" />
+                        <div className={cx('login-input-wrapper')}>
+                            <input
+                                className={cx('login-input-name')}
+                                type="text"
+                                placeholder="Số điện thoại, tên người dùng hoặc email"
+                                onChange={(e) => hanldeInput(e)}
+                            />
+                            <span className={cx('login-input-note')}>Số điện thoại, tên người dùng hoặc email</span>
+                        </div>
+                        <div className={cx('login-input-wrapper')}>
+                            <input
+                                className={cx('login-input-fullname')}
+                                type="text"
+                                placeholder="Tên đầy đủ"
+                                onChange={(e) => hanldeInput(e)}
+                            />
+                            <span className={cx('login-input-note')}>Tên đầy đủ</span>
+                        </div>
+                        <div className={cx('login-input-wrapper')}>
+                            <input
+                                className={cx('login-input-accountname')}
+                                type="text"
+                                placeholder="Tên người dùng"
+                                onChange={(e) => hanldeInput(e)}
+                            />
+                            <span className={cx('login-input-note')}>Tên người dùng</span>
+                        </div>
+                        <div className={cx('login-input-wrapper')}>
+                            <input
+                                className={cx('login-input-password')}
+                                type={typePass}
+                                placeholder="Mật khẩu"
+                                onChange={(e) => hanldeInput(e)}
+                            />
+                            <span className={cx('login-input-note')}>Mật khẩu</span>
+                            <Button text className={cx('login-input-show')} onClick={(e) => handleShowPass(e)}>
+                                Hiển thị
+                            </Button>
+                        </div>
                     </div>
                     <p className={cx('login-term')}>
                         Những người dùng dịch vụ của chúng tôi có thể đã tải thông tin liên hệ của bạn lên Instagram.{' '}
@@ -49,7 +121,7 @@ function RegisterForm() {
                         và <a href="/">Chính sách cookie</a> của chúng tôi.
                     </p>
 
-                    <Button primary disabled className={cx('login-btn')}>
+                    <Button primary disabled={!activeButton} className={cx('login-btn')}>
                         Đăng ký
                     </Button>
 
