@@ -40,7 +40,7 @@ function RegisterForm() {
     };
 
     const [typePass, setTypePass] = useState('password');
-
+    // handle show pass
     const handleShowPass = (e) => {
         if (typePass == 'text') {
             setTypePass('password');
