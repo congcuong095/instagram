@@ -43,8 +43,23 @@ function LoginForm({ haveAccount }) {
             });
         }
     };
+<<<<<<< Updated upstream
 
     const handleShowPass = (e) => {};
+=======
+    // Handle show password
+    const [typePass, setTypePass] = useState('password');
+
+    const handleShowPass = (e) => {
+        if (typePass == 'text') {
+            setTypePass('password');
+            e.target.innerHTML = 'Hiển thị';
+        } else {
+            setTypePass('text');
+            e.target.innerHTML = 'Ẩn';
+        }
+    };
+>>>>>>> Stashed changes
 
     return (
         <div className={cx('login')}>
