@@ -18,16 +18,16 @@ function LoginForm({ haveAccount }) {
         setAccount(false);
     };
 
-    // useEffect(() => {
-
-    // }, [active])
-
     const hanldeInput = (e) => {
         const inputArr = Array.from(document.querySelectorAll('input[class*="login-input-"]'));
 
         let inputFill = inputArr.every((input) => {
             return input.value != '';
         });
+        if (e.target.className.includes('password')) {
+            e.target.parentElement.querySelector('[class*="show"]').style.display = 'block';
+        }
+
         if (inputFill) {
             setActiveButton(true);
             e.target.nextSibling.style.display = 'block';
@@ -43,6 +43,8 @@ function LoginForm({ haveAccount }) {
             });
         }
     };
+
+    const handleShowPass = (e) => {};
 
     return (
         <div className={cx('login')}>
@@ -74,6 +76,9 @@ function LoginForm({ haveAccount }) {
                                     placeholder="Mật khẩu"
                                 />
                                 <span className={cx('login-input-note')}>Mật khẩu</span>
+                                <Button text className={cx('login-input-show')} onClick={(e) => handleShowPass(e)}>
+                                    Hiển thị
+                                </Button>
                             </div>
 
                             <Button primary disabled={!activeButton} className={cx('login-btn')}>
@@ -121,8 +126,12 @@ function LoginForm({ haveAccount }) {
             <div className={cx('login-app')}>
                 <div className={cx('login-app-title')}>Tải ứng dụng</div>
                 <div className={cx('login-app-img')}>
-                    <img src={images.appstore} alt="App Store" className={cx('login-appstore')} />
-                    <img src={images.googleplay} alt="Google Play" className={cx('login-googleplay')} />
+                    <a href="/">
+                        <img src={images.appstore} alt="App Store" className={cx('login-appstore')} />
+                    </a>
+                    <a href="/">
+                        <img src={images.googleplay} alt="Google Play" className={cx('login-googleplay')} />
+                    </a>
                 </div>
             </div>
         </div>

@@ -79,6 +79,16 @@ input {
 .login-input-wrapper {
     position: relative;
     width: 100%;
+
+    .login-input-show {
+        position: absolute;
+        content: '';
+        top: 50%;
+        transform: translateY(-50%);
+        right: -102px;
+        display: none;
+        color: var(--primary-text);
+    }
 }
 
 .login-input-note {
@@ -197,9 +207,11 @@ input {
 }
 
 .login-appstore {
+    cursor: pointer;
     height: 40px;
     margin-right: 8px;
 }
 .login-googleplay {
+    cursor: pointer;
     height: 40px;
 }
