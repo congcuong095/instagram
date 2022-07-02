@@ -2,7 +2,7 @@ import styles from './Register.module.scss';
 import classNames from 'classnames/bind';
 
 import Footer from '@/components/Footer';
-import RegisterForm from '@/components/Form/RegisterForm';
+import RegisterForm from '@/components/Form/RegisterForm/RegisterForm';
 
 const cx = classNames.bind(styles);
 

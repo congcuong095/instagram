@@ -189,29 +189,29 @@ input {
     }
 }
 
-.login-app {
+.app {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.login-app-title {
+.app-title {
     margin: 10px 20px;
 }
 
-.login-app-img {
+.app-img {
     display: flex;
     flex-direction: row;
     margin: 10px 0;
 }
 
-.login-appstore {
+.appstore {
     cursor: pointer;
     height: 40px;
     margin-right: 8px;
 }
-.login-googleplay {
+.googleplay {
     cursor: pointer;
     height: 40px;
 }

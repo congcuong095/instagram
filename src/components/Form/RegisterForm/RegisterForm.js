@@ -1,4 +1,4 @@
-import styles from './Form.module.scss';
+import styles from '../Form.module.scss';
 import classNames from 'classnames/bind';
 import { useState } from 'react';
 
@@ -6,7 +6,7 @@ import images from '@/assets/images';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
-import Button from '../Button';
+import Button from '../../Button';
 
 const cx = classNames.bind(styles);
 
@@ -129,9 +129,9 @@ function RegisterForm() {
                 </div>
                 <div className={cx('login-ask')}>
                     Bạn có tài khoản?
-                    <a href="/" className={cx('login-ask-link')}>
+                    <Button text href="/" className={cx('login-ask-link')}>
                         Đăng nhập
-                    </a>
+                    </Button>
                 </div>
                 <div className={cx('login-app')}>
                     <div className={cx('login-app-title')}>Tải ứng dụng</div>

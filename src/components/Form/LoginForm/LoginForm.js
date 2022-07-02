@@ -1,4 +1,4 @@
-import styles from './Form.module.scss';
+import styles from '../Form.module.scss';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
@@ -106,7 +106,7 @@ function LoginForm({ haveAccount }) {
                             >
                                 Đăng nhập bằng Facebook
                             </Button>
-                            <a href="/account/resetpassword" className={cx('login-forgot-password')}>
+                            <a href="/account/forgotpassword" className={cx('login-forgot-password')}>
                                 Quên mật khẩu
                             </a>
                         </div>
@@ -116,13 +116,13 @@ function LoginForm({ haveAccount }) {
             <div className={cx('login-ask')}>
                 {account ? (
                     <>
-                        <button onClick={handleClick} className={cx('login-ask-link')}>
+                        <Button text onClick={handleClick} className={cx('login-ask-link')}>
                             Chuyển tài khoản
-                        </button>{' '}
+                        </Button>{' '}
                         hoặc{' '}
-                        <a href="/" className={cx('login-ask-link')}>
+                        <Link to="/register" className={cx('login-ask-link')}>
                             Đăng ký
-                        </a>
+                        </Link>
                     </>
                 ) : (
                     <>
@@ -132,17 +132,6 @@ function LoginForm({ haveAccount }) {
                         </Link>
                     </>
                 )}
-            </div>
-            <div className={cx('login-app')}>
-                <div className={cx('login-app-title')}>Tải ứng dụng</div>
-                <div className={cx('login-app-img')}>
-                    <a href="/">
-                        <img src={images.appstore} alt="App Store" className={cx('login-appstore')} />
-                    </a>
-                    <a href="/">
-                        <img src={images.googleplay} alt="Google Play" className={cx('login-googleplay')} />
-                    </a>
-                </div>
             </div>
         </div>
     );

@@ -3,16 +3,30 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .content {
     display: flex;
     flex-direction: row;
-    flex-grow: 1;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    margin: 32px auto 0;
-    max-width: 935px;
-    padding-bottom: 32px;
+    // flex-grow: 1;
+    // justify-content: center;
+    // align-items: center;
+    // margin: 32px auto 0;
+    // max-width: 935px;
+    // padding-bottom: 32px;
+    // width: 100%;
+}
+
+.slider {
+    justify-self: flex-start;
+    width: 100%;
+}
+
+.form {
+    justify-self: flex-end;
     width: 100%;
 }
