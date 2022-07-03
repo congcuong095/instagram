@@ -25,16 +25,19 @@ function Form() {
 
     return (
         <>
-            <div className={cx('main')}>{comp}</div>
-            <div className={cx('app')}>
-                <div className={cx('app-title')}>Tải ứng dụng</div>
-                <div className={cx('app-img')}>
-                    <a href="/">
-                        <img src={images.appstore} alt="App Store" className={cx('appstore')} />
-                    </a>
-                    <a href="/">
-                        <img src={images.googleplay} alt="Google Play" className={cx('googleplay')} />
-                    </a>
+            <div className={cx('main')}>
+                {comp}
+
+                <div className={cx('app')}>
+                    <div className={cx('app-title')}>Tải ứng dụng</div>
+                    <div className={cx('app-img')}>
+                        <a href="/">
+                            <img src={images.appstore} alt="App Store" className={cx('appstore')} />
+                        </a>
+                        <a href="/">
+                            <img src={images.googleplay} alt="Google Play" className={cx('googleplay')} />
+                        </a>
+                    </div>
                 </div>
             </div>
         </>

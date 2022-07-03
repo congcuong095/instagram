@@ -1,14 +1,15 @@
 import styles from './Login.module.scss';
 import classNames from 'classnames/bind';
-
-import LoginForm from '@/components/Form/LoginForm/LoginForm';
 import Slider from '@/components/Slider';
 import Footer from '@/components/Footer';
 import Form from '@/components/Form/Form';
+import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
 function Login() {
+    const [changeForm, setChangeForm] = useState();
+
     return (
         <div className={cx('container')}>
             <div className={cx('content')}>

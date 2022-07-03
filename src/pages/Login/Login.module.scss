@@ -12,21 +12,19 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    // flex-grow: 1;
-    // justify-content: center;
-    // align-items: center;
-    // margin: 32px auto 0;
-    // max-width: 935px;
-    // padding-bottom: 32px;
-    // width: 100%;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    margin: 32px auto 0;
+    max-width: 935px;
+    padding-bottom: 32px;
+    width: 100%;
 }
 
 .slider {
-    justify-self: flex-start;
     width: 100%;
 }
 
 .form {
-    justify-self: flex-end;
     width: 100%;
 }
