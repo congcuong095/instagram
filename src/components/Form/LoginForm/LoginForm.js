@@ -14,10 +14,6 @@ function LoginForm({ haveAccount }) {
     const [account, setAccount] = useState(!!haveAccount);
     const [activeButton, setActiveButton] = useState(false);
 
-    const handleClick = () => {
-        setAccount(false);
-    };
-
     const hanldeInput = (e) => {
         const inputArr = Array.from(document.querySelectorAll('input[class*="login-input-"]'));
 
@@ -64,74 +60,48 @@ function LoginForm({ haveAccount }) {
                         <img className={cx('login-logo')} src={images.logo} alt="insatgram" />
                     </a>
                 </div>
-                {account ? (
-                    <>Dang lam</>
-                ) : (
-                    <>
-                        <div className={cx('login-input')}>
-                            <div className={cx('login-input-wrapper')}>
-                                <input
-                                    className={cx('login-input-name')}
-                                    type="text"
-                                    placeholder="Số điện thoại, tên người dùng hoặc email"
-                                    onChange={(e) => hanldeInput(e)}
-                                />
-                                <span className={cx('login-input-note')}>Số điện thoại, tên người dùng hoặc email</span>
-                            </div>
-                            <div className={cx('login-input-wrapper')}>
-                                <input
-                                    onChange={(e) => hanldeInput(e)}
-                                    className={cx('login-input-password')}
-                                    type={typePass}
-                                    placeholder="Mật khẩu"
-                                />
-                                <span className={cx('login-input-note')}>Mật khẩu</span>
-                                <Button text className={cx('login-input-show')} onClick={(e) => handleShowPass(e)}>
-                                    Hiển thị
-                                </Button>
-                            </div>
+                <>
+                    <div className={cx('login-input')}>
+                        <div className={cx('login-input-wrapper')}>
+                            <input
+                                className={cx('login-input-name')}
+                                type="text"
+                                placeholder="Số điện thoại, tên người dùng hoặc email"
+                                onChange={(e) => hanldeInput(e)}
+                            />
+                            <span className={cx('login-input-note')}>Số điện thoại, tên người dùng hoặc email</span>
+                        </div>
+                        <div className={cx('login-input-wrapper')}>
+                            <input
+                                onChange={(e) => hanldeInput(e)}
+                                className={cx('login-input-password')}
+                                type={typePass}
+                                placeholder="Mật khẩu"
+                            />
+                            <span className={cx('login-input-note')}>Mật khẩu</span>
+                            <Button text className={cx('login-input-show')} onClick={(e) => handleShowPass(e)}>
+                                Hiển thị
+                            </Button>
+                        </div>
 
-                            <Button primary disabled={!activeButton} className={cx('login-btn')}>
-                                Đăng nhập
-                            </Button>
-                        </div>
-                        <div className={cx('login-seperate')}>HOẶC</div>
-                        <div className={cx('login-info')}>
-                            <Button
-                                text
-                                leftIcon={
-                                    <FontAwesomeIcon icon={faFacebookSquare} className={cx('login-facebook-icon')} />
-                                }
-                                className={cx('login-facebook')}
-                            >
-                                Đăng nhập bằng Facebook
-                            </Button>
-                            <a href="/account/forgotpassword" className={cx('login-forgot-password')}>
-                                Quên mật khẩu
-                            </a>
-                        </div>
-                    </>
-                )}
-            </div>
-            <div className={cx('login-ask')}>
-                {account ? (
-                    <>
-                        <Button text onClick={handleClick} className={cx('login-ask-link')}>
-                            Chuyển tài khoản
-                        </Button>{' '}
-                        hoặc{' '}
-                        <Link to="/register" className={cx('login-ask-link')}>
-                            Đăng ký
-                        </Link>
-                    </>
-                ) : (
-                    <>
-                        Bạn chưa có tài khoản ư?
-                        <Link to="/register" className={cx('login-ask-link')}>
-                            Đăng ký
-                        </Link>
-                    </>
-                )}
+                        <Button primary disabled={!activeButton} className={cx('login-btn')}>
+                            Đăng nhập
+                        </Button>
+                    </div>
+                    <div className={cx('login-seperate')}>HOẶC</div>
+                    <div className={cx('login-info')}>
+                        <Button
+                            text
+                            leftIcon={<FontAwesomeIcon icon={faFacebookSquare} className={cx('login-facebook-icon')} />}
+                            className={cx('login-facebook')}
+                        >
+                            Đăng nhập bằng Facebook
+                        </Button>
+                        <a href="/account/forgotpassword" className={cx('login-forgot-password')}>
+                            Quên mật khẩu
+                        </a>
+                    </div>
+                </>
             </div>
         </div>
     );

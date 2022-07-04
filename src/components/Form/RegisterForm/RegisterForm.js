@@ -127,19 +127,6 @@ function RegisterForm() {
 
                     <div className={cx('register-mb')}></div>
                 </div>
-                <div className={cx('login-ask')}>
-                    Bạn có tài khoản?
-                    <Button text href="/" className={cx('login-ask-link')}>
-                        Đăng nhập
-                    </Button>
-                </div>
-                <div className={cx('login-app')}>
-                    <div className={cx('login-app-title')}>Tải ứng dụng</div>
-                    <div className={cx('login-app-img')}>
-                        <img src={images.appstore} alt="App Store" className={cx('login-appstore')} />
-                        <img src={images.googleplay} alt="Google Play" className={cx('login-googleplay')} />
-                    </div>
-                </div>
             </div>
         </div>
     );

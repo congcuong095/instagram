@@ -2,14 +2,16 @@ import styles from './Register.module.scss';
 import classNames from 'classnames/bind';
 
 import Footer from '@/components/Footer';
-import RegisterForm from '@/components/Form/RegisterForm/RegisterForm';
+import Form from '@/components/Form/Form';
 
 const cx = classNames.bind(styles);
 
 function Register() {
+    let accountState = 'register';
+
     return (
         <div className={cx('wrapper')}>
-            <RegisterForm />
+            <Form accountState={accountState} />
             <Footer />
         </div>
     );

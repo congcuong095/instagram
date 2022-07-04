@@ -8,7 +8,7 @@ import { useState } from 'react';
 const cx = classNames.bind(styles);
 
 function Login() {
-    const [changeForm, setChangeForm] = useState();
+    let accountState = 'oldAccount';
 
     return (
         <div className={cx('container')}>
@@ -17,7 +17,7 @@ function Login() {
                     <Slider />
                 </div>
                 <div className={cx('form')}>
-                    <Form />
+                    <Form props={accountState} />
                 </div>
             </div>
             <Footer topic />
