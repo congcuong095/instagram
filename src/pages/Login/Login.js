@@ -1,4 +1,4 @@
-import styles from './Register.module.scss';
+import styles from './Login.module.scss';
 import classNames from 'classnames/bind';
 
 import Footer from '@/components/Footer';
@@ -6,8 +6,8 @@ import Form from '@/components/Form/Form';
 
 const cx = classNames.bind(styles);
 
-function Register() {
-    let accountState = 'register';
+function Login() {
+    let accountState = 'oldAccount';
 
     return (
         <div className={cx('wrapper')}>
@@ -17,4 +17,4 @@ function Register() {
     );
 }
 
-export default Register;
+export default Login;

@@ -1,11 +1,13 @@
 import Home from '@/pages/Home';
-import Login from '@/pages/Login';
 import User from '@/pages/User';
 import Register from '@/pages/Register';
+import Login from '@/pages/Login/Login';
+import HomeLogin from '@/pages/HomeLogin';
 
 const publicRoutes = [
-    { path: '/', component: Login },
-    { path: '/register', component: Register },
+    { path: '/', component: HomeLogin },
+    { path: '/account/register', component: Register },
+    { path: '/account/login', component: Login },
 ];
 
 const privateRoutes = [

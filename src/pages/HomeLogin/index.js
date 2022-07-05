@@ -1,13 +1,13 @@
-import styles from './Login.module.scss';
+import styles from './HomeLogin.module.scss';
 import classNames from 'classnames/bind';
+
 import Slider from '@/components/Slider';
 import Footer from '@/components/Footer';
 import Form from '@/components/Form/Form';
-import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
-function Login() {
+function HomeLogin() {
     let accountState = 'oldAccount';
 
     return (
@@ -20,9 +20,9 @@ function Login() {
                     <Form props={accountState} />
                 </div>
             </div>
-            <Footer topic />
+            <Footer haveTopic />
         </div>
     );
 }
 
-export default Login;
+export default HomeLogin;

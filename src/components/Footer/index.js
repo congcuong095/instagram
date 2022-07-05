@@ -7,7 +7,7 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
-function Footer({ topic }) {
+function Footer({ haveTopic }) {
     return (
         <div className={cx('footer')}>
             <div className={cx('footer-menu')}>
@@ -77,7 +77,7 @@ function Footer({ topic }) {
                     </a>
                 </div>
             </div>
-            {topic && (
+            {haveTopic && (
                 <div className={cx('footer-topics')}>
                     <div className={cx('footer-item')}>
                         <a className={cx('footer-link')} href="/">

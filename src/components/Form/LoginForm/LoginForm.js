@@ -5,13 +5,11 @@ import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
 
 import images from '@/assets/images';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import Button from '@/components/Button';
 
 const cx = classNames.bind(styles);
 
-function LoginForm({ haveAccount }) {
-    const [account, setAccount] = useState(!!haveAccount);
+function LoginForm() {
     const [activeButton, setActiveButton] = useState(false);
 
     const hanldeInput = (e) => {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styles from './Form.module.scss';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
@@ -8,14 +8,11 @@ import Button from '../Button';
 import AutoLoginForm from './AutoLoginForm/AutoLoginForm';
 import LoginForm from './LoginForm/LoginForm';
 import RegisterForm from './RegisterForm/RegisterForm';
-import Ask, { side } from './Ask/Ask';
+import Ask from './Ask/Ask';
 
 const cx = classNames.bind(styles);
 
 function Form({ props }) {
-    let newAccountState = side();
-    console.log(newAccountState);
-
     const [accountState, setAccountState] = useState(props);
     const [comp, setComp] = useState(<LoginForm />);
 
@@ -29,58 +26,29 @@ function Form({ props }) {
         }
     }, [accountState]);
 
-    const handleLogin = () => {
+    const handleChangeToLogin = useCallback(() => {
         setAccountState('newAccount');
-    };
+    }, []);
 
-    const handleRegister = () => {
+    const handleChangeToRegister = useCallback(() => {
         setAccountState('register');
-    };
-
-    const handleAsk = () => {
-        if (accountState == 'newAccount') {
-            return (
-                <>
-                    Bạn chưa có tài khoản ư?
-                    <Link to="/register" className={cx('login-ask-link')}>
-                        Đăng ký
-                    </Link>
-                </>
-            );
-        } else if (accountState == 'oldAccount') {
-            return (
-                <>
-                    <Button text onClick={handleLogin} className={cx('login-ask-link')}>
-                        Chuyển tài khoản
-                    </Button>{' '}
-                    hoặc{' '}
-                    <Button text onClick={handleRegister} className={cx('login-ask-link')}>
-                        Đăng ký
-                    </Button>
-                </>
-            );
-        } else if (accountState == 'register') {
-            return (
-                <>
-                    Bạn có tài khoản?
-                    <Button text onClick={handleLogin} className={cx('login-ask-link')}>
-                        Đăng nhập
-                    </Button>
-                </>
-            );
-        }
-    };
-
-    // document.querySelector('[class*="login-ask-link"]').addEventListener('render', function () {
-    //     setAccountState('newAccount');
-    // });
+    }, []);
+    const handleChangeToAuto = useCallback(() => {
+        setAccountState('oldAccount');
+    }, []);
 
     return (
         <>
             <div className={cx('main')}>
                 <div className={cx('form')}>{comp}</div>
-                <div className={cx('login-ask')}>{handleAsk()}</div>
-                <Ask props={accountState} />
+                <div className={cx('login-ask')}>
+                    <Ask
+                        accountState={accountState}
+                        onChangeLogin={handleChangeToLogin}
+                        onChangeRegister={handleChangeToRegister}
+                        onChangeAuto={handleChangeToAuto}
+                    />
+                </div>
                 <div className={cx('app')}>
                     <div className={cx('app-title')}>Tải ứng dụng</div>
                     <div className={cx('app-img')}>
