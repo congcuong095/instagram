@@ -20,7 +20,9 @@ function HomeLogin() {
                     <Form props={accountState} />
                 </div>
             </div>
-            <Footer haveTopic />
+            <div className={cx('footer')}>
+                <Footer haveTopic />
+            </div>
         </div>
     );
 }

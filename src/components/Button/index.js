@@ -14,6 +14,7 @@ function Button({
     text = false,
     rounded = false,
     small,
+    medium,
     large,
     leftIcon,
     rightIcon,
@@ -51,6 +52,7 @@ function Button({
         outline,
         rounded,
         small,
+        medium,
         large,
         disabled,
     });

@@ -39,6 +39,11 @@ a[href] {
     color: var(--facebook-color);
 }
 
+#root,
+.App {
+    height: 100%;
+}
+
 //Slider
 .img-in {
     opacity: 1;
