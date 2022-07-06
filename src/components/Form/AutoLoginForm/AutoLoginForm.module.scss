@@ -1,0 +1,77 @@
+.login {
+    max-width: 350px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.login-main {
+    align-items: center;
+    background-color: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(219, 219, 219, 1);
+    border-radius: 1px;
+    margin: 0 0 10px;
+    display: flex;
+    flex-direction: column;
+}
+.login-header {
+    margin-top: 36px;
+    margin-bottom: 12px;
+}
+
+.login-logo {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    cursor: pointer;
+}
+
+.login-content {
+    padding: 0 16px;
+    width: 100%;
+}
+
+.login-account {
+    margin-top: 16px;
+    margin-bottom: 20px;
+}
+
+.login-account-wrapper {
+    border-bottom: 1px solid #efefef;
+    border-top: 1px solid #efefef;
+    padding-top: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-account-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #262626;
+    cursor: pointer;
+    flex-direction: row;
+    font-weight: 600;
+    padding-bottom: 12px;
+}
+
+.login-account-img {
+    height: 36px;
+    width: 36px;
+    border-radius: 50%;
+    margin-right: 12px;
+}
+
+.login-account-name {
+    flex: 1;
+    font-weight: var(--font-bold);
+}
+
+.login-manage {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+    margin-top: 16px;
+}
+
+.login-manage-btn {
+}

@@ -1,7 +1,5 @@
-import styles from '../Form.module.scss';
+import styles from './AutoLoginForm.module.scss';
 import classNames from 'classnames/bind';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
 
 import images from '@/assets/images';
 import Button from '@/components/Button';
@@ -9,6 +7,21 @@ import Button from '@/components/Button';
 const cx = classNames.bind(styles);
 
 function AutoLoginForm() {
+    const account = [
+        {
+            id: 1,
+            name: account1,
+            img: `/`,
+        },
+        {
+            id: 1,
+            name: account1,
+            img: `/`,
+        },
+    ];
+
+    const handleManage = () => {};
+
     return (
         <div className={cx('login')}>
             <div className={cx('login-main')}>
@@ -19,11 +32,20 @@ function AutoLoginForm() {
                 </div>
                 <div className={cx('login-content')}>
                     <div className={cx('login-account')}>
-                        <div>
-                            <div>
-                                <img />
-                                <div>flotino</div>
-                                <div>
+                        <div className={cx('login-account-wrapper')}>
+                            <div className={cx('login-account-info')}>
+                                <img className={cx('login-account-img')} src={images.avatar1} />
+                                <div className={cx('login-account-name')}>flotino</div>
+                                <div className={cx('login-account-btn')}>
+                                    <Button medium primary>
+                                        Đăng nhập
+                                    </Button>
+                                </div>
+                            </div>
+                            <div className={cx('login-account-info')}>
+                                <img className={cx('login-account-img')} src={images.avatar1} />
+                                <div className={cx('login-account-name')}>flotino</div>
+                                <div className={cx('login-account-btn')}>
                                     <Button medium primary>
                                         Đăng nhập
                                     </Button>
@@ -32,7 +54,7 @@ function AutoLoginForm() {
                         </div>
                     </div>
                     <div className={cx('login-manage')}>
-                        <Button text className={cx('login-manage-btn')}>
+                        <Button text medium onClick={handleManage}>
                             Quản lý tài khoản
                         </Button>
                     </div>

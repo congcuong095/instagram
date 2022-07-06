@@ -7,6 +7,7 @@ const images = {
     loginSlide2: require('@/assets/images/login-slide-2.png'),
     loginSlide3: require('@/assets/images/login-slide-3.png'),
     loginSlide4: require('@/assets/images/login-slide-4.png'),
+    avatar1: require('@/assets/images/avatar-1.jpg'),
 };
 
 export default images;
