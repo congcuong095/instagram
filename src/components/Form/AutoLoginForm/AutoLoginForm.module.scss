@@ -75,3 +75,82 @@
 
 .login-manage-btn {
 }
+
+.login-account-delete {
+    display: none;
+}
+
+.login-account-delete-icon {
+    color: var(--secondary-text);
+    font-size: 12px;
+}
+
+//.Modal
+
+.modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.65);
+    flex-direction: column;
+    overflow-y: auto;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 100;
+}
+.modal-wrapper {
+    width: 400px;
+    margin: 20px;
+    max-height: calc(100% - 40px);
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 12px;
+}
+.modal-title {
+    margin-top: 32px;
+    margin: 48px 32px 16px;
+}
+.modal-heading {
+    text-align: center;
+    display: block;
+    color: var(--primary-text);
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    margin: -4px 0 -6px;
+}
+.modal-content {
+    text-align: center;
+    padding-top: 16px;
+    display: block;
+    color: var(--secondary-text);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    margin: -3px 0 -4px;
+}
+.modal-btn {
+    margin-top: 16px;
+}
+
+.modal-btn-delete,
+.modal-btn-cancel {
+    font-weight: 700;
+    background-color: transparent;
+    border-bottom: 0;
+    border-left: 0;
+    border-right: 0;
+    border-top: 1px solid #dbdbdb;
+    min-height: 48px;
+    padding: 4px 8px;
+    width: 100%;
+}
+
+.modal-btn-cancel {
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    color: var(--primary-text);
+    font-weight: var(--font-regular);
+}
