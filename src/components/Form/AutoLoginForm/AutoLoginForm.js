@@ -6,6 +6,7 @@ import Button from '@/components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
+import Modal from '@/components/Modal/Modal';
 
 const cx = classNames.bind(styles);
 
@@ -20,11 +21,18 @@ const APIaccounts = [
         name: 'account2',
         img: images.avatar1,
     },
+    {
+        id: 2,
+        name: 'account3',
+        img: images.avatar1,
+    },
 ];
 function AutoLoginForm() {
     const [accounts, setAccounts] = useState(APIaccounts);
     const [modal, setModal] = useState(false);
     const [nameDelete, setNameDelete] = useState('');
+
+    console.log('render');
 
     const handleManage = (e) => {
         let loginBtns = document.querySelectorAll('[class*="login-account-btn"]');
@@ -44,40 +52,33 @@ function AutoLoginForm() {
         }
     };
 
-    const handleDelete = (value) => {
+    const handleChooseDelete = (value) => {
         setModal(true);
-        accounts.forEach((account, index) => {
+        accounts.forEach((account) => {
             if (account.id == value) {
                 setNameDelete(account.name);
+            }
+        });
+    };
+
+    const handleDelete = () => {
+        accounts.forEach((account, index) => {
+            if (account.name == nameDelete) {
                 accounts.splice(index, 1);
             }
         });
-        setAccounts(() => [...accounts]);
+
+        setAccounts([...accounts]);
+        setModal(false);
+    };
+
+    const handleCancelDelete = () => {
+        setModal(false);
     };
 
     return (
         <>
-            {modal && (
-                <div className={cx('modal')}>
-                    <div className={cx('modal-wrapper')}>
-                        <div className={cx('modal-title')}>
-                            <h3 className={cx('modal-heading')}>Gỡ tài khoản?</h3>
-                            <div className={cx('modal-content')}>
-                                Bạn cần nhập tên người dùng và mật khẩu vào lần tới khi đăng nhập với tư cách{' '}
-                                {nameDelete}
-                            </div>
-                        </div>
-                        <div className={cx('modal-btn')}>
-                            <Button text className={cx('modal-btn-delete')}>
-                                Gỡ
-                            </Button>
-                            <Button text className={cx('modal-btn-cancel')}>
-                                Hủy
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            {modal && <Modal nameDelete={nameDelete} onDelete={handleDelete} onCancelDelete={handleCancelDelete} />}
             <div className={cx('login')}>
                 <div className={cx('login-main')}>
                     <div className={cx('login-header')}>
@@ -99,7 +100,7 @@ function AutoLoginForm() {
                                                 </Button>
                                                 <div
                                                     className={cx('login-account-delete')}
-                                                    onClick={() => handleDelete(account.id)}
+                                                    onClick={() => handleChooseDelete(account.id)}
                                                 >
                                                     <FontAwesomeIcon
                                                         icon={faX}
