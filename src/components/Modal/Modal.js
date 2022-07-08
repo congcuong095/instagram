@@ -7,18 +7,13 @@ import { useEffect } from 'react';
 const cx = classNames.bind(styles);
 
 function Modal({ nameDelete, onDelete, onCancelDelete }) {
-    useEffect(() => {
-        document.addEventListener('click', (e) => {
-            const wrapper = document.querySelector('[class*=modal-wrapper]');
-            if (e.target != wrapper) {
-                onCancelDelete();
-            }
-        });
-    }, []);
+    const handleStopPropagation = (e) => {
+        e.stopPropagation();
+    };
 
     return (
-        <div className={cx('modal')}>
-            <div className={cx('modal-wrapper')}>
+        <div className={cx('modal')} onClick={onCancelDelete}>
+            <div className={cx('modal-wrapper')} onClick={(e) => handleStopPropagation(e)}>
                 <div className={cx('modal-title')}>
                     <h3 className={cx('modal-heading')}>Gỡ tài khoản?</h3>
                     <div className={cx('modal-content')}>
