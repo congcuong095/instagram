@@ -15,7 +15,6 @@ const cx = classNames.bind(styles);
 function Form({ props }) {
     const [accountState, setAccountState] = useState(props);
     const [comp, setComp] = useState(<LoginForm />);
-
     useEffect(() => {
         if (accountState == 'newAccount') {
             setComp(<LoginForm />);
@@ -23,6 +22,17 @@ function Form({ props }) {
             setComp(<AutoLoginForm />);
         } else if (accountState == 'register') {
             setComp(<RegisterForm />);
+        } else if (accountState == 'oneOldAccount') {
+            console.log('accountState');
+
+            setComp(
+                <AutoLoginForm
+                    accountState={accountState}
+                    onChangeLogin={handleChangeToLogin}
+                    onChangeRegister={handleChangeToRegister}
+                    onChangeAuto={handleChangeToAuto}
+                />,
+            );
         }
     }, [accountState]);
 
@@ -41,25 +51,29 @@ function Form({ props }) {
         <>
             <div className={cx('main')}>
                 <div className={cx('form')}>{comp}</div>
-                <div className={cx('login-ask')}>
-                    <Ask
-                        accountState={accountState}
-                        onChangeLogin={handleChangeToLogin}
-                        onChangeRegister={handleChangeToRegister}
-                        onChangeAuto={handleChangeToAuto}
-                    />
-                </div>
-                <div className={cx('app')}>
-                    <div className={cx('app-title')}>Tải ứng dụng</div>
-                    <div className={cx('app-img')}>
-                        <a href="/">
-                            <img src={images.appstore} alt="App Store" className={cx('appstore')} />
-                        </a>
-                        <a href="/">
-                            <img src={images.googleplay} alt="Google Play" className={cx('googleplay')} />
-                        </a>
-                    </div>
-                </div>
+                {accountState != 'oneOldAccount' && (
+                    <>
+                        <div className={cx('login-ask')}>
+                            <Ask
+                                accountState={accountState}
+                                onChangeLogin={handleChangeToLogin}
+                                onChangeRegister={handleChangeToRegister}
+                                onChangeAuto={handleChangeToAuto}
+                            />
+                        </div>
+                        <div className={cx('app')}>
+                            <div className={cx('app-title')}>Tải ứng dụng</div>
+                            <div className={cx('app-img')}>
+                                <a href="/">
+                                    <img src={images.appstore} alt="App Store" className={cx('appstore')} />
+                                </a>
+                                <a href="/">
+                                    <img src={images.googleplay} alt="Google Play" className={cx('googleplay')} />
+                                </a>
+                            </div>
+                        </div>
+                    </>
+                )}
             </div>
         </>
     );

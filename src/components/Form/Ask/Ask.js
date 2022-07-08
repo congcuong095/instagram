@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import styles from '../Form.module.scss';
 import classNames from 'classnames/bind';
 
@@ -7,7 +6,7 @@ import { memo } from 'react';
 
 const cx = classNames.bind(styles);
 
-function Ask({ onChangeLogin, onChangeRegister, onChangeAuto, accountState }) {
+function Ask({ onChangeLogin, onChangeRegister, onChangeAuto, accountState, oneAccount }) {
     if (accountState == 'newAccount') {
         return (
             <>
@@ -23,7 +22,7 @@ function Ask({ onChangeLogin, onChangeRegister, onChangeAuto, accountState }) {
                 <Button text onClick={onChangeLogin} className={cx('login-ask-link')}>
                     Chuyển tài khoản
                 </Button>{' '}
-                hoặc{' '}
+                hoặc
                 <Button text onClick={onChangeRegister} className={cx('login-ask-link')}>
                     Đăng ký
                 </Button>
@@ -37,6 +36,12 @@ function Ask({ onChangeLogin, onChangeRegister, onChangeAuto, accountState }) {
                     Đăng nhập
                 </Button>
             </>
+        );
+    } else if (accountState == 'oneOldAccount') {
+        return (
+            <Button text onClick={onChangeLogin} className={cx('login-ask-link')}>
+                Chuyển tài khoản
+            </Button>
         );
     }
 }

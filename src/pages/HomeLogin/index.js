@@ -8,7 +8,7 @@ import Form from '@/components/Form/Form';
 const cx = classNames.bind(styles);
 
 function HomeLogin() {
-    let accountState = 'oldAccount';
+    let accountState = 'oneOldAccount';
 
     return (
         <div className={cx('container')}>

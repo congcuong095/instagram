@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import Modal from '@/components/Modal/Modal';
+import Ask from '../Ask/Ask';
 
 const cx = classNames.bind(styles);
 
@@ -16,23 +17,58 @@ const APIaccounts = [
         name: 'account1',
         img: images.avatar1,
     },
-    {
-        id: 1,
-        name: 'account2',
-        img: images.avatar1,
-    },
-    {
-        id: 2,
-        name: 'account3',
-        img: images.avatar1,
-    },
+    // {
+    //     id: 1,
+    //     name: 'account2',
+    //     img: images.avatar1,
+    // },
 ];
-function AutoLoginForm() {
-    const [accounts, setAccounts] = useState(APIaccounts);
+function AutoLoginForm({ onChangeLogin, onChangeRegister, onChangeAuto, accountState }) {
+    const [accounts, setAccounts] = useState(APIaccounts.reverse());
     const [modal, setModal] = useState(false);
     const [nameDelete, setNameDelete] = useState('');
 
-    console.log('render');
+    function renderAccounts() {
+        let result;
+        if (accounts.length == 1) {
+            return (
+                <div className={cx('one-account-wrapper')}>
+                    <img className={cx('one-account-img')} src={accounts[0].img} />
+
+                    <div className={cx('one-account-btn')}>
+                        <Button primary>Tiếp tục dưới tên {accounts[0].name}</Button>
+                    </div>
+                    <div className={cx('one-account-ask')}>
+                        <div>Không phải {accounts[0].name}</div>
+                        <Ask
+                            onChangeLogin={onChangeLogin}
+                            onChangeRegister={onChangeRegister}
+                            onChangeAuto={onChangeAuto}
+                            accountState={accountState}
+                        />
+                    </div>
+                </div>
+            );
+        } else {
+            result = accounts.map((account) => {
+                return (
+                    <div key={account.id} className={cx('login-account-info')}>
+                        <img className={cx('login-account-img')} src={account.img} />
+                        <div className={cx('login-account-name')}>{account.name}</div>
+                        <div className={cx('login-account-btn')}>
+                            <Button medium primary>
+                                Đăng nhập
+                            </Button>
+                            <div className={cx('login-account-delete')} onClick={() => handleChooseDelete(account.id)}>
+                                <FontAwesomeIcon icon={faX} className={cx('login-account-delete-icon')} />
+                            </div>
+                        </div>
+                    </div>
+                );
+            });
+        }
+        return result;
+    }
 
     const handleManage = (e) => {
         let loginBtns = document.querySelectorAll('[class*="login-account-btn"]');
@@ -45,9 +81,11 @@ function AutoLoginForm() {
             });
         } else {
             e.target.innerHTML = 'Chỉnh sửa xong';
-            loginBtns.forEach((btn) => {
-                btn.querySelector('button').style.display = 'none';
-                btn.querySelector('div').style.display = 'block';
+            loginBtns.forEach((btn, index) => {
+                if (index != loginBtns.length - 1) {
+                    btn.querySelector('button').style.display = 'none';
+                    btn.querySelector('div').style.display = 'block';
+                }
             });
         }
     };
@@ -88,36 +126,15 @@ function AutoLoginForm() {
                     </div>
                     <div className={cx('login-content')}>
                         <div className={cx('login-account')}>
-                            <div className={cx('login-account-wrapper')}>
-                                {accounts.map((account) => {
-                                    return (
-                                        <div key={account.id} className={cx('login-account-info')}>
-                                            <img className={cx('login-account-img')} src={account.img} />
-                                            <div className={cx('login-account-name')}>{account.name}</div>
-                                            <div className={cx('login-account-btn')}>
-                                                <Button medium primary>
-                                                    Đăng nhập
-                                                </Button>
-                                                <div
-                                                    className={cx('login-account-delete')}
-                                                    onClick={() => handleChooseDelete(account.id)}
-                                                >
-                                                    <FontAwesomeIcon
-                                                        icon={faX}
-                                                        className={cx('login-account-delete-icon')}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
+                            <div className={cx('login-account-wrapper')}>{renderAccounts()}</div>
+                        </div>
+                        {accounts.length > 1 && (
+                            <div className={cx('login-manage')}>
+                                <Button text medium onClick={(e) => handleManage(e)}>
+                                    Quản lý tài khoản
+                                </Button>
                             </div>
-                        </div>
-                        <div className={cx('login-manage')}>
-                            <Button text medium onClick={(e) => handleManage(e)}>
-                                Quản lý tài khoản
-                            </Button>
-                        </div>
+                        )}
                     </div>
                 </div>
             </div>
