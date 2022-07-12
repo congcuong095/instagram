@@ -31,26 +31,28 @@ function AutoLoginForm({ onChangeLogin, onChangeRegister, onChangeAuto, accountS
     function renderAccounts() {
         let result;
         if (accounts.length == 1) {
-            return (
-                <div className={cx('one-account-wrapper')}>
-                    <img className={cx('one-account-img')} src={accounts[0].img} />
+            result = (
+                <div className={cx('login-oneAccount')}>
+                    <div className={cx('one-account-wrapper')}>
+                        <img className={cx('one-account-img')} src={accounts[0].img} />
 
-                    <div className={cx('one-account-btn')}>
-                        <Button primary>Tiếp tục dưới tên {accounts[0].name}</Button>
-                    </div>
-                    <div className={cx('one-account-ask')}>
-                        <div>Không phải {accounts[0].name}</div>
-                        <Ask
-                            onChangeLogin={onChangeLogin}
-                            onChangeRegister={onChangeRegister}
-                            onChangeAuto={onChangeAuto}
-                            accountState={accountState}
-                        />
+                        <div className={cx('one-account-btn')}>
+                            <Button primary>Tiếp tục dưới tên {accounts[0].name}</Button>
+                        </div>
+                        <div className={cx('one-account-ask')}>
+                            <div>Không phải {accounts[0].name}</div>
+                            <Ask
+                                onChangeLogin={onChangeLogin}
+                                onChangeRegister={onChangeRegister}
+                                onChangeAuto={onChangeAuto}
+                                accountState={accountState}
+                            />
+                        </div>
                     </div>
                 </div>
             );
         } else {
-            result = accounts.map((account) => {
+            let Arr = accounts.map((account) => {
                 return (
                     <div key={account.id} className={cx('login-account-info')}>
                         <img className={cx('login-account-img')} src={account.img} />
@@ -66,6 +68,11 @@ function AutoLoginForm({ onChangeLogin, onChangeRegister, onChangeAuto, accountS
                     </div>
                 );
             });
+            result = (
+                <div className={cx('login-account')}>
+                    <div className={cx('login-account-wrapper')}>{Arr}</div>
+                </div>
+            );
         }
         return result;
     }
@@ -125,9 +132,7 @@ function AutoLoginForm({ onChangeLogin, onChangeRegister, onChangeAuto, accountS
                         </a>
                     </div>
                     <div className={cx('login-content')}>
-                        <div className={cx('login-account')}>
-                            <div className={cx('login-account-wrapper')}>{renderAccounts()}</div>
-                        </div>
+                        <div className={cx('login-accounts')}>{renderAccounts()}</div>
                         {accounts.length > 1 && (
                             <div className={cx('login-manage')}>
                                 <Button text medium onClick={(e) => handleManage(e)}>

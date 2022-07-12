@@ -89,3 +89,23 @@
     border: none;
     padding: 0;
 }
+
+.one-account-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.one-account-img {
+    border: solid 1px #efefef;
+    border-radius: 100px;
+    display: block;
+    height: 100px;
+    margin: 10px auto 10px;
+    width: 100px;
+}
+
+.one-account-btn {
+}
+
+.one-account-ask {
+}
