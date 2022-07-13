@@ -7,11 +7,9 @@ import Form from '@/components/Form/Form';
 const cx = classNames.bind(styles);
 
 function Register() {
-    let accountState = 'register';
-
     return (
         <div className={cx('wrapper')}>
-            <Form props={accountState} />
+            <Form props="register" />
             <Footer />
         </div>
     );

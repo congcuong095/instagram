@@ -4,11 +4,12 @@ import classNames from 'classnames/bind';
 import Slider from '@/components/Slider';
 import Footer from '@/components/Footer';
 import Form from '@/components/Form/Form';
+import { State } from '@/FakeAPI/API';
 
 const cx = classNames.bind(styles);
 
 function HomeLogin() {
-    let accountState = 'oneOldAccount';
+    let accountState = State;
 
     return (
         <div className={cx('container')}>

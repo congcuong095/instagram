@@ -7,11 +7,9 @@ import Form from '@/components/Form/Form';
 const cx = classNames.bind(styles);
 
 function Login() {
-    let accountState = 'oldAccount';
-
     return (
         <div className={cx('wrapper')}>
-            <Form props={accountState} />
+            <Form props="newAccount" />
             <Footer />
         </div>
     );

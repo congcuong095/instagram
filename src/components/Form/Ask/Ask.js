@@ -6,7 +6,7 @@ import { memo } from 'react';
 
 const cx = classNames.bind(styles);
 
-function Ask({ onChangeLogin, onChangeRegister, onChangeAuto, accountState, oneAccount }) {
+function Ask({ onChangeLogin, onChangeRegister, onChangeAuto, accountState }) {
     if (accountState == 'newAccount') {
         return (
             <>

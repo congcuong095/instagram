@@ -1,10 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import styles from './Form.module.scss';
 import classNames from 'classnames/bind';
-import { Link } from 'react-router-dom';
 
 import images from '@/assets/images';
-import Button from '../Button';
 import AutoLoginForm from './AutoLoginForm/AutoLoginForm';
 import LoginForm from './LoginForm/LoginForm';
 import RegisterForm from './RegisterForm/RegisterForm';
@@ -23,8 +21,6 @@ function Form({ props }) {
         } else if (accountState == 'register') {
             setComp(<RegisterForm />);
         } else if (accountState == 'oneOldAccount') {
-            console.log('accountState');
-
             setComp(
                 <AutoLoginForm
                     accountState={accountState}

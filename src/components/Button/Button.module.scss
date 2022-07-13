@@ -13,6 +13,7 @@
     display: block;
     border-radius: 4px;
     width: 100%;
+    text-align: center;
     + wrapper {
         margin-left: 8px;
     }
@@ -57,18 +58,22 @@
 .small {
     min-width: 76px;
     padding: 5px 9px;
-    font-size: 1.2rem;
 }
 
 .medium {
     padding: 5px 9px;
-    font-size: 1.4rem;
     width: unset;
 }
 
 .large {
     min-width: 144px;
     padding: 14px 16px;
-    font-size: 1.6rem;
 }
-//Button disabled
+//Button font-size
+
+.font12 {
+    font-size: 1.2rem;
+}
+.font14 {
+    font-size: 1.4rem;
+}

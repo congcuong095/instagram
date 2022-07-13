@@ -5,28 +5,18 @@ import images from '@/assets/images';
 import Button from '@/components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from '@/components/Modal/Modal';
 import Ask from '../Ask/Ask';
+import APIaccounts from '@/FakeAPI/API';
 
 const cx = classNames.bind(styles);
 
-const APIaccounts = [
-    {
-        id: 0,
-        name: 'account1',
-        img: images.avatar1,
-    },
-    // {
-    //     id: 1,
-    //     name: 'account2',
-    //     img: images.avatar1,
-    // },
-];
 function AutoLoginForm({ onChangeLogin, onChangeRegister, onChangeAuto, accountState }) {
-    const [accounts, setAccounts] = useState(APIaccounts.reverse());
+    const [accounts, setAccounts] = useState(APIaccounts);
     const [modal, setModal] = useState(false);
     const [nameDelete, setNameDelete] = useState('');
+    // let accountState = accountState;
 
     function renderAccounts() {
         let result;
@@ -37,10 +27,12 @@ function AutoLoginForm({ onChangeLogin, onChangeRegister, onChangeAuto, accountS
                         <img className={cx('one-account-img')} src={accounts[0].img} />
 
                         <div className={cx('one-account-btn')}>
-                            <Button primary>Tiếp tục dưới tên {accounts[0].name}</Button>
+                            <Button primary small>
+                                Tiếp tục dưới tên {accounts[0].name}
+                            </Button>
                         </div>
                         <div className={cx('one-account-ask')}>
-                            <div>Không phải {accounts[0].name}</div>
+                            <div>Không phải {accounts[0].name}?</div>
                             <Ask
                                 onChangeLogin={onChangeLogin}
                                 onChangeRegister={onChangeRegister}
@@ -89,7 +81,7 @@ function AutoLoginForm({ onChangeLogin, onChangeRegister, onChangeAuto, accountS
         } else {
             e.target.innerHTML = 'Chỉnh sửa xong';
             loginBtns.forEach((btn, index) => {
-                if (index != loginBtns.length - 1) {
+                if (index == 0) {
                     btn.querySelector('button').style.display = 'none';
                     btn.querySelector('div').style.display = 'block';
                 }
@@ -109,11 +101,13 @@ function AutoLoginForm({ onChangeLogin, onChangeRegister, onChangeAuto, accountS
     const handleDelete = () => {
         accounts.forEach((account, index) => {
             if (account.name == nameDelete) {
-                accounts.splice(index, 1);
+                let result = accounts.splice(index, 1);
+                if (result.length == 1) {
+                    accountState = 'oneOldAccount';
+                }
+                setAccounts(result);
             }
         });
-
-        setAccounts([...accounts]);
         setModal(false);
     };
 
@@ -132,7 +126,7 @@ function AutoLoginForm({ onChangeLogin, onChangeRegister, onChangeAuto, accountS
                         </a>
                     </div>
                     <div className={cx('login-content')}>
-                        <div className={cx('login-accounts')}>{renderAccounts()}</div>
+                        <div className={cx('login-accounts')}>{accounts && renderAccounts()}</div>
                         {accounts.length > 1 && (
                             <div className={cx('login-manage')}>
                                 <Button text medium onClick={(e) => handleManage(e)}>
