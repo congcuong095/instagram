@@ -9,7 +9,7 @@ const cx = classNames.bind(styles);
 function Register() {
     return (
         <div className={cx('wrapper')}>
-            <Form props="register" />
+            <Form propState="register" />
             <Footer />
         </div>
     );

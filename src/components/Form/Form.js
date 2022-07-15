@@ -3,55 +3,70 @@ import styles from './Form.module.scss';
 import classNames from 'classnames/bind';
 
 import images from '@/assets/images';
-import AutoLoginForm from './AutoLoginForm/AutoLoginForm';
+import AutoForm from './AutoForm/AutoForm';
 import LoginForm from './LoginForm/LoginForm';
 import RegisterForm from './RegisterForm/RegisterForm';
 import Ask from './Ask/Ask';
 
 const cx = classNames.bind(styles);
 
-function Form({ props }) {
-    const [accountState, setAccountState] = useState(props);
+function Form({ propState, propAccounts }) {
+    const [formState, setFormState] = useState(propState);
+    const [formAccounts, setFormAccounts] = useState(propAccounts);
     const [comp, setComp] = useState(<LoginForm />);
     useEffect(() => {
-        if (accountState == 'newAccount') {
+        if (formState == 'newAccount') {
             setComp(<LoginForm />);
-        } else if (accountState == 'oldAccount') {
-            setComp(<AutoLoginForm />);
-        } else if (accountState == 'register') {
-            setComp(<RegisterForm />);
-        } else if (accountState == 'oneOldAccount') {
+        } else if (formState == 'oldAccount') {
             setComp(
-                <AutoLoginForm
-                    accountState={accountState}
+                <AutoForm
+                    propAccounts={formAccounts}
+                    propState={formState}
                     onChangeLogin={handleChangeToLogin}
                     onChangeRegister={handleChangeToRegister}
                     onChangeAuto={handleChangeToAuto}
+                    onChangeAutoOne={handleChangeToAutoOne}
+                />,
+            );
+        } else if (formState == 'register') {
+            setComp(<RegisterForm />);
+        } else if (formState == 'oneOldAccount') {
+            setComp(
+                <AutoForm
+                    propAccounts={formAccounts}
+                    propState={formState}
+                    onChangeLogin={handleChangeToLogin}
+                    onChangeRegister={handleChangeToRegister}
+                    onChangeAuto={handleChangeToAuto}
+                    onChangeAutoOne={handleChangeToAutoOne}
                 />,
             );
         }
-    }, [accountState]);
+    }, [formState]);
 
     const handleChangeToLogin = useCallback(() => {
-        setAccountState('newAccount');
+        setFormState('newAccount');
     }, []);
 
     const handleChangeToRegister = useCallback(() => {
-        setAccountState('register');
+        setFormState('register');
     }, []);
     const handleChangeToAuto = useCallback(() => {
-        setAccountState('oldAccount');
+        setFormState('oldAccount');
+    }, []);
+    const handleChangeToAutoOne = useCallback(() => {
+        setFormState('oneOldAccount');
     }, []);
 
     return (
         <>
             <div className={cx('main')}>
                 <div className={cx('form')}>{comp}</div>
-                {accountState != 'oneOldAccount' && (
+                {formState != 'oneOldAccount' ? (
                     <>
                         <div className={cx('login-ask')}>
                             <Ask
-                                accountState={accountState}
+                                propState={formState}
                                 onChangeLogin={handleChangeToLogin}
                                 onChangeRegister={handleChangeToRegister}
                                 onChangeAuto={handleChangeToAuto}
@@ -69,6 +84,8 @@ function Form({ props }) {
                             </div>
                         </div>
                     </>
+                ) : (
+                    <></>
                 )}
             </div>
         </>

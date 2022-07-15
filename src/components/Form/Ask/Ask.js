@@ -6,8 +6,9 @@ import { memo } from 'react';
 
 const cx = classNames.bind(styles);
 
-function Ask({ onChangeLogin, onChangeRegister, onChangeAuto, accountState }) {
-    if (accountState == 'newAccount') {
+function Ask({ onChangeLogin, onChangeRegister, onChangeAuto, propState }) {
+    let AskState = propState;
+    if (AskState == 'newAccount') {
         return (
             <>
                 Bạn chưa có tài khoản ư?
@@ -16,7 +17,7 @@ function Ask({ onChangeLogin, onChangeRegister, onChangeAuto, accountState }) {
                 </Button>
             </>
         );
-    } else if (accountState == 'oldAccount') {
+    } else if (AskState == 'oldAccount') {
         return (
             <>
                 <Button text onClick={onChangeLogin} className={cx('login-ask-link')}>
@@ -28,7 +29,7 @@ function Ask({ onChangeLogin, onChangeRegister, onChangeAuto, accountState }) {
                 </Button>
             </>
         );
-    } else if (accountState == 'register') {
+    } else if (AskState == 'register') {
         return (
             <>
                 Bạn có tài khoản?
@@ -37,7 +38,7 @@ function Ask({ onChangeLogin, onChangeRegister, onChangeAuto, accountState }) {
                 </Button>
             </>
         );
-    } else if (accountState == 'oneOldAccount') {
+    } else if (AskState == 'oneOldAccount') {
         return (
             <Button text onClick={onChangeLogin} className={cx('login-ask-link')}>
                 Chuyển tài khoản

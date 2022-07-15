@@ -4,12 +4,13 @@ import classNames from 'classnames/bind';
 import Slider from '@/components/Slider';
 import Footer from '@/components/Footer';
 import Form from '@/components/Form/Form';
-import { State } from '@/FakeAPI/API';
+import APIaccounts, { State } from '@/FakeAPI/API';
 
 const cx = classNames.bind(styles);
 
 function HomeLogin() {
-    let accountState = State;
+    let HomeLoginState = State;
+    let HomeLoginAccounts = APIaccounts;
 
     return (
         <div className={cx('container')}>
@@ -18,7 +19,7 @@ function HomeLogin() {
                     <Slider />
                 </div>
                 <div className={cx('form')}>
-                    <Form props={accountState} />
+                    <Form propState={HomeLoginState} propAccounts={HomeLoginAccounts} />
                 </div>
             </div>
             <div className={cx('footer')}>

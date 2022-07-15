@@ -1,50 +1,49 @@
-import styles from './AutoLoginForm.module.scss';
+import styles from './AutoForm.module.scss';
 import classNames from 'classnames/bind';
 
 import images from '@/assets/images';
 import Button from '@/components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Modal from '@/components/Modal/Modal';
 import Ask from '../Ask/Ask';
-import APIaccounts from '@/FakeAPI/API';
 
 const cx = classNames.bind(styles);
 
-function AutoLoginForm({ onChangeLogin, onChangeRegister, onChangeAuto, accountState }) {
-    const [accounts, setAccounts] = useState(APIaccounts);
+function AutoForm({ onChangeLogin, onChangeRegister, onChangeAuto, onChangeAutoOne, propState, propAccounts }) {
+    const [autoFormState, setAutoFormState] = useState(propState);
+    const [autoFormAccounts, setAutoFormAccounts] = useState(propAccounts);
     const [modal, setModal] = useState(false);
     const [nameDelete, setNameDelete] = useState('');
-    // let accountState = accountState;
 
     function renderAccounts() {
         let result;
-        if (accounts.length == 1) {
+        if (autoFormAccounts.length == 1) {
             result = (
                 <div className={cx('login-oneAccount')}>
                     <div className={cx('one-account-wrapper')}>
-                        <img className={cx('one-account-img')} src={accounts[0].img} />
+                        <img className={cx('one-account-img')} src={autoFormAccounts[0].img} />
 
                         <div className={cx('one-account-btn')}>
                             <Button primary small>
-                                Tiếp tục dưới tên {accounts[0].name}
+                                Tiếp tục dưới tên {autoFormAccounts[0].name}
                             </Button>
                         </div>
                         <div className={cx('one-account-ask')}>
-                            <div>Không phải {accounts[0].name}?</div>
+                            <div>Không phải {autoFormAccounts[0].name}?</div>
                             <Ask
                                 onChangeLogin={onChangeLogin}
-                                onChangeRegister={onChangeRegister}
-                                onChangeAuto={onChangeAuto}
-                                accountState={accountState}
+                                // onChangeRegister={onChangeRegister}
+                                // onChangeAuto={onChangeAuto}
+                                propState={autoFormState}
                             />
                         </div>
                     </div>
                 </div>
             );
         } else {
-            let Arr = accounts.map((account) => {
+            let Arr = autoFormAccounts.map((account) => {
                 return (
                     <div key={account.id} className={cx('login-account-info')}>
                         <img className={cx('login-account-img')} src={account.img} />
@@ -91,7 +90,7 @@ function AutoLoginForm({ onChangeLogin, onChangeRegister, onChangeAuto, accountS
 
     const handleChooseDelete = (value) => {
         setModal(true);
-        accounts.forEach((account) => {
+        autoFormAccounts.forEach((account) => {
             if (account.id == value) {
                 setNameDelete(account.name);
             }
@@ -99,13 +98,14 @@ function AutoLoginForm({ onChangeLogin, onChangeRegister, onChangeAuto, accountS
     };
 
     const handleDelete = () => {
-        accounts.forEach((account, index) => {
+        autoFormAccounts.forEach((account, index) => {
             if (account.name == nameDelete) {
-                let result = accounts.splice(index, 1);
+                let result = autoFormAccounts.splice(index, 1);
                 if (result.length == 1) {
-                    accountState = 'oneOldAccount';
+                    setAutoFormState('oneOldAccount');
+                    onChangeAutoOne();
                 }
-                setAccounts(result);
+                setAutoFormAccounts(result);
             }
         });
         setModal(false);
@@ -126,8 +126,8 @@ function AutoLoginForm({ onChangeLogin, onChangeRegister, onChangeAuto, accountS
                         </a>
                     </div>
                     <div className={cx('login-content')}>
-                        <div className={cx('login-accounts')}>{accounts && renderAccounts()}</div>
-                        {accounts.length > 1 && (
+                        <div className={cx('login-accounts')}>{autoFormAccounts && renderAccounts()}</div>
+                        {autoFormAccounts.length > 1 && (
                             <div className={cx('login-manage')}>
                                 <Button text medium onClick={(e) => handleManage(e)}>
                                     Quản lý tài khoản
@@ -141,4 +141,4 @@ function AutoLoginForm({ onChangeLogin, onChangeRegister, onChangeAuto, accountS
     );
 }
 
-export default AutoLoginForm;
+export default AutoForm;

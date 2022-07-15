@@ -107,7 +107,13 @@ function Footer({ haveTopic }) {
                 </div>
             )}
             <div className={cx('footer-copyrights')}>
-                <Button text small rightIcon={<FontAwesomeIcon icon={faChevronDown} />} className={cx('language')}>
+                <Button
+                    text
+                    small
+                    font12
+                    rightIcon={<FontAwesomeIcon icon={faChevronDown} />}
+                    className={cx('language')}
+                >
                     Tiếng Việt
                 </Button>
                 <p>© 2022 Instagram from Meta</p>
