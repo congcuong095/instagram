@@ -10,13 +10,13 @@ import Ask from './Ask/Ask';
 
 const cx = classNames.bind(styles);
 
-function Form({ propState, propAccounts }) {
+function Form({ propState, propAccounts, isLogin }) {
     const [formState, setFormState] = useState(propState);
     const [formAccounts, setFormAccounts] = useState(propAccounts);
-    const [comp, setComp] = useState(<LoginForm />);
+    const [comp, setComp] = useState(<LoginForm isLogin={isLogin} />);
     useEffect(() => {
         if (formState == 'newAccount') {
-            setComp(<LoginForm />);
+            setComp(<LoginForm isLogin={isLogin} />);
         } else if (formState == 'oldAccount') {
             setComp(
                 <AutoForm
@@ -26,6 +26,7 @@ function Form({ propState, propAccounts }) {
                     onChangeRegister={handleChangeToRegister}
                     onChangeAuto={handleChangeToAuto}
                     onChangeAutoOne={handleChangeToAutoOne}
+                    isLogin={isLogin}
                 />,
             );
         } else if (formState == 'register') {
@@ -39,6 +40,7 @@ function Form({ propState, propAccounts }) {
                     onChangeRegister={handleChangeToRegister}
                     onChangeAuto={handleChangeToAuto}
                     onChangeAutoOne={handleChangeToAutoOne}
+                    isLogin={isLogin}
                 />,
             );
         }

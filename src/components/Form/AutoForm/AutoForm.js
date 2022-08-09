@@ -11,7 +11,7 @@ import Ask from '../Ask/Ask';
 
 const cx = classNames.bind(styles);
 
-function AutoForm({ onChangeLogin, onChangeRegister, onChangeAuto, onChangeAutoOne, propState, propAccounts }) {
+function AutoForm({ onChangeLogin, onChangeAutoOne, propState, propAccounts, isLogin }) {
     const [autoFormState, setAutoFormState] = useState(propState);
     const [autoFormAccounts, setAutoFormAccounts] = useState(propAccounts);
     const [modal, setModal] = useState(false);
@@ -26,18 +26,13 @@ function AutoForm({ onChangeLogin, onChangeRegister, onChangeAuto, onChangeAutoO
                         <img className={cx('one-account-img')} src={autoFormAccounts[0].img} />
 
                         <div className={cx('one-account-btn')}>
-                            <Button primary small>
+                            <Button primary small onClick={isLogin}>
                                 Tiếp tục dưới tên {autoFormAccounts[0].name}
                             </Button>
                         </div>
                         <div className={cx('one-account-ask')}>
                             <div>Không phải {autoFormAccounts[0].name}?</div>
-                            <Ask
-                                onChangeLogin={onChangeLogin}
-                                // onChangeRegister={onChangeRegister}
-                                // onChangeAuto={onChangeAuto}
-                                propState={autoFormState}
-                            />
+                            <Ask onChangeLogin={onChangeLogin} propState={autoFormState} />
                         </div>
                     </div>
                 </div>
@@ -49,7 +44,7 @@ function AutoForm({ onChangeLogin, onChangeRegister, onChangeAuto, onChangeAutoO
                         <img className={cx('login-account-img')} src={account.img} />
                         <div className={cx('login-account-name')}>{account.name}</div>
                         <div className={cx('login-account-btn')}>
-                            <Button medium primary>
+                            <Button medium primary onClick={isLogin}>
                                 Đăng nhập
                             </Button>
                             <div className={cx('login-account-delete')} onClick={() => handleChooseDelete(account.id)}>

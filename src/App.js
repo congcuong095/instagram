@@ -1,9 +1,14 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { publicRoutes, privateRoutes } from '@/routes';
 import Header from '@/components/Header/Header';
+import { useState } from 'react';
 
 function App() {
-    let login = false;
+    const [login, setLogin] = useState(false);
+
+    const handleLogin = () => {
+        setLogin(true);
+    };
 
     if (login) {
         return (
@@ -26,7 +31,7 @@ function App() {
                     <Routes>
                         {publicRoutes.map((route, index) => {
                             const Page = route.component;
-                            return <Route key={index} path={route.path} element={<Page />} />;
+                            return <Route key={index} path={route.path} element={<Page propLogin={handleLogin} />} />;
                         })}
                     </Routes>
                 </div>

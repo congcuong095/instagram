@@ -7,13 +7,13 @@ import APIaccounts, { State } from '@/FakeAPI/API';
 
 const cx = classNames.bind(styles);
 
-function Login() {
+function Login({ propLogin }) {
     let HomeLoginState = State;
     let HomeLoginAccounts = APIaccounts;
 
     return (
         <div className={cx('wrapper')}>
-            <Form propState={HomeLoginState} propAccounts={HomeLoginAccounts} />
+            <Form propState={HomeLoginState} propAccounts={HomeLoginAccounts} isLogin={propLogin} />
             <Footer haveTopic />
         </div>
     );

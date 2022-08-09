@@ -9,7 +9,7 @@ import Button from '@/components/Button';
 
 const cx = classNames.bind(styles);
 
-function LoginForm() {
+function LoginForm({ isLogin }) {
     const [activeButton, setActiveButton] = useState(false);
 
     const hanldeInput = (e) => {
@@ -82,7 +82,7 @@ function LoginForm() {
                             </Button>
                         </div>
 
-                        <Button primary disabled={!activeButton} className={cx('login-btn')}>
+                        <Button primary disabled={!activeButton} className={cx('login-btn')} onClick={isLogin}>
                             Đăng nhập
                         </Button>
                     </div>

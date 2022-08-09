@@ -8,7 +8,7 @@ import APIaccounts, { State } from '@/FakeAPI/API';
 
 const cx = classNames.bind(styles);
 
-function HomeLogin() {
+function HomeLogin({ propLogin }) {
     let HomeLoginState = State;
     let HomeLoginAccounts = APIaccounts;
 
@@ -19,7 +19,7 @@ function HomeLogin() {
                     <Slider />
                 </div>
                 <div className={cx('form')}>
-                    <Form propState={HomeLoginState} propAccounts={HomeLoginAccounts} />
+                    <Form propState={HomeLoginState} propAccounts={HomeLoginAccounts} isLogin={propLogin} />
                 </div>
             </div>
             <div className={cx('footer')}>
