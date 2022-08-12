@@ -1,0 +1,78 @@
+.wrapper {
+    align-items: center;
+    background-color: var(--primary-background);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 60px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 3;
+}
+
+.contain {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 0;
+    height: 60px;
+    justify-content: center;
+    max-width: calc(935px + 40px);
+    padding: 0 20px;
+    width: 100%;
+    z-index: 10;
+}
+.logo {
+    flex: 1 0 127px;
+    display: flex;
+    align-items: center;
+}
+.logo-img {
+    height: 29px;
+}
+
+.search {
+    border-radius: 8px;
+    align-items: center;
+    display: flex;
+    flex: 0 1 auto;
+    flex-direction: column;
+    height: 36px;
+    min-width: 125px;
+    position: relative;
+    width: 268px;
+}
+.direct {
+    margin-left: 24px;
+    flex: 1 0 127px;
+    position: relative;
+    align-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.direct-item + .direct-item {
+    margin-left: 22px;
+}
+
+.direct-icon {
+    font-size: 2.4rem;
+    color: var(--primary-text);
+}
+.home {
+}
+.message {
+}
+.upload {
+}
+.trending {
+}
+.notice {
+}
+.user {
+}

@@ -2,7 +2,6 @@ import styles from './Modal.module.scss';
 import classNames from 'classnames/bind';
 
 import Button from '@/components/Button';
-import { useEffect } from 'react';
 
 const cx = classNames.bind(styles);
 
