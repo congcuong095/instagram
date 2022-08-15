@@ -1,40 +1,56 @@
 import styles from './Header.module.scss';
 import classNames from 'classnames/bind';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import images from '@/assets/images';
-import { faCircleUser, faCompass, faHouse, faMessage, faSquarePlus } from '@fortawesome/free-solid-svg-icons';
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
-import { faFacebookMessenger } from '@fortawesome/free-brands-svg-icons';
+
+import { heartIcon, homeIcon, messageIcon, searchIcon, trendIcon, uploadIcon } from '@/assets/icons/icon';
+import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
 function Header() {
+    const [search, setSearch] = useState(false);
+
+    const handleSearch = () => {
+        setSearch(true);
+    };
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('contain')}>
                 <div className={cx('logo')}>
                     <img className={cx('logo-img')} src={images.logo} />
                 </div>
-                <div className={cx('search')}>search</div>
+                <div className={cx('search')}>
+                    {search ? (
+                        <input type="text" placeholder="Tìm kiếm" className={cx('search-input')} />
+                    ) : (
+                        <div className={cx('search-box')} onClick={handleSearch}>
+                            <div className={cx('search-icon')}>{searchIcon}</div>
+                            <span>Tìm kiếm</span>
+                        </div>
+                    )}
+                </div>
                 <div className={cx('direct')}>
                     <div className={cx('direct-item', 'home')}>
-                        <FontAwesomeIcon className={cx('direct-icon')} icon={faHouse} />
+                        <div className={cx('direct-icon')}>{homeIcon}</div>
                     </div>
                     <div className={cx('direct-item')}>
-                        <FontAwesomeIcon className={cx('direct-icon')} icon={faFacebookMessenger} />
+                        <div className={cx('direct-icon')}>{messageIcon}</div>
                     </div>
                     <div className={cx('direct-item')}>
-                        <FontAwesomeIcon className={cx('direct-icon')} icon={faSquarePlus} />
+                        <div className={cx('direct-icon')}>{uploadIcon}</div>
                     </div>
                     <div className={cx('direct-item')}>
-                        <FontAwesomeIcon className={cx('direct-icon')} icon={faCompass} />
+                        <div className={cx('direct-icon')}>{trendIcon}</div>
                     </div>
                     <div className={cx('direct-item')}>
-                        <FontAwesomeIcon className={cx('direct-icon')} icon={faHeart} />
+                        <div className={cx('direct-icon')}>{heartIcon}</div>
                     </div>
                     <div className={cx('direct-item')}>
-                        <FontAwesomeIcon className={cx('direct-icon')} icon={faCircleUser} />
+                        <div className={cx('direct-user')}>
+                            <img src={images.avatarDefault} className={cx('direct-avatar')} />
+                        </div>
                     </div>
                 </div>
             </div>

@@ -4,7 +4,7 @@ import Header from '@/components/Header/Header';
 import { useState } from 'react';
 
 function App() {
-    const [login, setLogin] = useState(false);
+    const [login, setLogin] = useState(true);
 
     const handleLogin = () => {
         setLogin(true);
