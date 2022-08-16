@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { publicRoutes, privateRoutes } from '@/routes';
-import Header from '@/components/Header/Header';
 import { useState } from 'react';
 
 function App() {
@@ -14,7 +13,6 @@ function App() {
         return (
             <Router>
                 <div className="App">
-                    <Header />
                     <Routes>
                         {privateRoutes.map((route, index) => {
                             const Page = route.component;
