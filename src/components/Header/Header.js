@@ -6,18 +6,12 @@ import images from '@/assets/images';
 import * as icon from '@/assets/icons/icon';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Search from '@/components/Search';
 
 const cx = classNames.bind(styles);
 
 function Header({ pageInfo }) {
     const [page, setPage] = useState(pageInfo);
-
-    const handleSearch = (e) => {
-        const input = e.currentTarget.querySelector('[class*="search-active"]');
-        input.style.display = 'block';
-        input.querySelector('[class*="search-input"]').focus();
-        e.currentTarget.querySelector('[class*="search-box"]').style.display = 'none';
-    };
 
     const handleNoti = (e) => {
         setPage('noti');
@@ -39,17 +33,7 @@ function Header({ pageInfo }) {
                         {icon.logo}
                     </a>
                 </div>
-                <div className={cx('search')} onClick={(e) => handleSearch(e)}>
-                    <div className={cx('search-active')}>
-                        <input type="text" placeholder="Tìm kiếm" className={cx('search-input')} />{' '}
-                        <div className={cx('search-delete')}></div>
-                    </div>
-
-                    <div className={cx('search-box')}>
-                        <div className={cx('search-icon')}>{icon.searchIcon}</div>
-                        <span>Tìm kiếm</span>
-                    </div>
-                </div>
+                <Search />
                 <div className={cx('direct')}>
                     <div className={cx('direct-item')}>
                         <div className={cx('direct-icon')}>

@@ -6,7 +6,7 @@ import Button from '@/components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
-import Modal from '@/components/Modal/Modal';
+import Modal from '@/components/Modal';
 import Ask from '../Ask/Ask';
 
 const cx = classNames.bind(styles);
