@@ -2,7 +2,7 @@ import styles from './Search.module.scss';
 import classNames from 'classnames/bind';
 
 import * as icon from '@/assets/icons/icon';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Tippy from '@tippyjs/react/headless';
 
 const cx = classNames.bind(styles);
@@ -12,6 +12,12 @@ function Search() {
     const [searchValue, setSearchValue] = useState('');
     const [loading, setLoading] = useState(false);
     const inputRef = useRef();
+
+    useEffect(() => {
+        setTimeout(() => {
+            setAccount([1, 2, 3]);
+        }, 0);
+    }, []);
 
     const handleSearch = (e) => {
         const input = e.currentTarget.querySelector('[class*="search-active"]');
@@ -27,10 +33,12 @@ function Search() {
 
     return (
         <Tippy
-            visible={account}
+            visible={account.length > 0}
             interactive
+            arrow
             render={(attrs) => (
-                <div className="box" tabIndex="-1" {...attrs}>
+                <div className={cx('search-result')} tabIndex="-1" {...attrs}>
+                    <div className={cx('arrow')}></div>
                     Search result
                 </div>
             )}

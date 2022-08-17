@@ -120,3 +120,54 @@
     position: relative;
     vertical-align: baseline;
 }
+
+.search-result {
+    transform-origin: top center;
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 75ms linear, transform 38ms ease-out;
+    background: var(--primary-background);
+    border-radius: 6px;
+    z-index: 3;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.0975);
+    display: block;
+    width: 375px;
+    position: relative;
+    top: 2px;
+}
+
+.search-result::after {
+    content: '';
+    background: var(--primary-background);
+    border-radius: 20px;
+    top: 0;
+    height: 8px;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    border: 0;
+}
+
+.search-result::before {
+    content: '';
+    background: var(--primary-background);
+    border-radius: 20px;
+    bottom: 0;
+    height: 8px;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    border: 0;
+}
+
+.arrow {
+    width: 0;
+    height: 0;
+    border-bottom: 7.5px solid var(--primary-background);
+    border-right: 10px solid transparent;
+    border-left: 10px solid transparent;
+    position: absolute;
+    top: -7px;
+    left: 50%;
+    transform: translateX(-50%);
+}
