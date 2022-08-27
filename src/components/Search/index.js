@@ -13,12 +13,6 @@ function Search() {
     const [loading, setLoading] = useState(false);
     const inputRef = useRef();
 
-    useEffect(() => {
-        setTimeout(() => {
-            setAccount([1, 2, 3]);
-        }, 0);
-    }, []);
-
     const handleSearch = (e) => {
         const input = e.currentTarget.querySelector('[class*="search-active"]');
         input.style.display = 'block';
@@ -31,14 +25,30 @@ function Search() {
         e.target.parentElement.querySelector('[class*="search-load"]').style.display = 'block';
     };
 
+    useEffect(() => {
+        fetch('https://www.instagram.com/web/search/topsearch/?query=viet', {
+            mode: 'cors',
+            method: 'GET',
+            headers: {
+                'Access-Control-Allow-Origin': 'http://localhost:3000/',
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
+            },
+        })
+            .then((res) => {
+                console.log(res);
+                return res.json();
+            })
+            .then((res) => console.log(res))
+            .catch((res) => console.log(res));
+    }, [searchValue]);
+
     return (
         <Tippy
-            visible={account.length > 0}
+            visible={account}
             interactive
-            arrow
             render={(attrs) => (
-                <div className={cx('search-result')} tabIndex="-1" {...attrs}>
-                    <div className={cx('arrow')}></div>
+                <div className="box" tabIndex="-1" {...attrs}>
                     Search result
                 </div>
             )}
@@ -53,7 +63,6 @@ function Search() {
                         className={cx('search-input')}
                         onChange={(e) => {
                             setSearchValue(e.target.value);
-                            // setLoading(true);
                         }}
                     />{' '}
                     <div className={cx('search-delete')}></div>
