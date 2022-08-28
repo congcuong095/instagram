@@ -4,6 +4,7 @@ import classNames from 'classnames/bind';
 import * as icon from '@/assets/icons/icon';
 import { useEffect, useRef, useState } from 'react';
 import Tippy from '@tippyjs/react/headless';
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
@@ -26,21 +27,12 @@ function Search() {
     };
 
     useEffect(() => {
-        fetch('https://www.instagram.com/web/search/topsearch/?query=viet', {
-            mode: 'cors',
-            method: 'GET',
-            headers: {
-                'Access-Control-Allow-Origin': 'http://localhost:3000/',
-                'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
-                'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
-            },
-        })
-            .then((res) => {
-                console.log(res);
-                return res.json();
+        axios
+            .get('https://www.instagram.com/web/search/topsearch/?query=viet')
+            .then((response) => {
+                console.log(response);
             })
-            .then((res) => console.log(res))
-            .catch((res) => console.log(res));
+            .catch((error) => console.log(error));
     }, [searchValue]);
 
     return (
