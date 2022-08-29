@@ -1,11 +1,11 @@
-// const { createProxyMiddleware } = require('http-proxy-middleware');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
-// module.exports = (app) => {
-//     app.use(
-//         '/',
-//         createProxyMiddleware({
-//             target: 'https://www.instagram.com',
-//             changeOrigin: true,
-//         }),
-//     );
-// };
+module.exports = (app) => {
+    app.use(
+        '/web/search/topsearch/',
+        createProxyMiddleware({
+            target: 'https://www.instagram.com',
+            changeOrigin: true,
+        }),
+    );
+};
