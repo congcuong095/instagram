@@ -27,12 +27,12 @@ function Search() {
     };
 
     useEffect(() => {
-        axios
-            .get('https://www.instagram.com/web/search/topsearch/?query=viet')
-            .then((response) => {
-                console.log(response);
-            })
-            .catch((error) => console.log(error));
+        // axios
+        //     .get('https://www.instagram.com/web/search/topsearch/?query=viet')
+        //     .then((response) => {
+        //         console.log(response);
+        //     })
+        //     .catch((error) => console.log(error));
     }, [searchValue]);
 
     return (
