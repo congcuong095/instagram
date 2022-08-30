@@ -34,7 +34,6 @@ function Search() {
                 },
             })
             .then((res) => {
-                console.log(res.data.users);
                 setSearchResult(res.data.users);
             })
             .catch((error) => console.log(error));
