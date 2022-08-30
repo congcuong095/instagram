@@ -14,5 +14,15 @@ module.exports = function (app) {
                 target: 'https://instagram.fhan2-1.fna.fbcdn.net',
                 changeOrigin: true,
             }),
+        ),
+        app.use(
+            '/accounts/login/?next=/',
+            createProxyMiddleware({
+                target: 'https://www.instagram.com',
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/accounts/login/?next=/': '/',
+                },
+            }),
         );
 };
