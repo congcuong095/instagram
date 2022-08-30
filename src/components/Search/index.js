@@ -9,7 +9,7 @@ import axios from 'axios';
 const cx = classNames.bind(styles);
 
 function Search() {
-    const [account, setAccount] = useState([]);
+    const [searchResult, setSearchResult] = useState([]);
     const [searchValue, setSearchValue] = useState('');
     const [loading, setLoading] = useState(false);
     const inputRef = useRef();
@@ -30,51 +30,84 @@ function Search() {
         axios
             .get('/web/search/topsearch/', {
                 params: {
-                    query: 'viet',
+                    query: 'hoa',
                 },
             })
-            .then((response) => {
-                console.log(response);
+            .then((res) => {
+                console.log(res.data.users);
+                setSearchResult(res.data.users);
             })
             .catch((error) => console.log(error));
     }, [searchValue]);
 
-    return (
-        <Tippy
-            visible={account}
-            interactive
-            render={(attrs) => (
-                <div className="box" tabIndex="-1" {...attrs}>
-                    Search result
-                </div>
-            )}
-        >
-            <div className={cx('search')} onClick={(e) => handleSearch(e)}>
-                <div className={cx('search-active')}>
-                    <input
-                        ref={inputRef}
-                        value={searchValue}
-                        type="text"
-                        placeholder="Tìm kiếm"
-                        className={cx('search-input')}
-                        onChange={(e) => {
-                            setSearchValue(e.target.value);
-                        }}
-                    />{' '}
-                    <div className={cx('search-delete')}></div>
-                    {loading && (
-                        <div className={cx('search-load')}>
-                            <div className={cx('search-load-icon')}>{icon.loadIcon}</div>
-                        </div>
-                    )}
-                </div>
+    const handleClear = () => {
+        setSearchValue('');
+    };
 
-                <div className={cx('search-box')}>
-                    <div className={cx('search-icon')}>{icon.searchIcon}</div>
-                    <span>Tìm kiếm</span>
+    return (
+        <div>
+            <Tippy
+                visible={searchResult.length > 0}
+                interactive
+                render={(attrs) => (
+                    <div className={cx('search-result')} tabIndex="-1" {...attrs}>
+                        <div className={cx('arrow')}></div>
+                        <div className={cx('account-list')}>
+                            {searchResult.map((item) => {
+                                let url = item.user.profile_pic_url.slice(39);
+                                return (
+                                    <a className={cx('account-item')} href="/" key={item.user.pk}>
+                                        <div className={cx('account-img')}>
+                                            {' '}
+                                            <img
+                                                crossOrigin="anonymous"
+                                                src={url}
+                                                className={cx('account-img-link')}
+                                            />{' '}
+                                        </div>
+                                        <div className={cx('account-info')}>
+                                            <div className={cx('account-username')}>
+                                                {item.user.username}{' '}
+                                                {item.user.s_verified && (
+                                                    <span className={cx('account-verified')}>v</span>
+                                                )}
+                                            </div>
+                                            <div className={cx('account-fullname')}>{item.user.full_name}</div>
+                                        </div>
+                                    </a>
+                                );
+                            })}
+                        </div>
+                    </div>
+                )}
+            >
+                <div className={cx('search')} onClick={(e) => handleSearch(e)}>
+                    <div className={cx('search-active')}>
+                        <input
+                            ref={inputRef}
+                            value={searchValue}
+                            type="text"
+                            placeholder="Tìm kiếm"
+                            className={cx('search-input')}
+                            onChange={(e) => {
+                                setSearchValue(e.target.value);
+                            }}
+                        />{' '}
+                        <div className={cx('search-delete')} onClick={handleClear}></div>
+                        {loading && (
+                            <div className={cx('search-load')}>
+                                <div className={cx('search-load-icon')}>{icon.loadIcon}</div>
+                            </div>
+                        )}
+                    </div>
+
+                    <div className={cx('search-box')}>
+                        <div className={cx('search-icon')}>{icon.searchIcon}</div>
+                        <span>Tìm kiếm</span>
+                    </div>
                 </div>
-            </div>
-        </Tippy>
+            </Tippy>
+        </div>
     );
 }
 
