@@ -58,11 +58,7 @@ function Search() {
                                     <a className={cx('account-item')} href="/" key={item.user.pk}>
                                         <div className={cx('account-img')}>
                                             {' '}
-                                            <img
-                                                crossOrigin="anonymous"
-                                                src={url}
-                                                className={cx('account-img-link')}
-                                            />{' '}
+                                            <img src={url} className={cx('account-img-link')} />{' '}
                                         </div>
                                         <div className={cx('account-info')}>
                                             <div className={cx('account-username')}>
