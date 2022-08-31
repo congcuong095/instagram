@@ -11,6 +11,7 @@ const cx = classNames.bind(styles);
 function Search() {
     const [searchResult, setSearchResult] = useState([]);
     const [searchValue, setSearchValue] = useState('');
+    const [showResult, setShowResult] = useState(true);
     const [loading, setLoading] = useState(false);
     const inputRef = useRef();
 
@@ -46,14 +47,15 @@ function Search() {
     return (
         <div>
             <Tippy
-                visible={searchResult.length > 0}
+                visible={showResult && searchResult.length > 0}
                 interactive
+                onClickOutside={() => setShowResult(false)}
                 render={(attrs) => (
                     <div className={cx('search-result')} tabIndex="-1" {...attrs}>
                         <div className={cx('arrow')}></div>
                         <div className={cx('account-list')}>
                             {searchResult.map((item) => {
-                                let url = item.user.profile_pic_url.slice(39);
+                                let url = item.user.profile_pic_url.slice(40);
                                 return (
                                     <a className={cx('account-item')} href="/" key={item.user.pk}>
                                         <div className={cx('account-img')}>
@@ -63,8 +65,8 @@ function Search() {
                                         <div className={cx('account-info')}>
                                             <div className={cx('account-username')}>
                                                 {item.user.username}{' '}
-                                                {item.user.s_verified && (
-                                                    <span className={cx('account-verified')}>v</span>
+                                                {item.user.is_verified && (
+                                                    <span className={cx('account-verified')}></span>
                                                 )}
                                             </div>
                                             <div className={cx('account-fullname')}>{item.user.full_name}</div>
