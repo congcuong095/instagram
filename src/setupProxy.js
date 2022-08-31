@@ -1,21 +1,18 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
-module.exports = function () {
+module.exports = function (app) {
     app.use(
-        '/web/search/topsearch/',
+        '/api/v1/web/search/topsearch/',
         createProxyMiddleware({
-            target: 'https://www.instagram.com',
-            secure: false,
+            target: 'https://i.instagram.com',
             changeOrigin: true,
         }),
     );
     app.use(
         '/v/t51.2885-19/',
         createProxyMiddleware({
-            target: 'https://instagram.fhan2-1.fna.fbcdn.net',
-            secure: false,
+            target: 'https://instagram.fhan2-4.fna.fbcdn.net',
             changeOrigin: true,
         }),
     );
-    app.listen(3000);
 };

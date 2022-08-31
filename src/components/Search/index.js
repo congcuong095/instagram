@@ -28,9 +28,9 @@ function Search() {
 
     useEffect(() => {
         axios
-            .get('/web/search/topsearch/', {
+            .get('/api/v1/web/search/topsearch/', {
                 params: {
-                    query: 'hoa',
+                    query: searchValue,
                 },
             })
             .then((res) => {
