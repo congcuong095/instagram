@@ -5,6 +5,7 @@ import Login from '@/pages/Login/Login';
 import HomeLogin from '@/pages/HomeLogin';
 import Inbox from '@/pages/Inbox/Inbox';
 import Explore from '@/pages/Explore/Explore';
+import Profile from '@/pages/Profile/Profile';
 
 const publicRoutes = [
     { path: '/', component: HomeLogin },
@@ -17,6 +18,7 @@ const privateRoutes = [
     { path: '/user', component: User },
     { path: '/direct/inbox', component: Inbox },
     { path: '/explore', component: Explore },
+    { path: '/:username', component: Profile },
 ];
 
 export { publicRoutes, privateRoutes };
