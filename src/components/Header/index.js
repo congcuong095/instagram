@@ -13,14 +13,23 @@ const cx = classNames.bind(styles);
 function Header({ pageInfo }) {
     const [page, setPage] = useState(pageInfo);
 
-    const handleNoti = (e) => {
-        setPage('noti');
+    const handleHome = () => {
+        setPage('home');
     };
 
+    const handleInbox = (e) => {
+        setPage('inbox');
+    };
     const handleUpload = (e) => {
         setPage('upload');
     };
 
+    const handleExplore = () => {
+        setPage('explore');
+    };
+    const handleNoti = (e) => {
+        setPage('noti');
+    };
     const handleManage = (e) => {
         setPage('user');
     };
@@ -36,12 +45,12 @@ function Header({ pageInfo }) {
                 <Search />
                 <div className={cx('direct')}>
                     <div className={cx('direct-item')}>
-                        <div className={cx('direct-icon')}>
+                        <div className={cx('direct-icon')} onClick={(e) => handleHome(e)}>
                             <Link to="/">{page === 'home' ? icon.homeFillIcon : icon.homeIcon}</Link>
                         </div>
                     </div>
                     <div className={cx('direct-item')}>
-                        <div className={cx('direct-icon')}>
+                        <div className={cx('direct-icon')} onClick={(e) => handleInbox(e)}>
                             <Link to="/direct/inbox">{page === 'inbox' ? icon.messageFillIcon : icon.messageIcon}</Link>
                         </div>
                     </div>
@@ -51,7 +60,7 @@ function Header({ pageInfo }) {
                         </div>
                     </div>
                     <div className={cx('direct-item')}>
-                        <div className={cx('direct-icon')}>
+                        <div className={cx('direct-icon')} onClick={(e) => handleExplore(e)}>
                             <Link to="/explore">{page === 'explore' ? icon.trendFillIcon : icon.trendIcon}</Link>
                         </div>
                     </div>
