@@ -1,4 +1,4 @@
-import styles from './Modal.module.scss';
+import styles from './ModalAutoForm.module.scss';
 import classNames from 'classnames/bind';
 
 import Button from '@/components/Button';
