@@ -12,6 +12,7 @@
     left: 0;
     right: 0;
     top: 0;
+    z-index: 999;
 }
 .modal-wrapper {
     z-index: 100;
@@ -43,27 +44,4 @@
     font-size: 14px;
     line-height: 18px;
     margin: -3px 0 -4px;
-}
-.modal-btn {
-    margin-top: 16px;
-}
-
-.modal-btn-delete,
-.modal-btn-cancel {
-    font-weight: 700;
-    background-color: transparent;
-    border-bottom: 0;
-    border-left: 0;
-    border-right: 0;
-    border-top: 1px solid #dbdbdb;
-    min-height: 48px;
-    padding: 4px 8px;
-    width: 100%;
-}
-
-.modal-btn-cancel {
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
-    color: var(--primary-text);
-    font-weight: var(--font-regular);
 }
