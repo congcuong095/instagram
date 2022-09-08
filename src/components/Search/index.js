@@ -105,6 +105,10 @@ function Search() {
                                     setSearchValue(e.target.value);
                                 }}
                                 onBlur={() => setSearchActive(false)}
+                                onFocus={() => {
+                                    setSearchActive(true);
+                                    setShowResult(true);
+                                }}
                             />{' '}
                             {!loading ? (
                                 <div className={cx('search-delete')} onClick={handleClear}></div>
