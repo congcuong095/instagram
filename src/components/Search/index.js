@@ -59,8 +59,6 @@ function Search() {
                 onClickOutside={() => {
                     setSearchActive(false);
                     setShowResult(false);
-                    console.log(showResult);
-                    console.log(searchResult.length);
                 }}
                 render={(attrs) => (
                     <div className={cx('search-result')} tabIndex="-1" {...attrs}>

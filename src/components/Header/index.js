@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Search from '@/components/Search';
 import Modal from '@/components/Modal/ModalUpload/ModalUpload';
-import Tippy from '@tippyjs/react';
+import Tippy from '@tippyjs/react/headless';
 
 const cx = classNames.bind(styles);
 
@@ -34,7 +34,6 @@ function Header({ pageInfo }) {
     };
     const handleNoti = (e) => {
         setPage('noti');
-        setShowNoti(true);
     };
     const handleManage = (e) => {
         setPage('user');
@@ -83,13 +82,10 @@ function Header({ pageInfo }) {
                         </div>
                         <div className={cx('direct-item')}>
                             <Tippy
-                                visible={page === 'noti' && showNoti}
+                                visible={page === 'noti'}
                                 interactive
                                 onClickOutside={() => {
                                     setPage(pageInfo);
-                                    setShowNoti(false);
-                                    console.log(showNoti);
-                                    console.log(pageInfo);
                                 }}
                                 render={(attrs) => (
                                     <div className={cx('noti-list')} tabIndex="-1" {...attrs}>
@@ -105,12 +101,25 @@ function Header({ pageInfo }) {
                             </Tippy>
                         </div>
                         <div className={cx('direct-item')}>
-                            <div
-                                className={page === 'user' ? cx('direct-user-active') : cx('direct-user')}
-                                onClick={(e) => handleManage(e)}
+                            <Tippy
+                                visible={page === 'user'}
+                                interactive
+                                onClickOutside={() => {
+                                    setPage(pageInfo);
+                                }}
+                                render={(attrs) => (
+                                    <div className={cx('user-manage')} tabIndex="-1" {...attrs}>
+                                        <h1>Manage</h1>
+                                    </div>
+                                )}
                             >
-                                <img src={images.avatarDefault} className={cx('direct-avatar')} />
-                            </div>
+                                <div
+                                    className={page === 'user' ? cx('direct-user-active') : cx('direct-user')}
+                                    onClick={(e) => handleManage(e)}
+                                >
+                                    <img src={images.avatarDefault} className={cx('direct-avatar')} />
+                                </div>
+                            </Tippy>
                         </div>
                     </div>
                 </div>
