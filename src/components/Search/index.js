@@ -13,7 +13,8 @@ const cx = classNames.bind(styles);
 function Search() {
     const [searchResult, setSearchResult] = useState([]);
     const [searchValue, setSearchValue] = useState('');
-    const [showResult, setShowResult] = useState(true);
+    const [showResult, setShowResult] = useState(false);
+    const [showOldResult, setShowOldResult] = useState(true);
     const [searchActive, setSearchActive] = useState(false);
     const [loading, setLoading] = useState(false);
     const inputRef = useRef();
@@ -54,40 +55,43 @@ function Search() {
     return (
         <div>
             <Tippy
-                visible={showResult && searchResult.length > 0}
+                visible={searchActive}
                 interactive
                 onClickOutside={() => {
                     setSearchActive(false);
-                    setShowResult(false);
                 }}
                 render={(attrs) => (
                     <div className={cx('search-result')} tabIndex="-1" {...attrs}>
                         <div className={cx('arrow')}></div>
                         <div className={cx('account-list')}>
-                            {searchResult.map((item) => {
-                                let url = item.user.profile_pic_url.slice(40);
-                                return (
-                                    <Link
-                                        className={cx('account-item')}
-                                        to={`/${item.user.username}`}
-                                        key={item.user.pk}
-                                    >
-                                        <div className={cx('account-img')}>
-                                            {' '}
-                                            <img src={url} className={cx('account-img-link')} />{' '}
-                                        </div>
-                                        <div className={cx('account-info')}>
-                                            <div className={cx('account-username')}>
-                                                {item.user.username}{' '}
-                                                {item.user.is_verified && (
-                                                    <span className={cx('account-verified')}></span>
-                                                )}
+                            {showResult ? (
+                                searchResult.map((item) => {
+                                    let url = item.user.profile_pic_url.slice(40);
+                                    return (
+                                        <a
+                                            className={cx('account-item')}
+                                            href={`/${item.user.username}`}
+                                            key={item.user.pk}
+                                        >
+                                            <div className={cx('account-img')}>
+                                                {' '}
+                                                <img src={url} className={cx('account-img-link')} />{' '}
                                             </div>
-                                            <div className={cx('account-fullname')}>{item.user.full_name}</div>
-                                        </div>
-                                    </Link>
-                                );
-                            })}
+                                            <div className={cx('account-info')}>
+                                                <div className={cx('account-username')}>
+                                                    {item.user.username}{' '}
+                                                    {item.user.is_verified && (
+                                                        <span className={cx('account-verified')}></span>
+                                                    )}
+                                                </div>
+                                                <div className={cx('account-fullname')}>{item.user.full_name}</div>
+                                            </div>
+                                        </a>
+                                    );
+                                })
+                            ) : (
+                                <h1>new</h1>
+                            )}
                         </div>
                     </div>
                 )}
@@ -103,11 +107,16 @@ function Search() {
                                 className={cx('search-input')}
                                 onChange={(e) => {
                                     setSearchValue(e.target.value);
+                                    setShowResult(true);
                                 }}
                                 onBlur={() => setSearchActive(false)}
                                 onFocus={() => {
                                     setSearchActive(true);
-                                    setShowResult(true);
+                                    if (searchResult.length > 0) {
+                                        setShowResult(true);
+                                    } else {
+                                        setShowResult(false);
+                                    }
                                 }}
                             />{' '}
                             {!loading ? (
