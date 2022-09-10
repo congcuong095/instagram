@@ -243,7 +243,7 @@ export const loadIcon = (
 );
 
 export const close = (
-    <svg aria-label="Close" color="#ffffff" fill="#ffffff" height="18" role="img" viewBox="0 0 48 48" width="18">
+    <svg aria-label="Close" color="#ffffff" fill="#ffffff" height="24" role="img" viewBox="0 0 48 48" width="24">
         <title>Close</title>
         <path
             clipRule="evenodd"

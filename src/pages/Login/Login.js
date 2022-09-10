@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 
 import Footer from '@/components/Footer';
 import Form from '@/components/Form';
-import APIaccounts, { State } from '@/FakeAPI/API';
+import { APIaccounts, State } from '@/FakeAPI/API';
 
 const cx = classNames.bind(styles);
 

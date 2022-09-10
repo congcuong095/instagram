@@ -1,20 +1,22 @@
 import styles from './Search.module.scss';
 import classNames from 'classnames/bind';
 
-import * as icon from '@/assets/icons/icon';
 import { useEffect, useRef, useState } from 'react';
-import { useDebounced } from '@/hooks';
 import Tippy from '@tippyjs/react/headless';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
+
+import { useDebounced } from '@/hooks';
+import * as icon from '@/assets/icons/icon';
+import Button from '@/components/Button';
+import { recentSearchApi } from '@/FakeAPI/API';
 
 const cx = classNames.bind(styles);
 
 function Search() {
     const [searchResult, setSearchResult] = useState([]);
+    const [recentResult, setRecentResult] = useState([]);
     const [searchValue, setSearchValue] = useState('');
     const [showResult, setShowResult] = useState(false);
-    const [showOldResult, setShowOldResult] = useState(true);
     const [searchActive, setSearchActive] = useState(false);
     const [loading, setLoading] = useState(false);
     const inputRef = useRef();
@@ -50,6 +52,17 @@ function Search() {
 
     const handleClear = () => {
         setSearchValue('');
+        setShowResult(false);
+        setSearchActive(false);
+    };
+
+    //Get recent result
+    useEffect(() => {
+        setRecentResult(recentSearchApi);
+    }, []);
+    const handleDeleteRecent = (index) => {
+        recentResult.splice(index, 1);
+        setRecentResult([...recentResult]);
     };
 
     return (
@@ -90,13 +103,67 @@ function Search() {
                                     );
                                 })
                             ) : (
-                                <h1>new</h1>
+                                <div className={cx('recent-result')}>
+                                    <div className={cx('recent-title')}>
+                                        <h4>Gần đây</h4>
+                                        {recentResult.length > 0 && (
+                                            <Button text onClick={() => setRecentResult([])}>
+                                                Xóa tất cả
+                                            </Button>
+                                        )}
+                                    </div>
+                                    {recentResult.length > 0 ? (
+                                        <>
+                                            {recentResult.map((item, index) => {
+                                                return (
+                                                    <a
+                                                        className={cx('account-item')}
+                                                        href={`/${item.username}`}
+                                                        key={item.id}
+                                                    >
+                                                        <div className={cx('account-img')}>
+                                                            {' '}
+                                                            <img
+                                                                src={item.img_src}
+                                                                className={cx('account-img-link')}
+                                                            />{' '}
+                                                        </div>
+                                                        <div className={cx('account-info')}>
+                                                            <div className={cx('account-username')}>
+                                                                {item.username}{' '}
+                                                                {item.is_verified && (
+                                                                    <span className={cx('account-verified')}></span>
+                                                                )}
+                                                            </div>
+                                                            <div className={cx('account-fullname')}>
+                                                                {item.full_name}
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            className={cx('account-delete')}
+                                                            onClick={(e) => {
+                                                                e.preventDefault();
+                                                                handleDeleteRecent(index);
+                                                            }}
+                                                        >
+                                                            {icon.close}
+                                                        </div>
+                                                    </a>
+                                                );
+                                            })}
+                                        </>
+                                    ) : (
+                                        <div className={cx('recent-list-empty')}>
+                                            Không có nội dung tìm kiếm mới đây.
+                                        </div>
+                                    )}
+                                </div>
                             )}
                         </div>
                     </div>
                 )}
             >
-                <div className={cx('search')} onClick={() => handleSearchActive()}>
+                <div className={cx('search')}>
                     {searchActive ? (
                         <div className={cx('search-active')}>
                             <input
@@ -109,7 +176,6 @@ function Search() {
                                     setSearchValue(e.target.value);
                                     setShowResult(true);
                                 }}
-                                onBlur={() => setSearchActive(false)}
                                 onFocus={() => {
                                     setSearchActive(true);
                                     if (searchResult.length > 0) {
@@ -128,7 +194,7 @@ function Search() {
                             )}
                         </div>
                     ) : (
-                        <div className={cx('search-box')}>
+                        <div className={cx('search-box')} onClick={() => handleSearchActive()}>
                             <div className={cx('search-icon')}>{icon.searchIcon}</div>
                             <span>{searchValue === '' ? 'Tìm kiếm' : searchValue}</span>
                         </div>
