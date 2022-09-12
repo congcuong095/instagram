@@ -123,56 +123,26 @@
 
 .search-result {
     transform-origin: top center;
-    opacity: 1;
     transform: translateY(0);
     transition: opacity 75ms linear, transform 38ms ease-out;
     background: var(--primary-background);
     border-radius: 6px;
-    z-index: 3;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.0975);
     display: block;
     width: 375px;
     position: relative;
     top: 2px;
-}
-
-.search-result::after {
-    content: '';
-    background: linear-gradient(to top, rgba(255, 255, 255, 0) 0, rgb(255, 255, 255) 100%);
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    top: 0;
-    height: 8px;
-    left: 0;
-    position: absolute;
-    width: 100%;
-    border: 0;
-}
-
-.search-result::before {
-    content: '';
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 100%);
-
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    bottom: 0;
-    height: 8px;
-    left: 0;
-    position: absolute;
-    width: 100%;
-    border: 0;
-}
-
-.arrow {
-    width: 0;
-    height: 0;
-    border-bottom: 7.5px solid var(--primary-background);
-    border-right: 10px solid transparent;
-    border-left: 10px solid transparent;
-    position: absolute;
-    top: -7px;
-    left: 50%;
-    transform: translateX(-50%);
+    .arrow {
+        background: #fff;
+        border: 1px solid #fff;
+        box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.0975);
+        transform: translateX(-50%) rotate(45deg);
+        height: 14px;
+        width: 14px;
+        position: absolute;
+        top: -7px;
+        left: 50%;
+    }
 }
 
 .account-list {

@@ -7,7 +7,7 @@ import { useRef } from 'react';
 
 const cx = classNames.bind(styles);
 
-function Modal({ onCancelUpload }) {
+function ModalUpload({ onCancelUpload }) {
     const handleStopPropagation = (e) => {
         e.stopPropagation();
     };
@@ -39,4 +39,4 @@ function Modal({ onCancelUpload }) {
     );
 }
 
-export default Modal;
+export default ModalUpload;

@@ -5,7 +5,7 @@ import Button from '@/components/Button';
 
 const cx = classNames.bind(styles);
 
-function Modal({ nameDelete, onDelete, onCancelDelete }) {
+function ModalAutoForm({ nameDelete, onDelete, onCancelDelete }) {
     const handleStopPropagation = (e) => {
         e.stopPropagation();
     };
@@ -32,4 +32,4 @@ function Modal({ nameDelete, onDelete, onCancelDelete }) {
     );
 }
 
-export default Modal;
+export default ModalAutoForm;

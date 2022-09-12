@@ -7,7 +7,7 @@ import * as icon from '@/assets/icons/icon';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Search from '@/components/Search';
-import Modal from '@/components/Modal/ModalUpload/ModalUpload';
+import ModalUpload from '@/components/Modal/ModalUpload/ModalUpload';
 import Tippy from '@tippyjs/react/headless';
 
 const cx = classNames.bind(styles);
@@ -42,7 +42,7 @@ function Header({ pageInfo }) {
     return (
         <>
             {modalUpload && (
-                <Modal
+                <ModalUpload
                     onCancelUpload={() => {
                         setModalUpload(false);
                         setPage(pageInfo);
@@ -88,8 +88,66 @@ function Header({ pageInfo }) {
                                     setPage(pageInfo);
                                 }}
                                 render={(attrs) => (
-                                    <div className={cx('noti-list')} tabIndex="-1" {...attrs}>
-                                        <h1>Noti</h1>
+                                    <div className={cx('noti')} tabIndex="-1" {...attrs}>
+                                        <div className={cx('arrow')}></div>
+                                        <div className={cx('noti-wrapper')}>
+                                            <div className={cx('noti-title')}>
+                                                <span>Tuần này</span>
+                                            </div>
+                                            <div className={cx('noti-list')}>
+                                                <div className={cx('noti-item')}>
+                                                    <div className={cx('noti-item__avatar')}>
+                                                        <img src="/v/t51.2885-19/296847109_739547083927920_2093358076121852250_n.jpg?stp=dst-jpg_s150x150&_nc_ht=instagram.fhan14-3.fna.fbcdn.net&_nc_cat=1&_nc_ohc=ohM4EB3jNboAX-WXxZx&edm=AHG7ALcBAAAA&ccb=7-5&oh=00_AT8SqgwfAxm279UkiURSGKaMIqSKmCGawc3TGKtEQDh8vw&oe=63239AE2&_nc_sid=5cbaad" />
+                                                    </div>
+                                                    <div className={cx('noti-item__content')}>
+                                                        <span className={cx('noti-item__content--user')}>
+                                                            kieutien1234
+                                                        </span>
+                                                        đã thích ảnh của bạn.
+                                                        <span className={cx('noti-item__content--time')}>4 ngày</span>
+                                                    </div>
+                                                    <div className={cx('noti-item__action')}>
+                                                        <div className={cx('noti-item__action--img')}>
+                                                            <img src="/v/t51.2885-19/296847109_739547083927920_2093358076121852250_n.jpg?stp=dst-jpg_s150x150&_nc_ht=instagram.fhan14-3.fna.fbcdn.net&_nc_cat=1&_nc_ohc=ohM4EB3jNboAX-WXxZx&edm=AHG7ALcBAAAA&ccb=7-5&oh=00_AT8SqgwfAxm279UkiURSGKaMIqSKmCGawc3TGKtEQDh8vw&oe=63239AE2&_nc_sid=5cbaad" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className={cx('noti-item')}>
+                                                    <div className={cx('noti-item__avatar')}>
+                                                        <img src="/v/t51.2885-19/296847109_739547083927920_2093358076121852250_n.jpg?stp=dst-jpg_s150x150&_nc_ht=instagram.fhan14-3.fna.fbcdn.net&_nc_cat=1&_nc_ohc=ohM4EB3jNboAX-WXxZx&edm=AHG7ALcBAAAA&ccb=7-5&oh=00_AT8SqgwfAxm279UkiURSGKaMIqSKmCGawc3TGKtEQDh8vw&oe=63239AE2&_nc_sid=5cbaad" />
+                                                    </div>
+                                                    <div className={cx('noti-item__content')}>
+                                                        <span className={cx('noti-item__content--user')}>
+                                                            kieutien1234
+                                                        </span>
+                                                        đã thích ảnh của bạn.
+                                                        <span className={cx('noti-item__content--time')}>4 ngày</span>
+                                                    </div>
+                                                    <div className={cx('noti-item__action')}>
+                                                        <div className={cx('noti-item__action--img')}>
+                                                            <img src="/v/t51.2885-19/296847109_739547083927920_2093358076121852250_n.jpg?stp=dst-jpg_s150x150&_nc_ht=instagram.fhan14-3.fna.fbcdn.net&_nc_cat=1&_nc_ohc=ohM4EB3jNboAX-WXxZx&edm=AHG7ALcBAAAA&ccb=7-5&oh=00_AT8SqgwfAxm279UkiURSGKaMIqSKmCGawc3TGKtEQDh8vw&oe=63239AE2&_nc_sid=5cbaad" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className={cx('noti-item')}>
+                                                    <div className={cx('noti-item__avatar')}>
+                                                        <img src="/v/t51.2885-19/296847109_739547083927920_2093358076121852250_n.jpg?stp=dst-jpg_s150x150&_nc_ht=instagram.fhan14-3.fna.fbcdn.net&_nc_cat=1&_nc_ohc=ohM4EB3jNboAX-WXxZx&edm=AHG7ALcBAAAA&ccb=7-5&oh=00_AT8SqgwfAxm279UkiURSGKaMIqSKmCGawc3TGKtEQDh8vw&oe=63239AE2&_nc_sid=5cbaad" />
+                                                    </div>
+                                                    <div className={cx('noti-item__content')}>
+                                                        <span className={cx('noti-item__content--user')}>
+                                                            kieutien1234
+                                                        </span>
+                                                        đã thích ảnh của bạn.
+                                                        <span className={cx('noti-item__content--time')}>4 ngày</span>
+                                                    </div>
+                                                    <div className={cx('noti-item__action')}>
+                                                        <div className={cx('noti-item__action--img')}>
+                                                            <img src="/v/t51.2885-19/296847109_739547083927920_2093358076121852250_n.jpg?stp=dst-jpg_s150x150&_nc_ht=instagram.fhan14-3.fna.fbcdn.net&_nc_cat=1&_nc_ohc=ohM4EB3jNboAX-WXxZx&edm=AHG7ALcBAAAA&ccb=7-5&oh=00_AT8SqgwfAxm279UkiURSGKaMIqSKmCGawc3TGKtEQDh8vw&oe=63239AE2&_nc_sid=5cbaad" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 )}
                             >
@@ -109,6 +167,7 @@ function Header({ pageInfo }) {
                                 }}
                                 render={(attrs) => (
                                     <div className={cx('user-manage')} tabIndex="-1" {...attrs}>
+                                        <div className={cx('arrow')}></div>
                                         <h1>Manage</h1>
                                     </div>
                                 )}

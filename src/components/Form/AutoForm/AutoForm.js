@@ -6,7 +6,7 @@ import Button from '@/components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
-import Modal from '@/components/Modal/ModalAutoForm/ModalAutoForm';
+import ModalAutoForm from '@/components/Modal/ModalAutoForm/ModalAutoForm';
 import Ask from '../Ask/Ask';
 
 const cx = classNames.bind(styles);
@@ -112,7 +112,9 @@ function AutoForm({ onChangeLogin, onChangeAutoOne, propState, propAccounts, isL
 
     return (
         <>
-            {modal && <Modal nameDelete={nameDelete} onDelete={handleDelete} onCancelDelete={handleCancelDelete} />}
+            {modal && (
+                <ModalAutoForm nameDelete={nameDelete} onDelete={handleDelete} onCancelDelete={handleCancelDelete} />
+            )}
             <div className={cx('login')}>
                 <div className={cx('login-main')}>
                     <div className={cx('login-header')}>
