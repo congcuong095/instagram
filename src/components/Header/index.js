@@ -87,6 +87,8 @@ function Header({ pageInfo }) {
                                 onClickOutside={() => {
                                     setPage(pageInfo);
                                 }}
+                                offset={[-182, 15]}
+                                placement="bottom"
                                 render={(attrs) => (
                                     <div className={cx('noti')} tabIndex="-1" {...attrs}>
                                         <div className={cx('arrow')}></div>
@@ -165,10 +167,39 @@ function Header({ pageInfo }) {
                                 onClickOutside={() => {
                                     setPage(pageInfo);
                                 }}
+                                offset={[-80, 15]}
+                                placement="bottom"
                                 render={(attrs) => (
                                     <div className={cx('user-manage')} tabIndex="-1" {...attrs}>
                                         <div className={cx('arrow')}></div>
-                                        <h1>Manage</h1>
+                                        <div className={cx('user-wrapper')}>
+                                            <div className={cx('user-item', 'mt4')}>
+                                                <a href="/">
+                                                    <div className={cx('user-page__icon')}>x</div>
+                                                    <div className={cx('user-page__title')}>Trang cá nhân</div>
+                                                </a>
+                                            </div>
+                                            <div className={cx('user-item')}>
+                                                <a href="/">
+                                                    <div className={cx('user-page__icon')}>x</div>
+                                                    <div className={cx('user-page__title')}>Đã lưu</div>
+                                                </a>
+                                            </div>
+                                            <div className={cx('user-item')}>
+                                                <a href="/">
+                                                    <div className={cx('user-page__icon')}>x</div>
+                                                    <div className={cx('user-page__title')}>Cài đặt</div>
+                                                </a>
+                                            </div>
+                                            <div className={cx('user-item')}>
+                                                <div className={cx('user-page__icon')}>x</div>
+                                                <div className={cx('user-page__title')}>Chuyển tài khoản</div>
+                                            </div>
+                                            <div className={cx('user-item', 'boder-top')}>
+                                                <div className={cx('user-page__icon')}>x</div>
+                                                <div className={cx('user-page__title')}>Đăng xuất</div>
+                                            </div>
+                                        </div>
                                     </div>
                                 )}
                             >
