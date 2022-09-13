@@ -16,6 +16,7 @@ function Header({ pageInfo }) {
     const [page, setPage] = useState(pageInfo);
     const [modalUpload, setModalUpload] = useState(false);
     const [showNoti, setShowNoti] = useState(false);
+    const [showManage, setShowManage] = useState(false);
 
     const handleHome = () => {
         setPage('home');
@@ -167,36 +168,35 @@ function Header({ pageInfo }) {
                                 onClickOutside={() => {
                                     setPage(pageInfo);
                                 }}
-                                offset={[-80, 15]}
+                                offset={[-76, 15]}
                                 placement="bottom"
                                 render={(attrs) => (
                                     <div className={cx('user-manage')} tabIndex="-1" {...attrs}>
                                         <div className={cx('arrow')}></div>
                                         <div className={cx('user-wrapper')}>
                                             <div className={cx('user-item', 'mt4')}>
-                                                <a href="/">
-                                                    <div className={cx('user-page__icon')}>x</div>
+                                                <Link to="/flotino">
+                                                    <div className={cx('user-page__icon')}>{icon.userManage}</div>
                                                     <div className={cx('user-page__title')}>Trang cá nhân</div>
-                                                </a>
+                                                </Link>
                                             </div>
                                             <div className={cx('user-item')}>
-                                                <a href="/">
-                                                    <div className={cx('user-page__icon')}>x</div>
+                                                <Link to="/user/saved">
+                                                    <div className={cx('user-page__icon')}>{icon.savedManage}</div>
                                                     <div className={cx('user-page__title')}>Đã lưu</div>
-                                                </a>
+                                                </Link>
                                             </div>
                                             <div className={cx('user-item')}>
-                                                <a href="/">
-                                                    <div className={cx('user-page__icon')}>x</div>
+                                                <Link to="/account/edit">
+                                                    <div className={cx('user-page__icon')}>{icon.settingManage}</div>
                                                     <div className={cx('user-page__title')}>Cài đặt</div>
-                                                </a>
+                                                </Link>
                                             </div>
                                             <div className={cx('user-item')}>
-                                                <div className={cx('user-page__icon')}>x</div>
+                                                <div className={cx('user-page__icon')}>{icon.changeAccountManage}</div>
                                                 <div className={cx('user-page__title')}>Chuyển tài khoản</div>
                                             </div>
                                             <div className={cx('user-item', 'boder-top')}>
-                                                <div className={cx('user-page__icon')}>x</div>
                                                 <div className={cx('user-page__title')}>Đăng xuất</div>
                                             </div>
                                         </div>

@@ -236,6 +236,7 @@
     padding: 8px 16px;
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     color: var(--primary-text);
     cursor: pointer;
     &:hover {
@@ -249,13 +250,16 @@
 }
 .user-page__icon {
     margin-right: 12px;
-    height: 21px;
+    height: 100%;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 .user-page__title {
     width: 170px;
     height: 21px;
     font-size: 1.4rem;
     line-height: 1.8rem;
+    display: flex;
+    align-items: center;
 }
