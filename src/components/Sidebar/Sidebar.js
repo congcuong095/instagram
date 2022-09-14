@@ -2,8 +2,8 @@ import styles from './Sidebar.module.scss';
 import classNames from 'classnames/bind';
 
 import images from '@/assets/images';
-import Button from '../Button';
-import Footer from '../Footer';
+import Button from '@/components/Button/index';
+import FooterSidebar from '@/components/FooterSidebar/FooterSidebar';
 
 const cx = classNames.bind(styles);
 
@@ -93,10 +93,7 @@ function Sidebar() {
                 </div>
             </div>
             <div className={cx('footer')}>
-                <div className={cx('footer-nav')}></div>
-                <div className={cx('footer-copyright')}>
-                    <Footer />
-                </div>
+                <FooterSidebar />
             </div>
         </div>
     );
