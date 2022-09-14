@@ -4,17 +4,19 @@ import classNames from 'classnames/bind';
 import images from '@/assets/images';
 
 import * as icon from '@/assets/icons/icon';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Search from '@/components/Search';
 import ModalUpload from '@/components/Modal/ModalUpload/ModalUpload';
 import Tippy from '@tippyjs/react/headless';
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
 function Header({ pageInfo }) {
     const [page, setPage] = useState(pageInfo);
     const [modalUpload, setModalUpload] = useState(false);
+    const [userInfo, setUserInfo] = useState({});
     const [showNoti, setShowNoti] = useState(false);
     const [showManage, setShowManage] = useState(false);
 
@@ -36,6 +38,18 @@ function Header({ pageInfo }) {
     const handleNoti = (e) => {
         setPage('noti');
     };
+
+    useEffect(() => {
+        axios
+            .get(
+                'https://graph.instagram.com/17841453477478383?fields=id,username&access_token=IGQVJYZAXQ2ZAWxJb3NFVHA1bmdCWWtERVpRRjhEazlCVzkzUS1tendsUDVmV0o4YlVYc085MXQyS2ZAncmt0T1RtMnB0M1R1aktsaGRIeWdHR193RVEzX0MwWDVLNUFvbDVnb0VTNlFZAYXdMMWg1UVU0NwZDZD',
+            )
+            .then((res) => {
+                setUserInfo(res.data);
+            })
+            .catch((err) => console.log(err));
+    }, []);
+
     const handleManage = (e) => {
         setPage('user');
     };
@@ -175,13 +189,13 @@ function Header({ pageInfo }) {
                                         <div className={cx('arrow')}></div>
                                         <div className={cx('user-wrapper')}>
                                             <div className={cx('user-item', 'mt4')}>
-                                                <Link to="/flotino">
+                                                <Link to={`/${userInfo.username}`}>
                                                     <div className={cx('user-page__icon')}>{icon.userManage}</div>
                                                     <div className={cx('user-page__title')}>Trang cá nhân</div>
                                                 </Link>
                                             </div>
                                             <div className={cx('user-item')}>
-                                                <Link to="/user/saved">
+                                                <Link to={`/${userInfo.username}/saved`}>
                                                     <div className={cx('user-page__icon')}>{icon.savedManage}</div>
                                                     <div className={cx('user-page__title')}>Đã lưu</div>
                                                 </Link>

@@ -1,0 +1,187 @@
+.wrapper {
+    width: 100%;
+}
+.user-info {
+    height: 66px;
+    margin-bottom: 10px;
+    margin-top: 16px;
+    margin-right: 4px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.user-avatar {
+    margin-right: 12px;
+    justify-self: flex-start;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    a {
+        display: block;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        overflow: hidden;
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
+.user-name {
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: stretch;
+    margin-left: 12px;
+    .username {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: var(--primary-text);
+        font-weight: var(--font-regular);
+        font-size: 1.4rem;
+        line-height: 1.4rem;
+        margin: -3px 0 -4px;
+    }
+    .fullname {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: var(--secondary-text);
+        font-weight: var(--font-regular);
+        font-size: 1.4rem;
+        line-height: 1.4rem;
+        margin: -3px 0 -4px;
+        margin-top: 8px;
+    }
+}
+.user-change-account {
+    span {
+        font-weight: 700;
+    }
+}
+.suggest {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+    width: 100%;
+}
+.suggest-header {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+}
+.suggest-header__title {
+    flex: 1 1 auto;
+    color: var(--secondary-text);
+    font-weight: 700;
+    font-size: 1.4rem;
+    line-height: 1.4rem;
+    margin: -3px 0 -4px;
+}
+.suggest-header__show-all {
+    a {
+        color: var(--primary-text) !important;
+        display: block;
+        font-weight: 700;
+        font-size: 1.2rem;
+        line-height: 1.2rem;
+        margin: -2px 0 -3px;
+        margin-right: 16px;
+    }
+}
+.suggest-list {
+    margin-bottom: 4px;
+    padding: 8px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    height: auto;
+    overflow: hidden;
+}
+
+.suggest-item {
+    padding: 8px 0;
+    margin-right: 4px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.suggester-avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    a {
+        display: block;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 12px;
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
+.suggester-name {
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: stretch;
+    .suggester-username {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: var(--primary-text);
+        font-weight: 700;
+        font-size: 1.4rem;
+        line-height: 1.4rem;
+        margin: -3px 0 -4px;
+        span {
+            background-image: url('../../assets/images/icon-image-2.png');
+            display: inline-block;
+            background-repeat: no-repeat;
+            background-position: -323px -382px;
+            height: 12px;
+            width: 12px;
+            margin-left: 4px;
+        }
+    }
+    .suggester-follower {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: var(--secondary-text);
+        font-weight: var(--font-regular);
+        font-size: 1.2rem;
+        line-height: 1.2rem;
+        margin: -2px 0 -3px;
+        margin-top: 8px;
+    }
+}
+.suggester-btn {
+    margin-left: 8px;
+    span {
+        font-weight: 700;
+    }
+}
+.footer {
+}
+.footer-nav {
+}
+.footer-copyright {
+}
