@@ -9,6 +9,7 @@ const images = {
     loginSlide4: require('@/assets/images/login-slide-4.png'),
     avatar1: require('@/assets/images/avatar-1.jpg'),
     avatarDefault: require('@/assets/images/avatar-default.jpg'),
+    postImage: require('@/assets/images/post-image.jpg'),
 };
 
 export default images;

@@ -196,7 +196,7 @@ function Header({ pageInfo }) {
                                             </div>
                                             <div className={cx('user-item')}>
                                                 <Link to={`/${userInfo.username}/saved`}>
-                                                    <div className={cx('user-page__icon')}>{icon.savedManage}</div>
+                                                    <div className={cx('user-page__icon')}>{icon.saveIcon}</div>
                                                     <div className={cx('user-page__title')}>Đã lưu</div>
                                                 </Link>
                                             </div>

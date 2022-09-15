@@ -1,7 +1,7 @@
 import styles from './Home.module.scss';
 import classNames from 'classnames/bind';
 import Header from '@/components/Header';
-import Timeline from '@/components/Timeline/Timeline';
+import Post from '@/components/Post/Post';
 import Sidebar from '@/components/Sidebar/Sidebar';
 
 const cx = classNames.bind(styles);
@@ -13,7 +13,7 @@ function Home() {
             <div className={cx('wrapper')}>
                 <div className={cx('main')}>
                     <div className={cx('timeline')}>
-                        <Timeline />
+                        <Post />
                     </div>
                     <div className={cx('sidebar')}>
                         <Sidebar />

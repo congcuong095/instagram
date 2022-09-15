@@ -1,0 +1,140 @@
+.text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--primary-text);
+    font-weight: 400;
+    font-size: 1.4rem;
+    line-height: 1.8rem;
+    margin: -3px 0 -4px;
+}
+.user-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--primary-text) !important;
+    font-weight: 700;
+    font-size: 1.4rem;
+    line-height: 1.8rem;
+    margin: -3px 0 -4px;
+}
+
+.wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: var(--primary-background);
+    border-radius: 8px;
+    margin-bottom: 12px;
+    border: 1px solid rgb(219, 219, 219);
+    margin-left: -1px;
+    margin-right: -1px;
+}
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    background-color: var(--primary-background);
+    border-bottom: 1px solid rgb(239, 239, 239);
+}
+.header-user {
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 8px 4px 8px 12px;
+    .user-name {
+        font-weight: 600;
+    }
+}
+.header-user__avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    a {
+        display: block;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 12px;
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
+.header-option {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 4px;
+    padding: 8px;
+    cursor: pointer;
+}
+.content {
+}
+.content-image {
+}
+.content-image__main {
+}
+.content-image__list {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+}
+.content-image__item {
+    object-fit: cover;
+    img {
+        width: 470px;
+    }
+}
+
+.content-btn {
+}
+.content-pagi {
+}
+.content-pagi__step {
+}
+.content-pagi__step {
+}
+.interactive {
+}
+.interactive-action {
+}
+.interactive-action__like {
+}
+.interactive-action__comment {
+}
+.interactive-action__share {
+}
+.interactive-action__save {
+}
+.interactive-count-like {
+}
+.interactive-main {
+}
+.interactive-main__more {
+}
+.interactive-main__list-comment {
+}
+.interactive-main__list-item {
+}
+
+.interactive-time {
+}
+.interactive-comment {
+}
+.interactive-comment__form {
+}
+.interactive-comment__emotion {
+}
+.interactive-comment__input {
+}
+.interactive-comment__post {
+}
