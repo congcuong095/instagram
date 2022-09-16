@@ -25,7 +25,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+
+    overflow-x: auto;
+    overflow-y: hidden;
     background-color: var(--primary-background);
     border-radius: 8px;
     margin-bottom: 12px;
@@ -78,15 +80,27 @@
     cursor: pointer;
 }
 .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: relative;
 }
 .content-image {
+    width: 100%;
+    overflow: hidden;
 }
 .content-image__main {
+    width: 100%;
+    overflow: hidden;
 }
 .content-image__list {
+    width: 100%;
     display: flex;
     flex-direction: row;
     overflow: hidden;
+    list-style-type: none;
 }
 .content-image__item {
     object-fit: cover;
@@ -95,14 +109,68 @@
     }
 }
 
-.content-btn {
+.content-btn-right {
+    background: transparent;
+    border: none;
+    justify-self: center;
+    outline: none;
+    padding: 16px 8px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+
+    .content-btn-img {
+        background-image: url('../../assets/images/icon-image.png');
+        background-repeat: no-repeat;
+        background-position: -162px -98px;
+        height: 30px;
+        width: 30px;
+    }
 }
+
+.content-btn-left {
+    background: transparent;
+    border: none;
+    justify-self: center;
+    outline: none;
+    padding: 16px 8px;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    .content-btn-img {
+        background-image: url('../../assets/images/icon-image.png');
+        background-repeat: no-repeat;
+        background-position: -130px -98px;
+        height: 30px;
+        width: 30px;
+    }
+}
+
 .content-pagi {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    width: 100%;
 }
 .content-pagi__step {
+    background: rgb(166, 166, 166);
+    border-radius: 50%;
+    height: 6px;
+    transition: all 0.2s ease-in-out;
+    width: 6px;
 }
-.content-pagi__step {
+
+.content-pagi__step + .content-pagi__step {
+    margin-left: 4px;
 }
+
 .interactive {
 }
 .interactive-action {

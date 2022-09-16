@@ -38,8 +38,13 @@ function Post() {
                             </li>
                         </ul>
                     </div>
-                    <div className={cx('content-btn')}></div>
-                    <div className={cx('content-btn')}></div>
+                    <div className={cx('content-btn-right')}>
+                        <div className={cx('content-btn-img')}></div>
+                    </div>
+
+                    <div className={cx('content-btn-left')}>
+                        <div className={cx('content-btn-img')}></div>
+                    </div>
                 </div>
                 <div className={cx('content-pagi')}>
                     <div className={cx('content-pagi__step')}></div>

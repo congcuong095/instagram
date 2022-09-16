@@ -39,6 +39,12 @@ a[href] {
     color: var(--facebook-color);
 }
 
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
 #root,
 .App {
     height: 100%;
