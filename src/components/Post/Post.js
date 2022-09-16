@@ -26,17 +26,17 @@ function Post() {
             <div className={cx('content')}>
                 <div className={cx('content-image')}>
                     <div className={cx('content-image__main')}>
-                        <ul className={cx('content-image__list')}>
-                            <li className={cx('content-image__item')}>
+                        <div className={cx('content-image__list')}>
+                            <div className={cx('content-image__item')}>
                                 <img src={images.postImage} />
-                            </li>
-                            <li className={cx('content-image__item')}>
+                            </div>
+                            <div className={cx('content-image__item')}>
                                 <img src={images.postImage} />
-                            </li>
-                            <li className={cx('content-image__item')}>
+                            </div>
+                            <div className={cx('content-image__item')}>
                                 <img src={images.postImage} />
-                            </li>
-                        </ul>
+                            </div>
+                        </div>
                     </div>
                     <div className={cx('content-btn-right')}>
                         <div className={cx('content-btn-img')}></div>
