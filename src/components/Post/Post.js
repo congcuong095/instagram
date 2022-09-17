@@ -47,7 +47,7 @@ function Post() {
                     </div>
                 </div>
                 <div className={cx('content-pagi')}>
-                    <div className={cx('content-pagi__step')}></div>
+                    <div className={cx('content-pagi__step', 'active')}></div>
                     <div className={cx('content-pagi__step')}></div>
                     <div className={cx('content-pagi__step')}></div>
                 </div>
@@ -70,11 +70,11 @@ function Post() {
                     {' đã thích '}
                 </div>
                 <div className={cx('interactive-main')}>
-                    <div>
+                    <div className={cx('interactive-main__user-caption')}>
                         <a href="/" className={cx('user-name')}>
                             nganha.203
                         </a>
-                        {'Em la so mot 🤗'}
+                        <div className={cx('normal-text')}>{'Em la so mot 🤗'}</div>
                     </div>
                     <div className={cx('interactive-main__more')}>Xem tất cả 33 bình luận</div>
                     <ul className={cx('interactive-main__list-comment')}>
@@ -82,22 +82,28 @@ function Post() {
                             <a href="/" className={cx('user-name')}>
                                 khnh.an
                             </a>
-                            <div className={cx('text')}>Gì mà cute dậy bà dà</div>
-                            <div>{icon.likeIcon}</div>
+                            <div className={cx('normal-text')}>{`Gì mà cute dậy bà dà`}</div>
+                            <div className={cx('interactive-main__icon')}>{icon.likeIcon}</div>
                         </li>
                         <li className={cx('interactive-main__list-item')}>
                             <a href="/" className={cx('user-name')}>
                                 nganha.203
                             </a>
-                            <div className={cx('text')}>
-                                <span>@khhn.an</span>Ăn<span>@khhn.an</span>
+                            <div className={cx('normal-text')}>
+                                <a href="/" className={cx('tag-name')}>
+                                    @khhn.an
+                                </a>{' '}
+                                {' Ăn '}
+                                <a href="/" className={cx('tag-name')}>
+                                    @khhn.an
+                                </a>
                             </div>
                         </li>
                         <li className={cx('interactive-main__list-item')}>
                             <a href="/" className={cx('user-name')}>
                                 flotino166
                             </a>
-                            <div className={cx('text')}>ok</div>
+                            <div className={cx('normal-text')}>{`ok`}</div>
                         </li>
                     </ul>
                 </div>
@@ -105,9 +111,16 @@ function Post() {
                 <div className={cx('interactive-comment')}>
                     <form className={cx('interactive-comment__form')}>
                         <div className={cx('interactive-comment__emotion')}>{icon.emotionIcon}</div>
-                        <textarea placeholder="Thêm bình luận" className={cx('interactive-comment__input')}></textarea>
+                        <textarea
+                            autoComplete="off"
+                            autoCorrect="off"
+                            placeholder="Thêm bình luận"
+                            className={cx('interactive-comment__input')}
+                        ></textarea>
                         <div className={cx('interactive-comment__post')}>
-                            <Button text small font14 />
+                            <Button text small font14 disabled>
+                                Đăng
+                            </Button>
                         </div>
                     </form>
                 </div>

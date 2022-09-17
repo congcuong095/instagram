@@ -1,4 +1,4 @@
-.text {
+.normal-text {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -7,6 +7,9 @@
     font-size: 1.4rem;
     line-height: 1.8rem;
     margin: -3px 0 -4px;
+}
+.tag-name {
+    color: rgb(0, 55, 107) !important;
 }
 .user-name {
     overflow: hidden;
@@ -17,6 +20,7 @@
     font-size: 1.4rem;
     line-height: 1.8rem;
     margin: -3px 0 -4px;
+    margin-right: 4px;
 }
 
 .wrapper {
@@ -164,8 +168,13 @@
     background: rgb(166, 166, 166);
     border-radius: 50%;
     height: 6px;
-    transition: all 0.2s ease-in-out;
     width: 6px;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.content-pagi__step.active {
+    background: var(--facebook-color);
 }
 
 .content-pagi__step + .content-pagi__step {
@@ -173,37 +182,166 @@
 }
 
 .interactive {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 335px;
+    position: relative;
 }
 .interactive-action {
-}
-.interactive-action__like {
-}
-.interactive-action__comment {
-}
-.interactive-action__share {
-}
-.interactive-action__save {
+    display: flex;
+    padding: 0 12px 6px;
+    margin-top: -30px;
+    .interactive-action__like {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-left: -8px;
+        padding: 8px;
+        background: transparent;
+        cursor: pointer;
+    }
+    .interactive-action__comment,
+    .interactive-action__share {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: transparent;
+        cursor: pointer;
+        padding: 8px;
+    }
+    .interactive-action__save {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: -10px;
+        margin-left: auto;
+        background: transparent;
+        cursor: pointer;
+        padding: 8px;
+        svg {
+            height: 24px;
+            width: 24px;
+        }
+    }
 }
 .interactive-count-like {
+    margin-bottom: 8px;
+    padding: 0 12px;
+    width: 100%;
+    font-weight: var(--font-regular);
+    font-size: 1.4rem;
+    line-height: 1.8rem;
 }
 .interactive-main {
+    display: flex;
+    flex-direction: column;
+    padding: 0 12px;
 }
+
+.interactive-main__user-caption {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    margin-bottom: 8px;
+    .user-name {
+        margin-right: 4px;
+    }
+}
+
 .interactive-main__more {
+    margin-bottom: 8px;
+    color: var(--secondary-text);
+    font-weight: 400;
+    font-size: 1.4rem;
+    line-height: 1.8rem;
+    cursor: pointer;
 }
 .interactive-main__list-comment {
-}
-.interactive-main__list-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    margin-bottom: 4px;
+    .interactive-main__list-item {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 4px;
+        height: 1.8rem;
+        .interactive-main__icon {
+            justify-self: flex-end;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            svg {
+                width: 12px;
+                height: 12px;
+            }
+        }
+        .normal-text {
+            flex: 1 1 auto;
+        }
+    }
 }
 
 .interactive-time {
+    padding: 0 12px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 12px;
+    color: var(--secondary-text);
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.2rem;
+    cursor: pointer;
 }
 .interactive-comment {
-}
-.interactive-comment__form {
-}
-.interactive-comment__emotion {
-}
-.interactive-comment__input {
-}
-.interactive-comment__post {
+    padding: 4px 16px;
+    display: flex;
+    border-top: 1px solid rgb(239, 239, 239);
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    .interactive-comment__form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        .interactive-comment__emotion {
+            padding: 8px 12px 8px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .interactive-comment__input {
+            background: none;
+            border: none;
+            color: var(--primary-text);
+            display: flex;
+            flex-grow: 1;
+            font-size: 1.4rem;
+            line-height: 1, 8rem;
+            height: 1.8rem;
+            max-height: 80px;
+            max-width: 100%;
+            outline: none;
+            padding: 0;
+            resize: none;
+            max-width: 100%;
+            font-family: inherit;
+            appearance: none;
+            overflow: hidden;
+        }
+        .interactive-comment__post {
+            button {
+                padding: 0 !important;
+                min-width: 0 !important;
+                line-height: 1.8rem !important;
+                border: none !important;
+            }
+        }
+    }
 }

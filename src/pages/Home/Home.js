@@ -14,6 +14,9 @@ function Home() {
                 <div className={cx('main')}>
                     <div className={cx('timeline')}>
                         <Post />
+                        <Post />
+                        <Post />
+                        <Post />
                     </div>
                     <div className={cx('sidebar')}>
                         <Sidebar />
