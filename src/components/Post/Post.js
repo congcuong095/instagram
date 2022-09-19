@@ -74,7 +74,7 @@ function Post() {
                         <a href="/" className={cx('user-name')}>
                             nganha.203
                         </a>
-                        <div className={cx('normal-text')}>{'Em la so mot 🤗'}</div>
+                        <div className={cx('normal-text')}>{'Em la so mot 🤗 '}</div>
                     </div>
                     <div className={cx('interactive-main__more')}>Xem tất cả 33 bình luận</div>
                     <ul className={cx('interactive-main__list-comment')}>
