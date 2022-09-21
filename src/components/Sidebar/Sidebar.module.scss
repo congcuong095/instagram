@@ -58,6 +58,15 @@
         line-height: 1.8rem;
         margin: 5px 0 -4px;
     }
+    .account-verified {
+        display: inline-block;
+        background-repeat: no-repeat;
+        background-position: -323px -382px;
+        height: 12px;
+        width: 12px;
+        margin-left: 4px;
+        background-image: url('../../assets/images/icon-image-2.png');
+    }
 }
 .user-change-account {
     span {

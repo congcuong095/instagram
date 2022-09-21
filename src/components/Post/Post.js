@@ -1,5 +1,8 @@
 import styles from './Post.module.scss';
 import classNames from 'classnames/bind';
+import { db } from '@/firebaseConfig';
+import { collection, getDocs } from 'firebase/firestore';
+import { useState, useEffect } from 'react';
 
 import images from '@/assets/images';
 import * as icon from '@/assets/icons/icon';
@@ -8,6 +11,21 @@ import Button from '../Button';
 const cx = classNames.bind(styles);
 
 function Post() {
+    const [posts, setPosts] = useState([]);
+    const getData = async () => {
+        const postsCol = collection(db, 'posts');
+        const snapshot = await getDocs(postsCol);
+        setPosts(
+            snapshot.docs.map((doc) => ({
+                id: doc.id,
+                post: doc.data(),
+            })),
+        );
+    };
+
+    useEffect(() => {
+        getData();
+    }, []);
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}>

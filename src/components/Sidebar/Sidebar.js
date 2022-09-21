@@ -1,5 +1,8 @@
 import styles from './Sidebar.module.scss';
 import classNames from 'classnames/bind';
+import { db } from '@/firebaseConfig';
+import { collection, getDocs } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
 
 import images from '@/assets/images';
 import Button from '@/components/Button/index';
@@ -8,19 +11,30 @@ import FooterSidebar from '@/components/FooterSidebar/FooterSidebar';
 const cx = classNames.bind(styles);
 
 function Sidebar() {
+    const [userInfo, setUserInfo] = useState({});
+
+    const getData = async () => {
+        const user = collection(db, 'user');
+        const snapshot = await getDocs(user);
+        setUserInfo(snapshot.docs[0].data());
+    };
+    useEffect(() => {
+        getData();
+    }, []);
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('user-info')}>
                 <div className={cx('user-avatar')}>
                     <a href="/">
-                        <img src={images.avatar1} />
+                        <img src={userInfo.profile_pic_url} />
                     </a>
                 </div>
                 <div className={cx('user-name')}>
                     <a href="/" className={cx('username')}>
-                        flotino <span></span>
+                        {userInfo.username} {userInfo.is_verified && <span className={cx('account-verified')}></span>}
                     </a>
-                    <div className={cx('fullname')}>flotino66</div>
+                    <div className={cx('fullname')}>{userInfo.full_name}</div>
                 </div>
                 <div className={cx('user-change-account')}>
                     <Button text small font12>

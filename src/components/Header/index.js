@@ -1,5 +1,7 @@
 import styles from './Header.module.scss';
 import classNames from 'classnames/bind';
+import { db } from '@/firebaseConfig';
+import { collection, getDocs } from 'firebase/firestore';
 
 import images from '@/assets/images';
 
@@ -9,7 +11,6 @@ import { Link } from 'react-router-dom';
 import Search from '@/components/Search';
 import ModalUpload from '@/components/Modal/ModalUpload/ModalUpload';
 import Tippy from '@tippyjs/react/headless';
-import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
@@ -39,15 +40,14 @@ function Header({ pageInfo }) {
         setPage('noti');
     };
 
+    //Get user info
+    const getData = async () => {
+        const user = collection(db, 'user');
+        const snapshot = await getDocs(user);
+        setUserInfo(snapshot.docs[0].data());
+    };
     useEffect(() => {
-        axios
-            .get(
-                'https://graph.instagram.com/17841453477478383?fields=id,username&access_token=IGQVJYZAXQ2ZAWxJb3NFVHA1bmdCWWtERVpRRjhEazlCVzkzUS1tendsUDVmV0o4YlVYc085MXQyS2ZAncmt0T1RtMnB0M1R1aktsaGRIeWdHR193RVEzX0MwWDVLNUFvbDVnb0VTNlFZAYXdMMWg1UVU0NwZDZD',
-            )
-            .then((res) => {
-                setUserInfo(res.data);
-            })
-            .catch((err) => console.log(err));
+        getData();
     }, []);
 
     const handleManage = (e) => {
