@@ -12,6 +12,8 @@ const cx = classNames.bind(styles);
 function LoginForm({ isLogin }) {
     const [activeButton, setActiveButton] = useState(false);
 
+    const [typePass, setTypePass] = useState('password');
+
     const hanldeInput = (e) => {
         const inputArr = Array.from(document.querySelectorAll('input[class*="login-input-"]'));
 
@@ -37,8 +39,6 @@ function LoginForm({ isLogin }) {
             });
         }
     };
-
-    const [typePass, setTypePass] = useState('password');
 
     const handleShowPass = (e) => {
         if (typePass == 'text') {

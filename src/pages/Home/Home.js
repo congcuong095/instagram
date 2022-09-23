@@ -9,7 +9,6 @@ const cx = classNames.bind(styles);
 function Home() {
     return (
         <>
-            <Header pageInfo="home" />
             <div className={cx('wrapper')}>
                 <div className={cx('main')}>
                     <div className={cx('timeline')}>
@@ -21,6 +20,10 @@ function Home() {
                     <div className={cx('sidebar')}>
                         <Sidebar />
                     </div>
+                </div>
+
+                <div className={cx('header')}>
+                    <Header pageInfo="home" />
                 </div>
             </div>
         </>

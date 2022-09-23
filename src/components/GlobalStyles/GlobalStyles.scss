@@ -26,6 +26,7 @@ body {
     font-size: 1.4rem;
     line-height: 1.8;
     text-rendering: optimizeSpeed;
+    overflow-y: scroll;
 }
 
 button,
@@ -54,7 +55,6 @@ ul {
 .img-in {
     opacity: 1;
     transition: opacity 1.5s ease-in;
-    // z-index: 2;
     visibility: visible;
 }
 

@@ -2,18 +2,7 @@ import images from '@/assets/images';
 
 //Fake recent account login
 
-export const APIaccounts = [
-    {
-        id: 0,
-        name: 'account1',
-        img: images.avatar1,
-    },
-    {
-        id: 1,
-        name: 'account2',
-        img: images.avatar1,
-    },
-];
+export const APIaccounts = [];
 
 let State = '';
 
