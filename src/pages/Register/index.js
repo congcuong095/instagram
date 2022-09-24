@@ -6,10 +6,10 @@ import Form from '@/components/Form';
 
 const cx = classNames.bind(styles);
 
-function Register() {
+function Register({ propLogin }) {
     return (
         <div className={cx('wrapper')}>
-            <Form propState="register" />
+            <Form propState="register" isLogin={propLogin} />
             <Footer />
         </div>
     );

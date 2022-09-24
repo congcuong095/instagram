@@ -1,19 +1,27 @@
 import styles from '../Form.module.scss';
 import classNames from 'classnames/bind';
 import { useState } from 'react';
-
-import images from '@/assets/images';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
+import { auth } from '@/firebaseConfig';
+
+import images from '@/assets/images';
 import Button from '../../Button';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
-function RegisterForm() {
+function RegisterForm({ isLogin }) {
     const [activeButton, setActiveButton] = useState(false);
+    const [typePass, setTypePass] = useState('password');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('');
+    const [fullname, setFullname] = useState('');
+    const navigate = useNavigate(true);
 
-    const hanldeInput = (e) => {
+    //Handle Note
+    const hanldeNoteInput = (e) => {
         const inputArr = Array.from(document.querySelectorAll('input[class*="login-input-"]'));
 
         let inputFill = inputArr.every((input) => {
@@ -39,7 +47,6 @@ function RegisterForm() {
         }
     };
 
-    const [typePass, setTypePass] = useState('password');
     // handle show pass
     const handleShowPass = (e) => {
         if (typePass == 'text') {
@@ -49,6 +56,14 @@ function RegisterForm() {
             setTypePass('text');
             e.target.innerHTML = 'Ẩn';
         }
+    };
+
+    //handle SignUp
+    const handleSignUp = (event) => {
+        event.preventDefault();
+        auth.createUserWithEmailAndPassword(email, password);
+        isLogin();
+        navigate('/');
     };
 
     return (
@@ -76,8 +91,12 @@ function RegisterForm() {
                             <input
                                 className={cx('login-input-name')}
                                 type="text"
+                                value={email}
                                 placeholder="Số điện thoại, tên người dùng hoặc email"
-                                onChange={(e) => hanldeInput(e)}
+                                onChange={(e) => {
+                                    hanldeNoteInput(e);
+                                    setEmail(e.target.value);
+                                }}
                             />
                             <span className={cx('login-input-note')}>Số điện thoại, tên người dùng hoặc email</span>
                         </div>
@@ -85,8 +104,12 @@ function RegisterForm() {
                             <input
                                 className={cx('login-input-fullname')}
                                 type="text"
+                                value={fullname}
                                 placeholder="Tên đầy đủ"
-                                onChange={(e) => hanldeInput(e)}
+                                onChange={(e) => {
+                                    hanldeNoteInput(e);
+                                    setFullname(e.target.value);
+                                }}
                             />
                             <span className={cx('login-input-note')}>Tên đầy đủ</span>
                         </div>
@@ -94,8 +117,12 @@ function RegisterForm() {
                             <input
                                 className={cx('login-input-accountname')}
                                 type="text"
+                                value={username}
                                 placeholder="Tên người dùng"
-                                onChange={(e) => hanldeInput(e)}
+                                onChange={(e) => {
+                                    hanldeNoteInput(e);
+                                    setUsername(e.target.value);
+                                }}
                             />
                             <span className={cx('login-input-note')}>Tên người dùng</span>
                         </div>
@@ -103,8 +130,12 @@ function RegisterForm() {
                             <input
                                 className={cx('login-input-password')}
                                 type={typePass}
+                                value={password}
                                 placeholder="Mật khẩu"
-                                onChange={(e) => hanldeInput(e)}
+                                onChange={(e) => {
+                                    hanldeNoteInput(e);
+                                    setPassword(e.target.value);
+                                }}
                             />
                             <span className={cx('login-input-note')}>Mật khẩu</span>
                             <Button text className={cx('login-input-show')} onClick={(e) => handleShowPass(e)}>
@@ -121,7 +152,13 @@ function RegisterForm() {
                         và <a href="/">Chính sách cookie</a> của chúng tôi.
                     </p>
 
-                    <Button primary disabled={!activeButton} className={cx('login-btn')}>
+                    <Button
+                        primary
+                        disabled={!activeButton}
+                        navigate
+                        className={cx('login-btn')}
+                        onClick={handleSignUp}
+                    >
                         Đăng ký
                     </Button>
 
