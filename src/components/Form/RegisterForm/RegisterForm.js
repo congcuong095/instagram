@@ -4,10 +4,10 @@ import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
 import { auth } from '@/firebaseConfig';
+import { useNavigate } from 'react-router-dom';
 
 import images from '@/assets/images';
-import Button from '../../Button';
-import { useNavigate } from 'react-router-dom';
+import Button from '@/components/Button';
 
 const cx = classNames.bind(styles);
 
@@ -18,7 +18,7 @@ function RegisterForm({ isLogin }) {
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
     const [fullname, setFullname] = useState('');
-    const navigate = useNavigate(true);
+    const navigate = useNavigate();
 
     //Handle Note
     const hanldeNoteInput = (e) => {
@@ -152,13 +152,7 @@ function RegisterForm({ isLogin }) {
                         và <a href="/">Chính sách cookie</a> của chúng tôi.
                     </p>
 
-                    <Button
-                        primary
-                        disabled={!activeButton}
-                        navigate
-                        className={cx('login-btn')}
-                        onClick={handleSignUp}
-                    >
+                    <Button primary disabled={!activeButton} className={cx('login-btn')} onClick={handleSignUp}>
                         Đăng ký
                     </Button>
 
