@@ -2,18 +2,23 @@ import styles from '../Form.module.scss';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
+import { auth } from '@/firebaseConfig';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 import images from '@/assets/images';
-import { useState } from 'react';
 import Button from '@/components/Button';
 
 const cx = classNames.bind(styles);
 
 function LoginForm({ isLogin }) {
     const [activeButton, setActiveButton] = useState(false);
-
     const [typePass, setTypePass] = useState('password');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
+    //Handle show Note
     const hanldeInput = (e) => {
         const inputArr = Array.from(document.querySelectorAll('input[class*="login-input-"]'));
 
@@ -40,6 +45,7 @@ function LoginForm({ isLogin }) {
         }
     };
 
+    //handle show pass
     const handleShowPass = (e) => {
         if (typePass == 'text') {
             setTypePass('password');
@@ -48,6 +54,19 @@ function LoginForm({ isLogin }) {
             setTypePass('text');
             e.target.innerHTML = 'Ẩn';
         }
+    };
+
+    //Handle SignIn
+    const handleSignIn = (event) => {
+        event.preventDefault();
+        auth.signInWithEmailAndPassword(email, password)
+            .then(() => {
+                isLogin();
+            })
+            .then(() => {
+                navigate('/');
+            })
+            .catch((error) => alert(error.message));
     };
 
     return (
@@ -63,18 +82,26 @@ function LoginForm({ isLogin }) {
                         <div className={cx('login-input-wrapper')}>
                             <input
                                 className={cx('login-input-name')}
+                                value={email}
                                 type="text"
                                 placeholder="Số điện thoại, tên người dùng hoặc email"
-                                onChange={(e) => hanldeInput(e)}
+                                onChange={(e) => {
+                                    hanldeInput(e);
+                                    setEmail(e.target.value);
+                                }}
                             />
                             <span className={cx('login-input-note')}>Số điện thoại, tên người dùng hoặc email</span>
                         </div>
                         <div className={cx('login-input-wrapper')}>
                             <input
-                                onChange={(e) => hanldeInput(e)}
                                 className={cx('login-input-password')}
+                                value={password}
                                 type={typePass}
                                 placeholder="Mật khẩu"
+                                onChange={(e) => {
+                                    hanldeInput(e);
+                                    setPassword(e.target.value);
+                                }}
                             />
                             <span className={cx('login-input-note')}>Mật khẩu</span>
                             <Button text className={cx('login-input-show')} onClick={(e) => handleShowPass(e)}>
@@ -82,7 +109,7 @@ function LoginForm({ isLogin }) {
                             </Button>
                         </div>
 
-                        <Button primary disabled={!activeButton} className={cx('login-btn')} onClick={isLogin}>
+                        <Button primary disabled={!activeButton} className={cx('login-btn')} onClick={handleSignIn}>
                             Đăng nhập
                         </Button>
                     </div>

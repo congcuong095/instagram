@@ -61,9 +61,14 @@ function RegisterForm({ isLogin }) {
     //handle SignUp
     const handleSignUp = (event) => {
         event.preventDefault();
-        auth.createUserWithEmailAndPassword(email, password);
-        isLogin();
-        navigate('/');
+        auth.createUserWithEmailAndPassword(email, password)
+            .then(() => {
+                isLogin();
+            })
+            .then(() => {
+                navigate('/');
+            })
+            .catch((error) => alert(error.message));
     };
 
     return (
