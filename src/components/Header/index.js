@@ -1,26 +1,26 @@
 import styles from './Header.module.scss';
 import classNames from 'classnames/bind';
-import { db } from '@/firebaseConfig';
+import { auth, db } from '@/firebaseConfig';
 import { collection, getDocs } from 'firebase/firestore';
 
 import images from '@/assets/images';
 
 import * as icon from '@/assets/icons/icon';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Search from '@/components/Search';
 import ModalUpload from '@/components/Modal/ModalUpload/ModalUpload';
 import Tippy from '@tippyjs/react/headless';
 
 const cx = classNames.bind(styles);
 
-function Header({ pageInfo }) {
+function Header({ pageInfo, isLogin }) {
     const [page, setPage] = useState(pageInfo);
     const [modalUpload, setModalUpload] = useState(false);
     const [userInfo, setUserInfo] = useState({});
-    const [showNoti, setShowNoti] = useState(false);
-    const [showManage, setShowManage] = useState(false);
+    const navigate = useNavigate();
 
+    //Handle when click header button
     const handleHome = () => {
         setPage('home');
     };
@@ -39,6 +39,9 @@ function Header({ pageInfo }) {
     const handleNoti = (e) => {
         setPage('noti');
     };
+    const handleManage = (e) => {
+        setPage('user');
+    };
 
     //Get user info
     const getData = async () => {
@@ -50,8 +53,15 @@ function Header({ pageInfo }) {
         getData();
     }, []);
 
-    const handleManage = (e) => {
-        setPage('user');
+    //Handle log out
+    const handleLogOut = () => {
+        auth.signOut()
+            .then(() => {
+                isLogin(false);
+            })
+            .then(() => {
+                navigate('/');
+            });
     };
 
     return (
@@ -223,7 +233,7 @@ function Header({ pageInfo }) {
                                                     </div>
                                                     <div className={cx('user-page__title')}>Chuyển tài khoản</div>
                                                 </div>
-                                                <div className={cx('user-item', 'boder-top')}>
+                                                <div className={cx('user-item', 'boder-top')} onClick={handleLogOut}>
                                                     <div className={cx('user-page__title')}>Đăng xuất</div>
                                                 </div>
                                             </div>

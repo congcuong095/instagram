@@ -129,6 +129,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
     a {
         display: block;
         width: 32px;
@@ -160,6 +161,8 @@
         font-size: 1.4rem;
         line-height: 1.8rem;
         margin: -3px 0 -4px;
+        margin-right: auto;
+        cursor: pointer;
         span {
             background-image: url('../../assets/images/icon-image-2.png');
             display: inline-block;
@@ -184,7 +187,8 @@
     }
 }
 .suggester-btn {
-    margin-left: 8px;
+    justify-self: flex-end;
+    margin-left: auto;
     span {
         font-weight: 700;
     }

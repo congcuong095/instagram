@@ -63,7 +63,7 @@ function RegisterForm({ isLogin }) {
         event.preventDefault();
         auth.createUserWithEmailAndPassword(email, password)
             .then(() => {
-                isLogin();
+                isLogin(true);
             })
             .then(() => {
                 navigate('/');

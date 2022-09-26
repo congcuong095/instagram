@@ -3,10 +3,10 @@ import classNames from 'classnames/bind';
 import Header from '@/components/Header';
 
 const cx = classNames.bind(styles);
-function Profile() {
+function Profile({ propLogin }) {
     return (
         <>
-            <Header />
+            <Header isLogin={propLogin} />
             <div className={cx('wrapper')}>Profile page</div>
         </>
     );

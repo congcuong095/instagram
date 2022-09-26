@@ -4,10 +4,10 @@ import Header from '@/components/Header';
 
 const cx = classNames.bind(styles);
 
-function Explore() {
+function Explore({ propLogin }) {
     return (
         <>
-            <Header pageInfo="explore" />
+            <Header pageInfo="explore" isLogin={propLogin} />
             <div className={cx('wrapper')}>Explore page</div>
         </>
     );

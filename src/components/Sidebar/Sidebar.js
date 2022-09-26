@@ -12,11 +12,15 @@ const cx = classNames.bind(styles);
 
 function Sidebar() {
     const [userInfo, setUserInfo] = useState({});
+    const [suggestList, setSuggestList] = useState([]);
 
     const getData = async () => {
         const user = collection(db, 'user');
-        const snapshot = await getDocs(user);
-        setUserInfo(snapshot.docs[0].data());
+        const suggestList = collection(db, 'suggest-list');
+        const snapshotUser = await getDocs(user);
+        const snapshotSuggest = await getDocs(suggestList);
+        setUserInfo(snapshotUser.docs[0].data());
+        setSuggestList(snapshotSuggest.docs[0].data()['suggest-user']);
     };
     useEffect(() => {
         getData();
@@ -26,12 +30,12 @@ function Sidebar() {
         <div className={cx('wrapper')}>
             <div className={cx('user-info')}>
                 <div className={cx('user-avatar')}>
-                    <a href="/">
+                    <a href={userInfo.username}>
                         <img src={userInfo.profile_pic_url} />
                     </a>
                 </div>
                 <div className={cx('user-name')}>
-                    <a href="/" className={cx('username')}>
+                    <a href={userInfo.username} className={cx('username')}>
                         {userInfo.username} {userInfo.is_verified && <span className={cx('account-verified')}></span>}
                     </a>
                     <div className={cx('fullname')}>{userInfo.full_name}</div>
@@ -46,64 +50,34 @@ function Sidebar() {
                 <div className={cx('suggest-header')}>
                     <div className={cx('suggest-header__title')}>Gợi ý cho bạn</div>
                     <div className={cx('suggest-header__show-all')}>
-                        <a href="/explore">Xem tất cả</a>
+                        <a href="/explore/people">Xem tất cả</a>
                     </div>
                 </div>
                 <div className={cx('suggest-list')}>
-                    <div className={cx('suggest-item')}>
-                        <div className={cx('suggester-avatar')}>
-                            <a href="/">
-                                <img src={images.avatar1} />
-                            </a>
-                        </div>
-                        <div className={cx('suggester-name')}>
-                            <div className={cx('suggester-username')}>
-                                k.hyn.ee <span></span>
-                            </div>
-                            <div className={cx('suggester-follower')}>Có cristiano + 1 người nữa theo dõi</div>
-                        </div>
-                        <div className={cx('suggester-btn')}>
-                            <Button text small font12>
-                                Theo dõi
-                            </Button>
-                        </div>
-                    </div>
-                    <div className={cx('suggest-item')}>
-                        <div className={cx('suggester-avatar')}>
-                            <a href="/">
-                                <img src={images.avatar1} />
-                            </a>
-                        </div>
-                        <div className={cx('suggester-name')}>
-                            <div className={cx('suggester-username')}>
-                                k.hyn.ee <span></span>
-                            </div>
-                            <div className={cx('suggester-follower')}>Có cristiano + 1 người nữa theo dõi</div>
-                        </div>
-                        <div className={cx('suggester-btn')}>
-                            <Button text small font12>
-                                Theo dõi
-                            </Button>
-                        </div>
-                    </div>
-                    <div className={cx('suggest-item')}>
-                        <div className={cx('suggester-avatar')}>
-                            <a href="/">
-                                <img src={images.avatar1} />
-                            </a>
-                        </div>
-                        <div className={cx('suggester-name')}>
-                            <div className={cx('suggester-username')}>
-                                k.hyn.ee <span></span>
-                            </div>
-                            <div className={cx('suggester-follower')}>Có cristiano + 1 người nữa theo dõi</div>
-                        </div>
-                        <div className={cx('suggester-btn')}>
-                            <Button text small font12>
-                                Theo dõi
-                            </Button>
-                        </div>
-                    </div>
+                    {console.log(suggestList)}
+                    {suggestList.length > 0 &&
+                        suggestList.map((item, index) => {
+                            return (
+                                <div className={cx('suggest-item')} key={index}>
+                                    <div className={cx('suggester-avatar')}>
+                                        <a href={item.username}>
+                                            <img src={item.user_avatar} />
+                                        </a>
+                                    </div>
+                                    <div className={cx('suggester-name')}>
+                                        <div className={cx('suggester-username')}>
+                                            {item.username} {item.isVerified && <span></span>}
+                                        </div>
+                                        <div className={cx('suggester-follower')}>{item.follower}</div>
+                                    </div>
+                                    <div className={cx('suggester-btn')}>
+                                        <Button text small font12>
+                                            Theo dõi
+                                        </Button>
+                                    </div>
+                                </div>
+                            );
+                        })}
                 </div>
             </div>
             <div className={cx('footer')}>

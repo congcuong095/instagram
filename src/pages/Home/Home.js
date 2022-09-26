@@ -6,7 +6,7 @@ import Sidebar from '@/components/Sidebar/Sidebar';
 
 const cx = classNames.bind(styles);
 
-function Home() {
+function Home({ propLogin }) {
     return (
         <>
             <div className={cx('wrapper')}>
@@ -23,7 +23,7 @@ function Home() {
                 </div>
 
                 <div className={cx('header')}>
-                    <Header pageInfo="home" />
+                    <Header pageInfo="home" isLogin={propLogin} />
                 </div>
             </div>
         </>

@@ -1,13 +1,16 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { publicRoutes, privateRoutes } from '@/routes';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
-    const [login, setLogin] = useState(false);
+    const [login, setLogin] = useState(JSON.parse(window.localStorage.getItem('LOGIN_STATE')) || false);
 
-    const handleLogin = () => {
-        setLogin(true);
+    const handleLogin = (value) => {
+        setLogin(value);
     };
+    useEffect(() => {
+        window.localStorage.setItem('LOGIN_STATE', JSON.stringify(login));
+    }, [login]);
 
     if (login) {
         return (
@@ -16,7 +19,7 @@ function App() {
                     <Routes>
                         {privateRoutes.map((route, index) => {
                             const Page = route.component;
-                            return <Route key={index} path={route.path} element={<Page />} />;
+                            return <Route key={index} path={route.path} element={<Page propLogin={handleLogin} />} />;
                         })}
                     </Routes>
                 </div>

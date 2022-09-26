@@ -4,10 +4,10 @@ import Header from '@/components/Header';
 
 const cx = classNames.bind(styles);
 
-function Inbox() {
+function Inbox({ propLogin }) {
     return (
         <>
-            <Header pageInfo="inbox" />
+            <Header pageInfo="inbox" isLogin={propLogin} />
             <div className={cx('wrapper')}>Inbox page</div>
         </>
     );

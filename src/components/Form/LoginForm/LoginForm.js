@@ -61,7 +61,7 @@ function LoginForm({ isLogin }) {
         event.preventDefault();
         auth.signInWithEmailAndPassword(email, password)
             .then(() => {
-                isLogin();
+                isLogin(true);
             })
             .then(() => {
                 navigate('/');
