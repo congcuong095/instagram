@@ -54,7 +54,6 @@ function Sidebar() {
                     </div>
                 </div>
                 <div className={cx('suggest-list')}>
-                    {console.log(suggestList)}
                     {suggestList.length > 0 &&
                         suggestList.map((item, index) => {
                             return (

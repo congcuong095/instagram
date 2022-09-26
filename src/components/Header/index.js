@@ -47,7 +47,13 @@ function Header({ pageInfo, isLogin }) {
     const getData = async () => {
         const user = collection(db, 'user');
         const snapshot = await getDocs(user);
-        setUserInfo(snapshot.docs[0].data());
+        let uid = await JSON.parse(window.localStorage.getItem('USER_UID'));
+
+        snapshot.docs.forEach((item) => {
+            if (item.id === uid) {
+                setUserInfo(item.data());
+            }
+        });
     };
     useEffect(() => {
         getData();

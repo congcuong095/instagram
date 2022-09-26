@@ -62,8 +62,11 @@ function LoginForm({ isLogin }) {
         auth.signInWithEmailAndPassword(email, password)
             .then(() => {
                 isLogin(true);
-            })
-            .then(() => {
+                auth.onAuthStateChanged((user) => {
+                    if (user) {
+                        window.localStorage.setItem('USER_UID', JSON.stringify(user.uid));
+                    }
+                });
                 navigate('/');
             })
             .catch((error) => alert(error.message));
