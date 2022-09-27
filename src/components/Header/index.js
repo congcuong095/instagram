@@ -250,7 +250,10 @@ function Header({ pageInfo, isLogin }) {
                                         className={page === 'user' ? cx('direct-user-active') : cx('direct-user')}
                                         onClick={(e) => handleManage(e)}
                                     >
-                                        <img src={images.avatarDefault} className={cx('direct-avatar')} />
+                                        <img
+                                            src={userInfo.profile_pic_url || images.avatarDefault}
+                                            className={cx('direct-avatar')}
+                                        />
                                     </div>
                                 </Tippy>
                             </div>

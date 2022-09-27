@@ -19,7 +19,13 @@ function Sidebar() {
         const suggestList = collection(db, 'suggest-list');
         const snapshotUser = await getDocs(user);
         const snapshotSuggest = await getDocs(suggestList);
-        setUserInfo(snapshotUser.docs[0].data());
+        let uid = await JSON.parse(window.localStorage.getItem('USER_UID'));
+
+        snapshotUser.docs.forEach((item) => {
+            if (item.id === uid) {
+                setUserInfo(item.data());
+            }
+        });
         setSuggestList(snapshotSuggest.docs[0].data()['suggest-user']);
     };
     useEffect(() => {
@@ -31,7 +37,7 @@ function Sidebar() {
             <div className={cx('user-info')}>
                 <div className={cx('user-avatar')}>
                     <a href={userInfo.username}>
-                        <img src={userInfo.profile_pic_url} />
+                        <img src={userInfo.profile_pic_url || images.avatarDefault} />
                     </a>
                 </div>
                 <div className={cx('user-name')}>

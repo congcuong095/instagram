@@ -57,19 +57,24 @@ function LoginForm({ isLogin }) {
     };
 
     //Handle SignIn
-    const handleSignIn = (event) => {
+    const handleSignIn = async (event) => {
         event.preventDefault();
-        auth.signInWithEmailAndPassword(email, password)
+        let uid;
+        await auth
+            .signInWithEmailAndPassword(email, password)
             .then(() => {
-                isLogin(true);
                 auth.onAuthStateChanged((user) => {
                     if (user) {
-                        window.localStorage.setItem('USER_UID', JSON.stringify(user.uid));
+                        uid = user.uid;
                     }
                 });
-                navigate('/');
             })
             .catch((error) => alert(error.message));
+        if (uid) {
+            window.localStorage.setItem('USER_UID', JSON.stringify(uid));
+            isLogin(true);
+            navigate('/');
+        }
     };
 
     return (

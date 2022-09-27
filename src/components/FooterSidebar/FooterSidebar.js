@@ -9,42 +9,42 @@ function FooterSidebar() {
             <div className={cx('footer-menu')}>
                 <div className={cx('footer-item')}>
                     <a className={cx('footer-link')} href="/">
-                        Giới thiệu
+                        <span>Giới thiệu</span>
                     </a>
                 </div>
                 <div className={cx('footer-item')}>
                     <a className={cx('footer-link')} href="/">
-                        Trợ giúp
+                        <span>Trợ giúp</span>
                     </a>
                 </div>
                 <div className={cx('footer-item')}>
                     <a className={cx('footer-link')} href="/">
-                        Báo chí
+                        <span>Báo chí</span>
                     </a>
                 </div>
                 <div className={cx('footer-item')}>
                     <a className={cx('footer-link')} href="/">
-                        API
+                        <span>API</span>
                     </a>
                 </div>
                 <div className={cx('footer-item')}>
                     <a className={cx('footer-link')} href="/">
-                        Việc làm
+                        <span>Việc làm</span>
                     </a>
                 </div>
                 <div className={cx('footer-item')}>
                     <a className={cx('footer-link')} href="/">
-                        Quyền riêng tư
+                        <span>Quyền riêng tư</span>
                     </a>
                 </div>
                 <div className={cx('footer-item')}>
                     <a className={cx('footer-link')} href="/">
-                        Điều khoản
+                        <span>Điều khoản</span>
                     </a>
                 </div>
                 <div className={cx('footer-item')}>
                     <a className={cx('footer-link')} href="/">
-                        Vị trí
+                        <span>Vị trí</span>
                     </a>
                 </div>
                 <div className={cx('footer-item')}>

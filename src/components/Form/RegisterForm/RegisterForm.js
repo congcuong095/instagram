@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
-import { auth } from '@/firebaseConfig';
+import { auth, db } from '@/firebaseConfig';
 import { useNavigate } from 'react-router-dom';
 
 import images from '@/assets/images';
@@ -59,19 +59,29 @@ function RegisterForm({ isLogin }) {
     };
 
     //handle SignUp
-    const handleSignUp = (event) => {
+    const handleSignUp = async (event) => {
         event.preventDefault();
-        auth.createUserWithEmailAndPassword(email, password)
+        let uid;
+        await auth
+            .createUserWithEmailAndPassword(email, password)
             .then(() => {
-                isLogin(true);
                 auth.onAuthStateChanged((user) => {
                     if (user) {
-                        window.localStorage.setItem('USER_UID', JSON.stringify(user.uid));
+                        uid = user.uid;
                     }
                 });
-                navigate('/');
             })
             .catch((error) => alert(error.message));
+        await db.collection('user').doc(uid).set({
+            username: username,
+            full_name: fullname,
+            email: email,
+        });
+        if (uid) {
+            window.localStorage.setItem('USER_UID', JSON.stringify(uid));
+            isLogin(true);
+            navigate('/');
+        }
     };
 
     return (

@@ -21,6 +21,12 @@
 .footer-link {
     color: rgba(199, 199, 199, 1) !important;
     display: inline-block;
+
+    span {
+        &:hover {
+            text-decoration: underline !important;
+        }
+    }
     &::after {
         content: '\00B7';
         margin: 0 3px;
@@ -30,6 +36,9 @@
 .footer-language {
     color: rgba(199, 199, 199, 1) !important;
     display: inline-block;
+    &:hover {
+        text-decoration: underline !important;
+    }
 }
 
 .footer-copyrights {
