@@ -1,20 +1,26 @@
-import images from '@/assets/images';
-
 //Fake recent account login
 
-export const APIaccounts = [];
-
+let APIaccounts = [];
 let State = '';
+function localStorage() {
+    let allUID = JSON.parse(window.localStorage.getItem('USER_UID'));
+    if (allUID === null) {
+    } else {
+        APIaccounts = allUID;
+    }
 
-if (APIaccounts.length == 0) {
-    State = 'newAccount';
-} else if (APIaccounts.length == 1) {
-    State = 'oneOldAccount';
-} else if (APIaccounts.length > 1) {
-    State = 'oldAccount';
+    if (APIaccounts.length == 0) {
+        State = 'newAccount';
+    } else if (APIaccounts.length == 1) {
+        State = 'oneOldAccount';
+    } else if (APIaccounts.length > 1) {
+        State = 'oldAccount';
+    }
 }
 
-export { State };
+localStorage();
+
+export { State, APIaccounts };
 
 //Fake recent search
 

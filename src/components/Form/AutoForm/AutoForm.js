@@ -18,49 +18,45 @@ function AutoForm({ onChangeLogin, onChangeAutoOne, propState, propAccounts, isL
     const [nameDelete, setNameDelete] = useState('');
 
     function renderAccounts() {
-        let result;
-        if (autoFormAccounts.length == 1) {
-            result = (
+        if (autoFormAccounts.length === 1) {
+            return (
                 <div className={cx('login-oneAccount')}>
                     <div className={cx('one-account-wrapper')}>
-                        <img className={cx('one-account-img')} src={autoFormAccounts[0].img} />
+                        <img
+                            className={cx('one-account-img')}
+                            src={autoFormAccounts[0].avatar || images.avatarDefault}
+                        />
 
                         <div className={cx('one-account-btn')}>
                             <Button primary small onClick={isLogin}>
-                                Tiếp tục dưới tên {autoFormAccounts[0].name}
+                                Tiếp tục dưới tên {autoFormAccounts[0].username}
                             </Button>
                         </div>
                         <div className={cx('one-account-ask')}>
-                            <div>Không phải {autoFormAccounts[0].name}?</div>
+                            <div>Không phải {autoFormAccounts[0].username}?</div>
                             <Ask onChangeLogin={onChangeLogin} propState={autoFormState} />
                         </div>
                     </div>
                 </div>
             );
-        } else {
-            let Arr = autoFormAccounts.map((account) => {
+        } else if (autoFormAccounts !== []) {
+            return autoFormAccounts.map((account) => {
                 return (
-                    <div key={account.id} className={cx('login-account-info')}>
-                        <img className={cx('login-account-img')} src={account.img} />
-                        <div className={cx('login-account-name')}>{account.name}</div>
+                    <div key={account.username} className={cx('login-account-info')}>
+                        <img className={cx('login-account-img')} src={account.avatar || images.avatarDefault} />
+                        <div className={cx('login-account-name')}>{account.username}</div>
                         <div className={cx('login-account-btn')}>
                             <Button medium primary onClick={isLogin}>
                                 Đăng nhập
                             </Button>
-                            <div className={cx('login-account-delete')} onClick={() => handleChooseDelete(account.id)}>
+                            <div className={cx('login-account-delete')} onClick={() => handleChooseDelete(account.uid)}>
                                 <FontAwesomeIcon icon={faX} className={cx('login-account-delete-icon')} />
                             </div>
                         </div>
                     </div>
                 );
             });
-            result = (
-                <div className={cx('login-account')}>
-                    <div className={cx('login-account-wrapper')}>{Arr}</div>
-                </div>
-            );
         }
-        return result;
     }
 
     const handleManage = (e) => {
@@ -86,15 +82,15 @@ function AutoForm({ onChangeLogin, onChangeAutoOne, propState, propAccounts, isL
     const handleChooseDelete = (value) => {
         setModal(true);
         autoFormAccounts.forEach((account) => {
-            if (account.id == value) {
-                setNameDelete(account.name);
+            if (account.uid == value) {
+                setNameDelete(account.username);
             }
         });
     };
 
     const handleDelete = () => {
         autoFormAccounts.forEach((account, index) => {
-            if (account.name == nameDelete) {
+            if (account.username == nameDelete) {
                 let result = autoFormAccounts.splice(index, 1);
                 if (result.length == 1) {
                     setAutoFormState('oneOldAccount');
@@ -102,6 +98,7 @@ function AutoForm({ onChangeLogin, onChangeAutoOne, propState, propAccounts, isL
                 }
                 setAutoFormAccounts(result);
             }
+            window.localStorage.setItem('USER_UID', JSON.stringify(autoFormAccounts));
         });
         setModal(false);
     };

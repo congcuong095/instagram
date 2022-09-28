@@ -12,15 +12,14 @@ const cx = classNames.bind(styles);
 
 function Form({ propState, propAccounts, isLogin }) {
     const [formState, setFormState] = useState(propState);
-    const [formAccounts, setFormAccounts] = useState(propAccounts);
-    const [comp, setComp] = useState(<LoginForm isLogin={isLogin} />);
+    const [comp, setComp] = useState(<LoginForm isLogin={isLogin} propAccounts={propAccounts} />);
     useEffect(() => {
         if (formState == 'newAccount') {
             setComp(<LoginForm isLogin={isLogin} />);
         } else if (formState == 'oldAccount') {
             setComp(
                 <AutoForm
-                    propAccounts={formAccounts}
+                    propAccounts={propAccounts}
                     propState={formState}
                     onChangeLogin={handleChangeToLogin}
                     onChangeRegister={handleChangeToRegister}
@@ -34,7 +33,7 @@ function Form({ propState, propAccounts, isLogin }) {
         } else if (formState == 'oneOldAccount') {
             setComp(
                 <AutoForm
-                    propAccounts={formAccounts}
+                    propAccounts={propAccounts}
                     propState={formState}
                     onChangeLogin={handleChangeToLogin}
                     onChangeRegister={handleChangeToRegister}

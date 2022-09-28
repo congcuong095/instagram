@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 import Slider from '@/components/Slider';
 import Footer from '@/components/Footer';
 import Form from '@/components/Form';
-import { State, APIaccounts } from '@/FakeAPI/API';
+import { State, APIaccounts } from '@/GetDataLocal/GetDataLocal';
 
 const cx = classNames.bind(styles);
 

@@ -8,7 +8,7 @@ import axios from 'axios';
 import { useDebounced } from '@/hooks';
 import * as icon from '@/assets/icons/icon';
 import Button from '@/components/Button';
-import { recentSearchApi } from '@/FakeAPI/API';
+import { recentSearchApi } from '@/GetDataLocal/GetDataLocal';
 
 const cx = classNames.bind(styles);
 

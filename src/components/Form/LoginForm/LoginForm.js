@@ -2,7 +2,7 @@ import styles from '../Form.module.scss';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
-import { auth } from '@/firebaseConfig';
+import { auth, db } from '@/firebaseConfig';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -11,13 +11,14 @@ import Button from '@/components/Button';
 
 const cx = classNames.bind(styles);
 
-function LoginForm({ isLogin }) {
+function LoginForm({ isLogin, propAccounts }) {
     const [activeButton, setActiveButton] = useState(false);
     const [typePass, setTypePass] = useState('password');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
+    console.log(propAccounts[0]);
     //Handle show Note
     const hanldeInput = (e) => {
         const inputArr = Array.from(document.querySelectorAll('input[class*="login-input-"]'));
@@ -71,7 +72,27 @@ function LoginForm({ isLogin }) {
             })
             .catch((error) => alert(error.message));
         if (uid) {
-            window.localStorage.setItem('USER_UID', JSON.stringify(uid));
+            let allUID = JSON.parse(window.localStorage.getItem('USER_UID'));
+            if (allUID === null) {
+                allUID = [{ email: email, uid: uid }];
+            } else {
+                let check = allUID.every((item) => {
+                    if (item.uid !== uid) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                });
+                if (check) {
+                    const getData = async () => {
+                        const avatar = await db.collection('user').doc(uid).profile_pic_url;
+                        const username = await db.collection('user').doc(uid).username;
+                        allUID.push({ email: email, uid: uid, username: username, avatar: avatar, password: password });
+                    };
+                    getData();
+                }
+            }
+            window.localStorage.setItem('USER_UID', JSON.stringify(allUID));
             isLogin(true);
             navigate('/');
         }
@@ -92,7 +113,11 @@ function LoginForm({ isLogin }) {
                                 className={cx('login-input-name')}
                                 value={email}
                                 type="text"
-                                placeholder="Số điện thoại, tên người dùng hoặc email"
+                                placeholder={
+                                    propAccounts !== []
+                                        ? propAccounts[0].email
+                                        : 'Số điện thoại, tên người dùng hoặc email'
+                                }
                                 onChange={(e) => {
                                     hanldeInput(e);
                                     setEmail(e.target.value);
@@ -105,7 +130,7 @@ function LoginForm({ isLogin }) {
                                 className={cx('login-input-password')}
                                 value={password}
                                 type={typePass}
-                                placeholder="Mật khẩu"
+                                placeholder={propAccounts !== [] ? propAccounts[0].password : 'Mật khẩu'}
                                 onChange={(e) => {
                                     hanldeInput(e);
                                     setPassword(e.target.value);

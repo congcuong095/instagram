@@ -78,7 +78,26 @@ function RegisterForm({ isLogin }) {
             email: email,
         });
         if (uid) {
-            window.localStorage.setItem('USER_UID', JSON.stringify(uid));
+            let allUID = JSON.parse(window.localStorage.getItem('USER_UID'));
+            if (allUID === null) {
+                allUID = [{ email: email, uid: uid, username: username }];
+            } else {
+                let check = allUID.every((item) => {
+                    if (item.uid !== uid) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                });
+                if (check) {
+                    let avatar;
+                    const getData = async () => {
+                        allUID.push({ email: email, uid: uid, username: username, avatar: avatar, password: password });
+                    };
+                    getData();
+                }
+            }
+            window.localStorage.setItem('USER_UID', JSON.stringify(allUID));
             isLogin(true);
             navigate('/');
         }
