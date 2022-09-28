@@ -11,7 +11,6 @@ const cx = classNames.bind(styles);
 function HomeLogin({ propLogin }) {
     let HomeLoginState = State;
     let HomeLoginAccounts = APIaccounts;
-
     return (
         <div className={cx('container')}>
             <div className={cx('content')}>

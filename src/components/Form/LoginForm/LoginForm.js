@@ -3,6 +3,7 @@ import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
 import { auth, db } from '@/firebaseConfig';
+import { doc, getDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -12,13 +13,12 @@ import Button from '@/components/Button';
 const cx = classNames.bind(styles);
 
 function LoginForm({ isLogin, propAccounts }) {
-    const [activeButton, setActiveButton] = useState(false);
+    const [activeButton, setActiveButton] = useState(propAccounts.length > 0 ? true : false);
     const [typePass, setTypePass] = useState('password');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState(propAccounts.length > 0 ? propAccounts[0].email : '');
+    const [password, setPassword] = useState(propAccounts.length > 0 ? propAccounts[0].password : '');
     const navigate = useNavigate();
 
-    console.log(propAccounts[0]);
     //Handle show Note
     const hanldeInput = (e) => {
         const inputArr = Array.from(document.querySelectorAll('input[class*="login-input-"]'));
@@ -74,7 +74,11 @@ function LoginForm({ isLogin, propAccounts }) {
         if (uid) {
             let allUID = JSON.parse(window.localStorage.getItem('USER_UID'));
             if (allUID === null) {
-                allUID = [{ email: email, uid: uid }];
+                const docRef = doc(db, 'user', uid);
+                const docSnap = await getDoc(docRef);
+
+                const username = docSnap.data().username;
+                allUID = [{ email: email, uid: uid, password: password, username: username }];
             } else {
                 let check = allUID.every((item) => {
                     if (item.uid !== uid) {
@@ -84,12 +88,11 @@ function LoginForm({ isLogin, propAccounts }) {
                     }
                 });
                 if (check) {
-                    const getData = async () => {
-                        const avatar = await db.collection('user').doc(uid).profile_pic_url;
-                        const username = await db.collection('user').doc(uid).username;
-                        allUID.push({ email: email, uid: uid, username: username, avatar: avatar, password: password });
-                    };
-                    getData();
+                    const docRef = doc(db, 'user', uid);
+                    const docSnap = await getDoc(docRef);
+                    const avatar = docSnap.data().profile_pic_url;
+                    const username = docSnap.data().username;
+                    allUID.push({ email: email, uid: uid, username: username, avatar: avatar, password: password });
                 }
             }
             window.localStorage.setItem('USER_UID', JSON.stringify(allUID));
@@ -113,11 +116,7 @@ function LoginForm({ isLogin, propAccounts }) {
                                 className={cx('login-input-name')}
                                 value={email}
                                 type="text"
-                                placeholder={
-                                    propAccounts !== []
-                                        ? propAccounts[0].email
-                                        : 'Số điện thoại, tên người dùng hoặc email'
-                                }
+                                placeholder="Số điện thoại, tên người dùng hoặc email"
                                 onChange={(e) => {
                                     hanldeInput(e);
                                     setEmail(e.target.value);
@@ -130,7 +129,7 @@ function LoginForm({ isLogin, propAccounts }) {
                                 className={cx('login-input-password')}
                                 value={password}
                                 type={typePass}
-                                placeholder={propAccounts !== [] ? propAccounts[0].password : 'Mật khẩu'}
+                                placeholder="Mật khẩu"
                                 onChange={(e) => {
                                     hanldeInput(e);
                                     setPassword(e.target.value);

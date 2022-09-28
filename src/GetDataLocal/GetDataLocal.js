@@ -2,23 +2,20 @@
 
 let APIaccounts = [];
 let State = '';
-function localStorage() {
-    let allUID = JSON.parse(window.localStorage.getItem('USER_UID'));
-    if (allUID === null) {
-    } else {
-        APIaccounts = allUID;
-    }
 
-    if (APIaccounts.length == 0) {
-        State = 'newAccount';
-    } else if (APIaccounts.length == 1) {
-        State = 'oneOldAccount';
-    } else if (APIaccounts.length > 1) {
-        State = 'oldAccount';
-    }
+let allUID = JSON.parse(window.localStorage.getItem('USER_UID'));
+if (allUID === null) {
+    APIaccounts = [];
+} else {
+    APIaccounts = allUID;
 }
-
-localStorage();
+if (APIaccounts.length == 0) {
+    State = 'newAccount';
+} else if (APIaccounts.length == 1) {
+    State = 'oneOldAccount';
+} else if (APIaccounts.length > 1) {
+    State = 'oldAccount';
+}
 
 export { State, APIaccounts };
 

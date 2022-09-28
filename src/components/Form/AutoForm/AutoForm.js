@@ -40,9 +40,9 @@ function AutoForm({ onChangeLogin, onChangeAutoOne, propState, propAccounts, isL
                 </div>
             );
         } else if (autoFormAccounts !== []) {
-            return autoFormAccounts.map((account) => {
+            return autoFormAccounts.map((account, index) => {
                 return (
-                    <div key={account.username} className={cx('login-account-info')}>
+                    <div key={index} className={cx('login-account-info')}>
                         <img className={cx('login-account-img')} src={account.avatar || images.avatarDefault} />
                         <div className={cx('login-account-name')}>{account.username}</div>
                         <div className={cx('login-account-btn')}>

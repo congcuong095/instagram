@@ -15,7 +15,7 @@ function Form({ propState, propAccounts, isLogin }) {
     const [comp, setComp] = useState(<LoginForm isLogin={isLogin} propAccounts={propAccounts} />);
     useEffect(() => {
         if (formState == 'newAccount') {
-            setComp(<LoginForm isLogin={isLogin} />);
+            setComp(<LoginForm isLogin={isLogin} propAccounts={propAccounts} />);
         } else if (formState == 'oldAccount') {
             setComp(
                 <AutoForm
