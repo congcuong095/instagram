@@ -1,16 +1,15 @@
 import styles from './Header.module.scss';
 import classNames from 'classnames/bind';
 import { auth, db } from '@/firebaseConfig';
-import { collection, getDocs } from 'firebase/firestore';
-
-import images from '@/assets/images';
-
-import * as icon from '@/assets/icons/icon';
+import { doc, getDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import Tippy from '@tippyjs/react/headless';
+
+import images from '@/assets/images';
+import * as icon from '@/assets/icons/icon';
 import Search from '@/components/Search';
 import ModalUpload from '@/components/Modal/ModalUpload/ModalUpload';
-import Tippy from '@tippyjs/react/headless';
 
 const cx = classNames.bind(styles);
 
@@ -44,14 +43,13 @@ function Header({ pageInfo, isLogin }) {
     };
 
     //Get user info
-    const getData = async () => {
-        const user = collection(db, 'user');
-        const snapshot = await getDocs(user);
-        let uid = await JSON.parse(window.localStorage.getItem('USER_UID'));
-
-        snapshot.docs.forEach((item) => {
-            if (item.id === uid) {
-                setUserInfo(item.data());
+    const getData = () => {
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                let uid = user.uid;
+                const docRef = doc(db, 'user', uid);
+                const docSnap = await getDoc(docRef);
+                setUserInfo(docSnap.data());
             }
         });
     };

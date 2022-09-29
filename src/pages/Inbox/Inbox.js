@@ -8,7 +8,7 @@ function Inbox({ propLogin }) {
     return (
         <>
             <Header pageInfo="inbox" isLogin={propLogin} />
-            <div className={cx('wrapper')}>Inbox page</div>
+            <div className={cx('wrapper')}>Inbox page - Tính năng chưa được hoàn thiện</div>
         </>
     );
 }

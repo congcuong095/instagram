@@ -1,6 +1,6 @@
 //Fake recent account login
 
-let APIaccounts = [];
+let APIaccounts;
 let State = '';
 
 let allUID = JSON.parse(window.localStorage.getItem('USER_UID'));

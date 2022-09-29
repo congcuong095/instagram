@@ -65,22 +65,28 @@ function RegisterForm({ isLogin }) {
         await auth
             .createUserWithEmailAndPassword(email, password)
             .then(() => {
-                auth.onAuthStateChanged((user) => {
+                auth.onAuthStateChanged(async (user) => {
                     if (user) {
                         uid = user.uid;
+                        await db.collection('user').doc(uid).set({
+                            username: username,
+                            full_name: fullname,
+                            email: email,
+                        });
+                        await db.collection('posts').doc(uid).set({});
+                        await db.collection('noti').doc(uid).set({});
+                        await db.collection('followed').doc(uid).set({});
+                        await db.collection('media').doc(uid).set({});
+                        await db.collection('suggest-list').doc(uid).set({});
                     }
                 });
             })
             .catch((error) => alert(error.message));
-        await db.collection('user').doc(uid).set({
-            username: username,
-            full_name: fullname,
-            email: email,
-        });
+
         if (uid) {
             let allUID = JSON.parse(window.localStorage.getItem('USER_UID'));
             if (allUID === null) {
-                allUID = [{ email: email, uid: uid, username: username }];
+                allUID = [{ email: email, uid: uid, username: username, password: password }];
             } else {
                 let check = allUID.every((item) => {
                     if (item.uid !== uid) {

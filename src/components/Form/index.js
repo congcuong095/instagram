@@ -29,7 +29,7 @@ function Form({ propState, propAccounts, isLogin }) {
                 />,
             );
         } else if (formState == 'register') {
-            setComp(<RegisterForm isLogin={isLogin} />);
+            setComp(<RegisterForm isLogin={isLogin} propAccounts={propAccounts} />);
         } else if (formState == 'oneOldAccount') {
             setComp(
                 <AutoForm

@@ -1,11 +1,13 @@
 import styles from './AutoForm.module.scss';
 import classNames from 'classnames/bind';
-
-import images from '@/assets/images';
-import Button from '@/components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
+import { auth } from '@/firebaseConfig';
+import { useNavigate } from 'react-router-dom';
+
+import images from '@/assets/images';
+import Button from '@/components/Button';
 import ModalAutoForm from '@/components/Modal/ModalAutoForm/ModalAutoForm';
 import Ask from '../Ask/Ask';
 
@@ -16,6 +18,39 @@ function AutoForm({ onChangeLogin, onChangeAutoOne, propState, propAccounts, isL
     const [autoFormAccounts, setAutoFormAccounts] = useState(propAccounts);
     const [modal, setModal] = useState(false);
     const [nameDelete, setNameDelete] = useState('');
+    const navigate = useNavigate();
+
+    const handleLogin = async (event, index) => {
+        event.preventDefault();
+        let allUID = JSON.parse(window.localStorage.getItem('USER_UID'));
+        let email;
+        let uid;
+        let password;
+        if (allUID.length === 1) {
+            email = allUID[0].email;
+            uid = allUID[0].uid;
+            password = allUID[0].password;
+        } else if (allUID.length > 1) {
+            email = allUID[index].email;
+            uid = allUID[index].uid;
+            password = allUID[index].password;
+        }
+
+        await auth
+            .signInWithEmailAndPassword(email, password)
+            .then(() => {
+                auth.onAuthStateChanged((user) => {
+                    if (user) {
+                        uid = user.uid;
+                    }
+                });
+            })
+            .catch((error) => alert(error.message));
+        if (uid) {
+            isLogin(true);
+            navigate('/');
+        }
+    };
 
     function renderAccounts() {
         if (autoFormAccounts.length === 1) {
@@ -28,7 +63,7 @@ function AutoForm({ onChangeLogin, onChangeAutoOne, propState, propAccounts, isL
                         />
 
                         <div className={cx('one-account-btn')}>
-                            <Button primary small onClick={isLogin}>
+                            <Button primary small onClick={(e) => handleLogin(e)}>
                                 Tiếp tục dưới tên {autoFormAccounts[0].username}
                             </Button>
                         </div>
@@ -46,7 +81,7 @@ function AutoForm({ onChangeLogin, onChangeAutoOne, propState, propAccounts, isL
                         <img className={cx('login-account-img')} src={account.avatar || images.avatarDefault} />
                         <div className={cx('login-account-name')}>{account.username}</div>
                         <div className={cx('login-account-btn')}>
-                            <Button medium primary onClick={isLogin}>
+                            <Button medium primary onClick={(e) => handleLogin(e, index)}>
                                 Đăng nhập
                             </Button>
                             <div className={cx('login-account-delete')} onClick={() => handleChooseDelete(account.uid)}>
