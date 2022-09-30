@@ -49,6 +49,7 @@
     top: 0;
     display: block;
     padding: 8px 12px;
+    cursor: pointer;
     svg {
         width: 18px;
         height: 18px;
@@ -65,11 +66,23 @@
     overflow: auto;
 }
 
-.modal-item {
+.modal-item,
+.modal-item-current {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     padding: 8px 16px;
+    cursor: pointer;
+    &:hover {
+        background-color: var(--secondary-background);
+    }
+}
+
+.modal-item-current {
+    cursor: auto;
+    &:hover {
+        background-color: transparent;
+    }
 }
 .modal-avatar {
     margin-right: 12px;
@@ -86,7 +99,11 @@
     line-height: 1.8rem;
 }
 .modal-current {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
 .modal-logOut {
     height: 50px;
     display: flex;

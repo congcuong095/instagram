@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import { auth, db } from '@/firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Tippy from '@tippyjs/react/headless';
 
 import images from '@/assets/images';
@@ -13,11 +13,10 @@ import ModalUpload from '@/components/Modal/ModalUpload/ModalUpload';
 
 const cx = classNames.bind(styles);
 
-function Header({ pageInfo, isLogin }) {
+function Header({ pageInfo }) {
     const [page, setPage] = useState(pageInfo);
     const [modalUpload, setModalUpload] = useState(false);
     const [userInfo, setUserInfo] = useState({});
-    const navigate = useNavigate();
 
     //Handle when click header button
     const handleHome = () => {
@@ -58,14 +57,22 @@ function Header({ pageInfo, isLogin }) {
     }, []);
 
     //Handle log out
+    // const handleLogOut = () => {
+    //     auth.signOut()
+    //         .then(() => {
+    //             isLogin(false);
+    //         })
+    //         .then(() => {
+    //             navigate('/');
+    //         });
+    // };
+
     const handleLogOut = () => {
         auth.signOut()
             .then(() => {
-                isLogin(false);
+                window.localStorage.setItem('LOGIN_STATE', JSON.stringify(false));
             })
-            .then(() => {
-                navigate('/');
-            });
+            .catch((err) => console.log(err));
     };
 
     return (
@@ -238,7 +245,9 @@ function Header({ pageInfo, isLogin }) {
                                                     <div className={cx('user-page__title')}>Chuyển tài khoản</div>
                                                 </div>
                                                 <div className={cx('user-item', 'boder-top')} onClick={handleLogOut}>
-                                                    <div className={cx('user-page__title')}>Đăng xuất</div>
+                                                    <a className={cx('user-page__title')} href="/">
+                                                        Đăng xuất
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
