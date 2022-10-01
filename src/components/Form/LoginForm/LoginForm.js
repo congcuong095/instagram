@@ -9,6 +9,7 @@ import { useState } from 'react';
 
 import images from '@/assets/images';
 import Button from '@/components/Button';
+import { useLocalStore } from '@/hooks';
 
 const cx = classNames.bind(styles);
 
@@ -18,6 +19,7 @@ function LoginForm({ isLogin, propAccounts }) {
     const [email, setEmail] = useState(propAccounts.length > 0 ? propAccounts[0].email : '');
     const [password, setPassword] = useState(propAccounts.length > 0 ? propAccounts[0].password : '');
     const navigate = useNavigate();
+    const localStorage = useLocalStore();
 
     //Handle show Note
     const hanldeInput = (e) => {
@@ -60,45 +62,54 @@ function LoginForm({ isLogin, propAccounts }) {
     //Handle SignIn
     const handleSignIn = async (event) => {
         event.preventDefault();
-        let uid;
+
         await auth
             .signInWithEmailAndPassword(email, password)
             .then(() => {
-                auth.onAuthStateChanged((user) => {
+                auth.onAuthStateChanged(async (user) => {
                     if (user) {
-                        uid = user.uid;
+                        let uid = user.uid;
+                        if (uid) {
+                            let allUID = localStorage.get('USER_UID');
+                            if (allUID === null) {
+                                const docRef = doc(db, 'user', uid);
+                                const docSnap = await getDoc(docRef);
+
+                                const username = docSnap.data().username;
+                                allUID = [{ email: email, uid: uid, password: password, username: username }];
+                            } else {
+                                let check = allUID.every((item, index) => {
+                                    if (item.uid !== uid) {
+                                        return true;
+                                    } else {
+                                        allUID.splice(index, 1);
+                                        allUID.unshift(item);
+                                        return false;
+                                    }
+                                });
+                                if (check) {
+                                    const docRef = doc(db, 'user', uid);
+                                    const docSnap = await getDoc(docRef);
+                                    const avatar = docSnap.data().profile_pic_url;
+                                    const username = docSnap.data().username;
+                                    allUID.unshift({
+                                        email: email,
+                                        uid: uid,
+                                        username: username,
+                                        avatar: avatar,
+                                        password: password,
+                                    });
+                                }
+                            }
+                            localStorage.set('USER_UID', allUID);
+                            isLogin(true);
+                            navigate('/');
+                            window.location.reload();
+                        }
                     }
                 });
             })
             .catch((error) => alert(error.message));
-        if (uid) {
-            let allUID = JSON.parse(window.localStorage.getItem('USER_UID'));
-            if (allUID === null) {
-                const docRef = doc(db, 'user', uid);
-                const docSnap = await getDoc(docRef);
-
-                const username = docSnap.data().username;
-                allUID = [{ email: email, uid: uid, password: password, username: username }];
-            } else {
-                let check = allUID.every((item) => {
-                    if (item.uid !== uid) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                });
-                if (check) {
-                    const docRef = doc(db, 'user', uid);
-                    const docSnap = await getDoc(docRef);
-                    const avatar = docSnap.data().profile_pic_url;
-                    const username = docSnap.data().username;
-                    allUID.push({ email: email, uid: uid, username: username, avatar: avatar, password: password });
-                }
-            }
-            window.localStorage.setItem('USER_UID', JSON.stringify(allUID));
-            isLogin(true);
-            navigate('/');
-        }
     };
 
     return (

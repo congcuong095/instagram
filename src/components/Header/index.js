@@ -10,6 +10,7 @@ import images from '@/assets/images';
 import * as icon from '@/assets/icons/icon';
 import Search from '@/components/Search';
 import ModalUpload from '@/components/Modal/ModalUpload/ModalUpload';
+import { useLocalStore } from '@/hooks';
 
 const cx = classNames.bind(styles);
 
@@ -17,6 +18,7 @@ function Header({ pageInfo }) {
     const [page, setPage] = useState(pageInfo);
     const [modalUpload, setModalUpload] = useState(false);
     const [userInfo, setUserInfo] = useState({});
+    const localStore = useLocalStore();
 
     //Handle when click header button
     const handleHome = () => {
@@ -56,21 +58,10 @@ function Header({ pageInfo }) {
         getData();
     }, []);
 
-    //Handle log out
-    // const handleLogOut = () => {
-    //     auth.signOut()
-    //         .then(() => {
-    //             isLogin(false);
-    //         })
-    //         .then(() => {
-    //             navigate('/');
-    //         });
-    // };
-
     const handleLogOut = () => {
         auth.signOut()
             .then(() => {
-                window.localStorage.setItem('LOGIN_STATE', JSON.stringify(false));
+                localStore.set('LOGIN_STATE', false);
             })
             .catch((err) => console.log(err));
     };

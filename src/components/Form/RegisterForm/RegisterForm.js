@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 import images from '@/assets/images';
 import Button from '@/components/Button';
+import { useLocalStore } from '@/hooks';
 
 const cx = classNames.bind(styles);
 
@@ -19,6 +20,7 @@ function RegisterForm({ isLogin }) {
     const [username, setUsername] = useState('');
     const [fullname, setFullname] = useState('');
     const navigate = useNavigate();
+    const localStore = useLocalStore();
 
     //Handle Note
     const hanldeNoteInput = (e) => {
@@ -61,13 +63,13 @@ function RegisterForm({ isLogin }) {
     //handle SignUp
     const handleSignUp = async (event) => {
         event.preventDefault();
-        let uid;
+
         await auth
             .createUserWithEmailAndPassword(email, password)
             .then(() => {
                 auth.onAuthStateChanged(async (user) => {
                     if (user) {
-                        uid = user.uid;
+                        let uid = user.uid;
                         await db.collection('user').doc(uid).set({
                             username: username,
                             full_name: fullname,
@@ -78,35 +80,41 @@ function RegisterForm({ isLogin }) {
                         await db.collection('followed').doc(uid).set({});
                         await db.collection('media').doc(uid).set({});
                         await db.collection('suggest-list').doc(uid).set({});
+
+                        if (uid) {
+                            let allUID = localStore.get('USER_UID');
+                            if (allUID === null) {
+                                allUID = [{ email: email, uid: uid, username: username, password: password }];
+                            } else {
+                                let check = allUID.every((item) => {
+                                    if (item.uid !== uid) {
+                                        return true;
+                                    } else {
+                                        return false;
+                                    }
+                                });
+                                if (check) {
+                                    let avatar;
+                                    const getData = async () => {
+                                        allUID.unshift({
+                                            email: email,
+                                            uid: uid,
+                                            username: username,
+                                            avatar: avatar,
+                                            password: password,
+                                        });
+                                    };
+                                    getData();
+                                }
+                            }
+                            localStore.set('USER_UID', allUID);
+                            isLogin(true);
+                            navigate('/');
+                        }
                     }
                 });
             })
             .catch((error) => alert(error.message));
-
-        if (uid) {
-            let allUID = JSON.parse(window.localStorage.getItem('USER_UID'));
-            if (allUID === null) {
-                allUID = [{ email: email, uid: uid, username: username, password: password }];
-            } else {
-                let check = allUID.every((item) => {
-                    if (item.uid !== uid) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                });
-                if (check) {
-                    let avatar;
-                    const getData = async () => {
-                        allUID.push({ email: email, uid: uid, username: username, avatar: avatar, password: password });
-                    };
-                    getData();
-                }
-            }
-            window.localStorage.setItem('USER_UID', JSON.stringify(allUID));
-            isLogin(true);
-            navigate('/');
-        }
     };
 
     return (

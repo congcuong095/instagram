@@ -1,15 +1,17 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { publicRoutes, privateRoutes } from '@/routes';
 import { useEffect, useState } from 'react';
+import { useLocalStore } from './hooks';
 
 function App() {
-    const [login, setLogin] = useState(JSON.parse(window.localStorage.getItem('LOGIN_STATE')) || false);
+    const localStore = useLocalStore();
+    const [login, setLogin] = useState(localStore.get('LOGIN_STATE') || false);
 
     const handleLogin = (value) => {
         setLogin(value);
     };
     useEffect(() => {
-        window.localStorage.setItem('LOGIN_STATE', JSON.stringify(login));
+        localStore.set('LOGIN_STATE', login);
     }, [login]);
 
     if (login) {

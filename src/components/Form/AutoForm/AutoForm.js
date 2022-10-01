@@ -10,6 +10,7 @@ import images from '@/assets/images';
 import Button from '@/components/Button';
 import ModalAutoForm from '@/components/Modal/ModalAutoForm/ModalAutoForm';
 import Ask from '../Ask/Ask';
+import { useLocalStore } from '@/hooks';
 
 const cx = classNames.bind(styles);
 
@@ -19,23 +20,20 @@ function AutoForm({ onChangeLogin, onChangeAutoOne, propState, propAccounts, isL
     const [modal, setModal] = useState(false);
     const [nameDelete, setNameDelete] = useState('');
     const navigate = useNavigate();
+    const localStore = useLocalStore();
 
     const handleLogin = async (event, index) => {
         event.preventDefault();
-        let allUID = JSON.parse(window.localStorage.getItem('USER_UID'));
-        let email;
-        let uid;
-        let password;
-        if (allUID.length === 1) {
-            email = allUID[0].email;
-            uid = allUID[0].uid;
-            password = allUID[0].password;
-        } else if (allUID.length > 1) {
-            email = allUID[index].email;
-            uid = allUID[index].uid;
-            password = allUID[index].password;
-        }
+        let allUID = localStore.get('USER_UID');
+        const moveItem = allUID[index];
 
+        await allUID.splice(index, 1);
+        await allUID.unshift(moveItem);
+        localStore.set('USER_UID', allUID);
+
+        let email = allUID[0].email;
+        let uid = allUID[0].uid;
+        let password = allUID[0].password;
         await auth
             .signInWithEmailAndPassword(email, password)
             .then(() => {
@@ -49,6 +47,7 @@ function AutoForm({ onChangeLogin, onChangeAutoOne, propState, propAccounts, isL
         if (uid) {
             isLogin(true);
             navigate('/');
+            window.location.reload();
         }
     };
 
@@ -63,7 +62,7 @@ function AutoForm({ onChangeLogin, onChangeAutoOne, propState, propAccounts, isL
                         />
 
                         <div className={cx('one-account-btn')}>
-                            <Button primary small onClick={(e) => handleLogin(e)}>
+                            <Button primary small onClick={(e) => handleLogin(e, 0)}>
                                 Tiếp tục dưới tên {autoFormAccounts[0].username}
                             </Button>
                         </div>
@@ -106,7 +105,7 @@ function AutoForm({ onChangeLogin, onChangeAutoOne, propState, propAccounts, isL
         } else {
             e.target.innerHTML = 'Chỉnh sửa xong';
             loginBtns.forEach((btn, index) => {
-                if (index == 0) {
+                if (index !== loginBtns.length - 1) {
                     btn.querySelector('button').style.display = 'none';
                     btn.querySelector('div').style.display = 'block';
                 }
@@ -126,13 +125,13 @@ function AutoForm({ onChangeLogin, onChangeAutoOne, propState, propAccounts, isL
     const handleDelete = () => {
         autoFormAccounts.forEach((account, index) => {
             if (account.username == nameDelete) {
-                let result = autoFormAccounts.splice(index, 1);
-                if (result.length == 1) {
+                autoFormAccounts.splice(index, 1);
+                if (autoFormAccounts.length == 1) {
                     setAutoFormState('oneOldAccount');
                     onChangeAutoOne();
                 }
-                setAutoFormAccounts(result);
             }
+            setAutoFormAccounts(autoFormAccounts);
             window.localStorage.setItem('USER_UID', JSON.stringify(autoFormAccounts));
         });
         setModal(false);

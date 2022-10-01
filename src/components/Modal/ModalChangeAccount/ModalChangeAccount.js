@@ -4,30 +4,33 @@ import { useEffect, useState } from 'react';
 import { auth } from '@/firebaseConfig';
 
 import * as icon from '@/assets/icons/icon';
-import { APIaccounts } from '@/GetDataLocal/GetDataLocal';
 import images from '@/assets/images';
 import { useNavigate } from 'react-router-dom';
+import { useLocalStore } from '@/hooks';
 
 const cx = classNames.bind(styles);
 
 function ModalChangeAcccount({ onCancelDelete }) {
-    const [arrAccount, setArrAccount] = useState(APIaccounts);
+    const localStore = useLocalStore();
+    const [arrAccount, setArrAccount] = useState(localStore.get('USER_UID'));
+    const navigate = useNavigate();
+
     const handleStopPropagation = (e) => {
         e.stopPropagation();
     };
-    const navigate = useNavigate();
 
     const getData = async () => {
-        auth.onAuthStateChanged((user) => {
+        auth.onAuthStateChanged(async (user) => {
             if (user) {
                 let arrNew = arrAccount;
                 let uid = user.uid;
-                arrNew.forEach((item, index) => {
+                await arrNew.forEach((item, index) => {
                     if (item.uid === uid) {
                         arrNew.splice(index, 1);
                         arrNew.unshift(item);
                     }
                 });
+                localStore.set('USER_UID', arrNew);
                 setArrAccount(arrNew);
             }
         });
@@ -39,11 +42,11 @@ function ModalChangeAcccount({ onCancelDelete }) {
     //handleChangeAccount
 
     const handleChangeAccount = async (item) => {
-        console.log(item);
         await auth
             .signInWithEmailAndPassword(item.email, item.password)
             .then(() => {
                 navigate('/');
+                window.location.reload();
             })
             .catch((error) => alert(error.message));
     };
@@ -52,7 +55,7 @@ function ModalChangeAcccount({ onCancelDelete }) {
     const handleLogOut = () => {
         auth.signOut()
             .then(() => {
-                window.localStorage.setItem('LOGIN_STATE', JSON.stringify(false));
+                localStore.set('LOGIN_STATE', false);
             })
             .catch((err) => console.log(err));
     };
