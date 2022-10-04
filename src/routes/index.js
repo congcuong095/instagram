@@ -1,5 +1,4 @@
 import Home from '@/pages/Home/Home';
-import User from '@/pages/User';
 import Register from '@/pages/Register';
 import Login from '@/pages/Login/Login';
 import HomeLogin from '@/pages/HomeLogin';
@@ -15,7 +14,6 @@ const publicRoutes = [
 
 const privateRoutes = [
     { path: '/', component: Home },
-    { path: '/user', component: User },
     { path: '/direct/inbox', component: Inbox },
     { path: '/explore', component: Explore },
     { path: '/:username', component: Profile },

@@ -1,5 +1,11 @@
 .wrapper {
-    padding-top: 60px;
     background-color: var(--secondary-background);
+}
+
+.content {
     height: 100vh;
+    padding: 30px 20px 0;
+    max-width: 821px;
+    width: 100%;
+    margin: auto;
 }

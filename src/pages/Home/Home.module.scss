@@ -10,10 +10,6 @@
     min-height: 100vh;
 }
 
-.header {
-    order: 0;
-}
-
 .main {
     background-color: var(--secondary-background);
     height: 100%;
@@ -22,6 +18,9 @@
     display: flex;
     position: relative;
     order: 1;
+}
+.header {
+    order: 0;
 }
 
 .timeline {

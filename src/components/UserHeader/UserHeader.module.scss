@@ -1,0 +1,122 @@
+.wrapper {
+    margin-bottom: 44px;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+.avatar {
+    flex-grow: 1;
+    flex-basis: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 30px;
+}
+.avatar-btn {
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    width: 150px;
+    height: 150px;
+    img {
+        width: 150px;
+        height: 150px;
+    }
+}
+.avatar-form {
+    display: none;
+}
+
+.content {
+    flex-basis: 30px;
+    flex-grow: 2;
+}
+
+.content-header {
+    display: flex;
+    flex-shrink: 1;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.header-name {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--primary-text);
+    font-weight: 300;
+    font-size: 2.8rem;
+    line-height: 3.2rem;
+    margin: -5px 0 -6px;
+}
+.header-edit {
+    margin-left: 20px;
+    flex: 0 1 auto;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    button {
+        height: 30px;
+        padding: 5px 9px !important;
+    }
+}
+.header-setting {
+    margin-left: 5px;
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    button {
+        background: transparent;
+    }
+    svg {
+        height: 24px;
+        width: 24px;
+        cursor: pointer;
+    }
+}
+
+.content-count {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.count-item {
+    display: block;
+    span {
+        display: inline-block;
+        font-weight: 600;
+    }
+}
+
+.count-item + .count-item {
+    margin-left: 40px;
+}
+
+.content-description {
+    display: block;
+}
+.description-fullname {
+    color: var(--primary-text);
+}
+.description-introduce {
+    color: var(--primary-text);
+}
+.description-link {
+    color: var(--primary-text) !important;
+    font-weight: 600;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+.description-followed {
+    cursor: pointer;
+    color: var(--primary-text);
+    span {
+        display: inline-block;
+        font-weight: 500;
+    }
+}

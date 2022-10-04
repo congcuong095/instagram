@@ -10,6 +10,7 @@ import images from '@/assets/images';
 import * as icon from '@/assets/icons/icon';
 import Search from '@/components/Search';
 import ModalUpload from '@/components/Modal/ModalUpload/ModalUpload';
+import ModalChangeAcccount from '@/components/Modal/ModalChangeAccount/ModalChangeAccount';
 import { useLocalStore } from '@/hooks';
 
 const cx = classNames.bind(styles);
@@ -18,6 +19,7 @@ function Header({ pageInfo }) {
     const [page, setPage] = useState(pageInfo);
     const [modalUpload, setModalUpload] = useState(false);
     const [userInfo, setUserInfo] = useState({});
+    const [modalChangeAccount, setModalChangeAccount] = useState(false);
     const localStore = useLocalStore();
 
     //Handle when click header button
@@ -66,6 +68,15 @@ function Header({ pageInfo }) {
             .catch((err) => console.log(err));
     };
 
+    const handleChangeAccount = () => {
+        setModalChangeAccount(true);
+        setPage(pageInfo);
+    };
+
+    const handleCancelDelete = () => {
+        setModalChangeAccount(false);
+    };
+
     return (
         <>
             {modalUpload && (
@@ -76,6 +87,7 @@ function Header({ pageInfo }) {
                     }}
                 />
             )}
+            {modalChangeAccount && <ModalChangeAcccount onCancelDelete={handleCancelDelete} />}
             <div className={cx('wrapper')}>
                 <div className={cx('contain-1')}>
                     <div className={cx('contain-2')}>
@@ -229,7 +241,8 @@ function Header({ pageInfo }) {
                                                         <div className={cx('user-page__title')}>Cài đặt</div>
                                                     </Link>
                                                 </div>
-                                                <div className={cx('user-item')}>
+
+                                                <div className={cx('user-item')} onClick={handleChangeAccount}>
                                                     <div className={cx('user-page__icon')}>
                                                         {icon.changeAccountManage}
                                                     </div>
