@@ -9,8 +9,7 @@ import Tippy from '@tippyjs/react/headless';
 import images from '@/assets/images';
 import * as icon from '@/assets/icons/icon';
 import Search from '@/components/Search';
-import ModalUpload from '@/components/Modal/ModalUpload/ModalUpload';
-import ModalChangeAcccount from '@/components/Modal/ModalChangeAccount/ModalChangeAccount';
+import { ModalUpload, ModalChangeAccount } from '@/components/Modal';
 import { useLocalStore } from '@/hooks';
 
 const cx = classNames.bind(styles);
@@ -87,7 +86,7 @@ function Header({ pageInfo }) {
                     }}
                 />
             )}
-            {modalChangeAccount && <ModalChangeAcccount onCancelDelete={handleCancelDelete} />}
+            {modalChangeAccount && <ModalChangeAccount onCancelDelete={handleCancelDelete} />}
             <div className={cx('wrapper')}>
                 <div className={cx('contain-1')}>
                     <div className={cx('contain-2')}>

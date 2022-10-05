@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 import images from '@/assets/images';
 import Button from '@/components/Button';
-import ModalAutoForm from '@/components/Modal/ModalAutoForm/ModalAutoForm';
+import { ModalAutoForm } from '@/components/Modal';
 import Ask from '../Ask/Ask';
 import { useLocalStore } from '@/hooks';
 

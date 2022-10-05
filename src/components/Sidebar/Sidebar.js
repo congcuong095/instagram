@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import images from '@/assets/images';
 import Button from '@/components/Button/index';
 import FooterSidebar from '@/components/FooterSidebar/FooterSidebar';
-import ModalChangeAcccount from '../Modal/ModalChangeAccount/ModalChangeAccount';
+import { ModalChangeAccount } from '@/components/Modal';
 
 const cx = classNames.bind(styles);
 
@@ -47,7 +47,7 @@ function Sidebar() {
 
     return (
         <>
-            {modalChangeAccount && <ModalChangeAcccount onCancelDelete={handleCancelDelete} />}
+            {modalChangeAccount && <ModalChangeAccount onCancelChange={handleCancelDelete} />}
             <div className={cx('wrapper')}>
                 <div className={cx('user-info')}>
                     <div className={cx('user-avatar')}>

@@ -10,7 +10,7 @@ import { useLocalStore } from '@/hooks';
 
 const cx = classNames.bind(styles);
 
-function ModalChangeAcccount({ onCancelDelete }) {
+function ModalChangeAccount({ onCancelChange }) {
     const localStore = useLocalStore();
     const [arrAccount, setArrAccount] = useState(localStore.get('USER_UID'));
     const navigate = useNavigate();
@@ -61,11 +61,11 @@ function ModalChangeAcccount({ onCancelDelete }) {
     };
 
     return (
-        <div className={cx('modal')} onClick={onCancelDelete}>
+        <div className={cx('modal')} onClick={onCancelChange}>
             <div className={cx('modal-wrapper')} onClick={(e) => handleStopPropagation(e)}>
                 <div className={cx('modal-title')}>
                     <h3 className={cx('modal-heading')}>Chuyển tài khoản</h3>
-                    <span className={cx('modal-close')} onClick={onCancelDelete}>
+                    <span className={cx('modal-close')} onClick={onCancelChange}>
                         {icon.close}
                     </span>
                 </div>
@@ -96,4 +96,4 @@ function ModalChangeAcccount({ onCancelDelete }) {
     );
 }
 
-export default ModalChangeAcccount;
+export default ModalChangeAccount;
