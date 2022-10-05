@@ -1,28 +1,50 @@
 import styles from './UserHeader.module.scss';
 import classNames from 'classnames/bind';
+import { useRef, useState } from 'react';
+import { storage, auth } from '@/firebaseConfig';
 
 import images from '@/assets/images';
 import * as icon from '@/assets/icons/icon';
 import Button from '@/components/Button';
-import { useRef } from 'react';
 
 const cx = classNames.bind(styles);
 
 function UserHeader() {
+    const [urlImg, setUrlImg] = useState('');
     const inputRef = useRef();
 
     const handleChangeAvatar = () => {
         inputRef.current.click();
     };
 
+    const handleUpload = (e) => {
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                let uid = user.uid;
+                const storageRef = await storage.ref(`${uid}\/${e.target.files[0].name}`);
+
+                const uploadTask = await storageRef.put(e.target.files[0]);
+
+                await storageRef
+                    .getDownloadURL()
+                    .then((data) => {
+                        setUrlImg(data);
+                    })
+                    .catch((error) => {
+                        // Uh-oh, an error occurred!
+                    });
+            }
+        });
+    };
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('avatar')}>
                 <div className={cx('avatar-btn')} onClick={handleChangeAvatar}>
-                    <img src={images.avatar1} />
+                    <img src={urlImg || images.avatarDefault} />
                 </div>
                 <form className={cx('avatar-form')}>
-                    <input ref={inputRef} type="file" />
+                    <input ref={inputRef} type="file" onChange={(e) => handleUpload(e)} />
                 </form>
             </div>
             <div className={cx('content')}>
