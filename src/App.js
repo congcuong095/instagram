@@ -1,5 +1,4 @@
 import { HashRouter as Router, Route, Routes } from 'react-router-dom';
-
 import { publicRoutes, privateRoutes } from '@/routes';
 import { useEffect, useState } from 'react';
 import { useLocalStore } from './hooks';

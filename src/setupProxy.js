@@ -1,6 +1,6 @@
-const { createProxyMiddleware } = require('http-proxy-middleware');
+import { createProxyMiddleware } from 'http-proxy-middleware';
 
-module.exports = function (app) {
+export default function (app) {
     app.use(
         '/api/v1/web/search/topsearch/',
         createProxyMiddleware({
@@ -15,4 +15,4 @@ module.exports = function (app) {
             changeOrigin: true,
         }),
     );
-};
+}
