@@ -35,7 +35,7 @@ function Search() {
         }
         setLoading(true);
         axios
-            .get('https://i.instagram.com/api/v1/web/search/topsearch/', {
+            .get('/api/v1/web/search/topsearch/', {
                 params: {
                     query: debounced,
                 },
