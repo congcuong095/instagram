@@ -86,7 +86,7 @@ function Header({ pageInfo }) {
                     }}
                 />
             )}
-            {modalChangeAccount && <ModalChangeAccount onCancelDelete={handleCancelDelete} />}
+            {modalChangeAccount && <ModalChangeAccount onCancelChange={handleCancelDelete} />}
             <div className={cx('wrapper')}>
                 <div className={cx('contain-1')}>
                     <div className={cx('contain-2')}>
