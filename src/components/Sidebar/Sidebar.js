@@ -2,7 +2,6 @@ import styles from './Sidebar.module.scss';
 import classNames from 'classnames/bind';
 import { auth, db } from '@/firebaseConfig';
 import { doc, getDoc, getDocs, collection, updateDoc, arrayUnion } from 'firebase/firestore';
-import firebase from 'firebase/compat/app';
 import { useEffect, useState } from 'react';
 
 import images from '@/assets/images';
