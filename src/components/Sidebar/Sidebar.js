@@ -1,7 +1,8 @@
 import styles from './Sidebar.module.scss';
 import classNames from 'classnames/bind';
 import { auth, db } from '@/firebaseConfig';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, getDocs, collection, updateDoc, arrayUnion } from 'firebase/firestore';
+import firebase from 'firebase/compat/app';
 import { useEffect, useState } from 'react';
 
 import images from '@/assets/images';
@@ -20,17 +21,30 @@ function Sidebar() {
     const getData = async () => {
         auth.onAuthStateChanged(async (user) => {
             if (user) {
-                let uid = user.uid;
-                const docRef = doc(db, 'user', uid);
+                let UID = user.uid;
+                const docRef = doc(db, 'user', UID);
                 const docSnap = await getDoc(docRef);
+                const querySnapshot = await getDocs(collection(db, 'user'));
+                let arrUserSuggest = querySnapshot.docs.filter((item) => {
+                    if (item.id !== UID) {
+                        if (docSnap.data().following) {
+                            if (
+                                docSnap.data().following.every((item2) => {
+                                    return item2 !== item.id;
+                                })
+                            ) {
+                                return item;
+                            }
+                        } else {
+                            return item;
+                        }
+                    }
+                });
+
                 setUserInfo(docSnap.data());
+                setSuggestList(arrUserSuggest);
             }
         });
-
-        const docRef = doc(db, 'suggest-list', 'OQjSpk1yBgRCTNFPDrO1');
-        const docSnap = await getDoc(docRef);
-
-        setSuggestList(docSnap.data()['suggest-user']);
     };
     useEffect(() => {
         getData();
@@ -43,6 +57,25 @@ function Sidebar() {
 
     const handleCancelDelete = () => {
         setModalChangeAccount(false);
+    };
+
+    //Handle follow
+    const handleFollow = async (uidFriend, e) => {
+        e.target.innerText = 'Đang theo dõi';
+        e.target.style.color = 'rgb(38,38,38)';
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                let UID = user.uid;
+                const userRef = doc(db, 'user', UID);
+                const followRef = doc(db, 'user', uidFriend);
+                await updateDoc(userRef, {
+                    following: arrayUnion(uidFriend),
+                });
+                await updateDoc(followRef, {
+                    followed_by: arrayUnion(UID),
+                });
+            }
+        });
     };
 
     return (
@@ -77,27 +110,34 @@ function Sidebar() {
                     </div>
                     <div className={cx('suggest-list')}>
                         {suggestList.length > 0 &&
-                            suggestList.map((item, index) => {
-                                return (
-                                    <div className={cx('suggest-item')} key={index}>
-                                        <div className={cx('suggester-avatar')}>
-                                            <a href={item.username}>
-                                                <img src={item.user_avatar} />
-                                            </a>
-                                        </div>
-                                        <div className={cx('suggester-name')}>
-                                            <div className={cx('suggester-username')}>
-                                                {item.username} {item.isVerified && <span></span>}
+                            suggestList.map((rootItem, index) => {
+                                if (index < 5) {
+                                    let item = rootItem.data();
+                                    return (
+                                        <div className={cx('suggest-item')} key={index}>
+                                            <div className={cx('suggester-avatar')}>
+                                                <a href={item.username}>
+                                                    <img src={item.profile_pic_url || images.avatarDefault} />
+                                                </a>
                                             </div>
-                                            <div className={cx('suggester-follower')}>{item.follower}</div>
+                                            <div className={cx('suggester-name')}>
+                                                <a href={item.username} className={cx('suggester-username')}>
+                                                    {item.username} {item.is_verified && <span></span>}
+                                                </a>
+                                                <div className={cx('suggester-follower')}>
+                                                    {item.followed_by
+                                                        ? `Có ${item.followed_by.length} người theo dõi`
+                                                        : ''}
+                                                </div>
+                                            </div>
+                                            <div className={cx('suggester-btn')}>
+                                                <Button text small font12 onClick={(e) => handleFollow(item.uid, e)}>
+                                                    Theo dõi
+                                                </Button>
+                                            </div>
                                         </div>
-                                        <div className={cx('suggester-btn')}>
-                                            <Button text small font12>
-                                                Theo dõi
-                                            </Button>
-                                        </div>
-                                    </div>
-                                );
+                                    );
+                                }
                             })}
                     </div>
                 </div>
