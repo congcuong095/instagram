@@ -19,9 +19,12 @@
     width: 150px;
     height: 150px;
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     img {
         width: 150px;
-        height: 150px;
+        height: auto;
     }
 }
 .avatar-form {

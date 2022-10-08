@@ -39,7 +39,7 @@ function UserHeader() {
         let resize = function () {
             let width = image.width;
             let height = image.height;
-            if (width > height) {
+            if (width < height) {
                 if (width > maxSize) {
                     height *= maxSize / width;
                     width = maxSize;

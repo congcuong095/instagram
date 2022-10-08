@@ -74,6 +74,7 @@ function RegisterForm({ isLogin }) {
                             username: username,
                             full_name: fullname,
                             email: email,
+                            uid: uid,
                         });
                         await db.collection('posts').doc(uid).set({});
                         await db.collection('noti').doc(uid).set({});
@@ -94,17 +95,13 @@ function RegisterForm({ isLogin }) {
                                     }
                                 });
                                 if (check) {
-                                    let avatar;
-                                    const getData = async () => {
-                                        allUID.unshift({
-                                            email: email,
-                                            uid: uid,
-                                            username: username,
-                                            avatar: avatar,
-                                            password: password,
-                                        });
-                                    };
-                                    getData();
+                                    allUID.unshift({
+                                        email: email,
+                                        uid: uid,
+                                        username: username,
+                                        avatar: undefined,
+                                        password: password,
+                                    });
                                 }
                             }
                             localStore.set('USER_UID', allUID);
