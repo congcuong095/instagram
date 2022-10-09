@@ -9,6 +9,7 @@ import { useDebounced } from '@/hooks';
 import * as icon from '@/assets/icons/icon';
 import Button from '@/components/Button';
 import { recentSearchApi } from '@/GetDataLocal/GetDataLocal';
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -81,9 +82,9 @@ function Search() {
                                 searchResult.map((item) => {
                                     let url = item.user.profile_pic_url.slice(40);
                                     return (
-                                        <a
+                                        <Link
                                             className={cx('account-item')}
-                                            href={`/${item.user.username}`}
+                                            to={`/${item.user.username}`}
                                             key={item.user.pk}
                                         >
                                             <div className={cx('account-img')}>
@@ -99,7 +100,7 @@ function Search() {
                                                 </div>
                                                 <div className={cx('account-fullname')}>{item.user.full_name}</div>
                                             </div>
-                                        </a>
+                                        </Link>
                                     );
                                 })
                             ) : (
@@ -116,9 +117,9 @@ function Search() {
                                         <>
                                             {recentResult.map((item, index) => {
                                                 return (
-                                                    <a
+                                                    <Link
                                                         className={cx('account-item')}
-                                                        href={`/${item.username}`}
+                                                        to={`/${item.username}`}
                                                         key={item.id}
                                                     >
                                                         <div className={cx('account-img')}>
@@ -148,7 +149,7 @@ function Search() {
                                                         >
                                                             {icon.close}
                                                         </div>
-                                                    </a>
+                                                    </Link>
                                                 );
                                             })}
                                         </>

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
 import { auth, db } from '@/firebaseConfig';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import images from '@/assets/images';
 import Button from '@/components/Button';
@@ -119,9 +119,9 @@ function RegisterForm({ isLogin }) {
             <div className={cx('login')}>
                 <div className={cx('login-main')}>
                     <div className={cx('login-header')}>
-                        <a href="/">
+                        <Link to="/">
                             <img className={cx('login-logo')} src={images.logo} alt="insatgram" />
-                        </a>
+                        </Link>
                     </div>
                     <h3 className={cx('login-fb-title')}>Đăng ký để xem ảnh và video từ bạn bè.</h3>
 
