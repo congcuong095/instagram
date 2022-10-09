@@ -96,7 +96,15 @@ function Header({ pageInfo }) {
                 <div className={cx('contain-1')}>
                     <div className={cx('contain-2')}>
                         <div className={cx('logo')}>
-                            <Link to="/" className={cx('logo-link')}>
+
+                            <Link
+                                to="/"
+                                className={cx('logo-link')}
+                                onClick={() => {
+                                    window.location.reload();
+                                }}
+                            >
+
                                 {icon.logo}
                             </Link>
                         </div>
