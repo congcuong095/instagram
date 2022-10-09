@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/instagram/static/css/main.66fbcc1c.css",
+    "main.js": "/instagram/static/js/main.7b99da56.js",
+    "static/media/post-image.jpg": "/instagram/static/media/post-image.d3122cb018d428a0e51c.jpg",
+    "static/media/login-slide-1.png": "/instagram/static/media/login-slide-1.8073c02a21c4c8fb4dc6.png",
+    "static/media/login-slide-4.png": "/instagram/static/media/login-slide-4.b1eacf1f6f6f4c47a49a.png",
+    "static/media/login-slide-2.png": "/instagram/static/media/login-slide-2.d40500a76647ef643b53.png",
+    "static/media/login-background.png": "/instagram/static/media/login-background.d7b868078a7f6cb9112a.png",
+    "static/media/login-slide-3.png": "/instagram/static/media/login-slide-3.e89970c85bfb14b63527.png",
+    "static/media/icon-image-2.png": "/instagram/static/media/icon-image-2.67e57e88d221acbd15de.png",
+    "static/media/icon-image.png": "/instagram/static/media/icon-image.387bf53876c9c71c60c0.png",
+    "static/media/avatar-default.jpg": "/instagram/static/media/avatar-default.7fe14f0accd9979e3303.jpg",
+    "static/media/googleplay.png": "/instagram/static/media/googleplay.d255a6c504315fa57d4d.png",
+    "index.html": "/instagram/index.html",
+    "main.66fbcc1c.css.map": "/instagram/static/css/main.66fbcc1c.css.map",
+    "main.7b99da56.js.map": "/instagram/static/js/main.7b99da56.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.66fbcc1c.css",
+    "static/js/main.7b99da56.js"
+  ]
+}
