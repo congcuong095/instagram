@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import { auth } from '@/firebaseConfig';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import images from '@/assets/images';
 import Button from '@/components/Button';
@@ -149,9 +149,9 @@ function AutoForm({ onChangeLogin, onChangeAutoOne, propState, propAccounts, isL
             <div className={cx('login')}>
                 <div className={cx('login-main')}>
                     <div className={cx('login-header')}>
-                        <a href="/">
+                        <Link to="/">
                             <img className={cx('login-logo')} src={images.logo} alt="insatgram" />
-                        </a>
+                        </Link>
                     </div>
                     <div className={cx('login-content')}>
                         <div className={cx('login-accounts')}>{autoFormAccounts && renderAccounts()}</div>

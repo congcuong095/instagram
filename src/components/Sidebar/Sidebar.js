@@ -8,6 +8,7 @@ import images from '@/assets/images';
 import Button from '@/components/Button/index';
 import FooterSidebar from '@/components/FooterSidebar/FooterSidebar';
 import { ModalChangeAccount } from '@/components/Modal';
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -83,15 +84,15 @@ function Sidebar() {
             <div className={cx('wrapper')}>
                 <div className={cx('user-info')}>
                     <div className={cx('user-avatar')}>
-                        <a href={userInfo.username}>
+                        <Link to={`/${userInfo.username}`}>
                             <img src={userInfo.profile_pic_url || images.avatarDefault} />
-                        </a>
+                        </Link>
                     </div>
                     <div className={cx('user-name')}>
-                        <a href={userInfo.username} className={cx('username')}>
+                        <Link to={`/${userInfo.username}`} className={cx('username')}>
                             {userInfo.username}{' '}
                             {userInfo.is_verified && <span className={cx('account-verified')}></span>}
-                        </a>
+                        </Link>
                         <div className={cx('fullname')}>{userInfo.full_name}</div>
                     </div>
                     <div className={cx('user-change-account')}>
@@ -104,7 +105,7 @@ function Sidebar() {
                     <div className={cx('suggest-header')}>
                         <div className={cx('suggest-header__title')}>Gợi ý cho bạn</div>
                         <div className={cx('suggest-header__show-all')}>
-                            <a href="/explore/people">Xem tất cả</a>
+                            <Link to="/explore/people">Xem tất cả</Link>
                         </div>
                     </div>
                     <div className={cx('suggest-list')}>
@@ -115,14 +116,14 @@ function Sidebar() {
                                     return (
                                         <div className={cx('suggest-item')} key={index}>
                                             <div className={cx('suggester-avatar')}>
-                                                <a href={item.username}>
+                                                <Link to={`/${item.username}`}>
                                                     <img src={item.profile_pic_url || images.avatarDefault} />
-                                                </a>
+                                                </Link>
                                             </div>
                                             <div className={cx('suggester-name')}>
-                                                <a href={item.username} className={cx('suggester-username')}>
+                                                <Link to={`/${item.username}`} className={cx('suggester-username')}>
                                                     {item.username} {item.is_verified && <span></span>}
-                                                </a>
+                                                </Link>
                                                 <div className={cx('suggester-follower')}>
                                                     {item.followed_by
                                                         ? `Có ${item.followed_by.length} người theo dõi`

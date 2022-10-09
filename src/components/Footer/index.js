@@ -4,6 +4,7 @@ import classNames from 'classnames/bind';
 import Button from '@/components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -12,97 +13,97 @@ function Footer({ haveTopic }) {
         <div className={cx('footer')}>
             <div className={cx('footer-menu')}>
                 <div className={cx('footer-item')}>
-                    <a className={cx('footer-link')} href="/">
+                    <Link className={cx('footer-link')} to="/">
                         Meta
-                    </a>
+                    </Link>
                 </div>
                 <div className={cx('footer-item')}>
-                    <a className={cx('footer-link')} href="/">
+                    <Link className={cx('footer-link')} to="/">
                         Giới thiệu
-                    </a>
+                    </Link>
                 </div>
                 <div className={cx('footer-item')}>
-                    <a className={cx('footer-link')} href="/">
+                    <Link className={cx('footer-link')} to="/">
                         Blog
-                    </a>
+                    </Link>
                 </div>
                 <div className={cx('footer-item')}>
-                    <a className={cx('footer-link')} href="/">
+                    <Link className={cx('footer-link')} to="/">
                         Việc làm
-                    </a>
+                    </Link>
                 </div>
                 <div className={cx('footer-item')}>
-                    <a className={cx('footer-link')} href="/">
+                    <Link className={cx('footer-link')} to="/">
                         Trợ giúp
-                    </a>
+                    </Link>
                 </div>
                 <div className={cx('footer-item')}>
-                    <a className={cx('footer-link')} href="/">
+                    <Link className={cx('footer-link')} to="/">
                         API
-                    </a>
+                    </Link>
                 </div>
                 <div className={cx('footer-item')}>
-                    <a className={cx('footer-link')} href="/">
+                    <Link className={cx('footer-link')} to="/">
                         Quyền riêng tư
-                    </a>
+                    </Link>
                 </div>
                 <div className={cx('footer-item')}>
-                    <a className={cx('footer-link')} href="/">
+                    <Link className={cx('footer-link')} to="/">
                         Điều khoản
-                    </a>
+                    </Link>
                 </div>
                 <div className={cx('footer-item')}>
-                    <a className={cx('footer-link')} href="/">
+                    <Link className={cx('footer-link')} to="/">
                         Tài khoản liên quan nhất
-                    </a>
+                    </Link>
                 </div>
                 <div className={cx('footer-item')}>
-                    <a className={cx('footer-link')} href="/">
+                    <Link className={cx('footer-link')} to="/">
                         Hashtag
-                    </a>
+                    </Link>
                 </div>
                 <div className={cx('footer-item')}>
-                    <a className={cx('footer-link')} href="/">
+                    <Link className={cx('footer-link')} to="/">
                         Vị trí
-                    </a>
+                    </Link>
                 </div>
                 <div className={cx('footer-item')}>
-                    <a className={cx('footer-link')} href="/">
+                    <Link className={cx('footer-link')} to="/">
                         Instagram Lite
-                    </a>
+                    </Link>
                 </div>
                 <div className={cx('footer-item')}>
-                    <a className={cx('footer-link')} href="/">
+                    <Link className={cx('footer-link')} to="/">
                         Tải thông tin người liên hệ lên & người không phải người dùng
-                    </a>
+                    </Link>
                 </div>
             </div>
             {haveTopic && (
                 <div className={cx('footer-topics')}>
                     <div className={cx('footer-item')}>
-                        <a className={cx('footer-link')} href="/">
+                        <Link className={cx('footer-link')} to="/">
                             Khiêu vũ
-                        </a>
+                        </Link>
                     </div>
                     <div className={cx('footer-item')}>
-                        <a className={cx('footer-link')} href="/">
+                        <Link className={cx('footer-link')} to="/">
                             Ẩm thực
-                        </a>
+                        </Link>
                     </div>
                     <div className={cx('footer-item')}>
-                        <a className={cx('footer-link')} href="/">
+                        <Link className={cx('footer-link')} to="/">
                             Nhà & vườn
-                        </a>
+                        </Link>
                     </div>
                     <div className={cx('footer-item')}>
-                        <a className={cx('footer-link')} href="/">
+                        <Link className={cx('footer-link')} to="/">
                             Âm nhạc
-                        </a>
+                        </Link>
                     </div>
                     <div className={cx('footer-item')}>
-                        <a className={cx('footer-link')} href="/">
+                        <Link className={cx('footer-link')} to="/">
                             Nghệ thuật thị giác
-                        </a>
+                        </Link>
                     </div>
                 </div>
             )}

@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import { auth, db } from '@/firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Tippy from '@tippyjs/react/headless';
 
 import images from '@/assets/images';
@@ -20,6 +20,7 @@ function Header({ pageInfo }) {
     const [userInfo, setUserInfo] = useState({});
     const [modalChangeAccount, setModalChangeAccount] = useState(false);
     const localStore = useLocalStore();
+    const navigate = useNavigate();
 
     //Handle when click header button
     const handleHome = () => {
@@ -64,6 +65,10 @@ function Header({ pageInfo }) {
             .then(() => {
                 localStore.set('LOGIN_STATE', false);
             })
+            .then(() => {
+                navigate('/');
+                window.location.reload();
+            })
             .catch((err) => console.log(err));
     };
 
@@ -91,9 +96,15 @@ function Header({ pageInfo }) {
                 <div className={cx('contain-1')}>
                     <div className={cx('contain-2')}>
                         <div className={cx('logo')}>
-                            <a href="/" className={cx('logo-link')}>
+                            <Link
+                                to="/"
+                                className={cx('logo-link')}
+                                onClick={() => {
+                                    window.location.reload();
+                                }}
+                            >
                                 {icon.logo}
-                            </a>
+                            </Link>
                         </div>
                         <Search />
                         <div className={cx('direct')}>
@@ -248,9 +259,9 @@ function Header({ pageInfo }) {
                                                     <div className={cx('user-page__title')}>Chuyển tài khoản</div>
                                                 </div>
                                                 <div className={cx('user-item', 'boder-top')} onClick={handleLogOut}>
-                                                    <a className={cx('user-page__title')} href="/">
+                                                    <Link className={cx('user-page__title')} to="/">
                                                         Đăng xuất
-                                                    </a>
+                                                    </Link>
                                                 </div>
                                             </div>
                                         </div>

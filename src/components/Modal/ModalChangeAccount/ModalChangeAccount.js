@@ -5,7 +5,7 @@ import { auth } from '@/firebaseConfig';
 
 import * as icon from '@/assets/icons/icon';
 import images from '@/assets/images';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useLocalStore } from '@/hooks';
 
 const cx = classNames.bind(styles);
@@ -57,6 +57,10 @@ function ModalChangeAccount({ onCancelChange }) {
             .then(() => {
                 localStore.set('LOGIN_STATE', false);
             })
+            .then(() => {
+                navigate('/');
+                window.location.reload();
+            })
             .catch((err) => console.log(err));
     };
 
@@ -87,9 +91,9 @@ function ModalChangeAccount({ onCancelChange }) {
                     })}
                 </div>
                 <div className={cx('modal-logOut')}>
-                    <a href="/" onClick={handleLogOut}>
+                    <Link to="/" onClick={handleLogOut}>
                         Đăng nhập vào tải khoản hiện có
-                    </a>
+                    </Link>
                 </div>
             </div>
         </div>

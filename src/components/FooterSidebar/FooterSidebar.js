@@ -1,5 +1,6 @@
 import styles from './FooterSidebar.module.scss';
 import classNames from 'classnames/bind';
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -8,44 +9,44 @@ function FooterSidebar() {
         <div className={cx('footer')}>
             <div className={cx('footer-menu')}>
                 <div className={cx('footer-item')}>
-                    <a className={cx('footer-link')} href="/">
+                    <Link className={cx('footer-link')} to="/">
                         <span>Giới thiệu</span>
-                    </a>
+                    </Link>
                 </div>
                 <div className={cx('footer-item')}>
-                    <a className={cx('footer-link')} href="/">
+                    <Link className={cx('footer-link')} to="/">
                         <span>Trợ giúp</span>
-                    </a>
+                    </Link>
                 </div>
                 <div className={cx('footer-item')}>
-                    <a className={cx('footer-link')} href="/">
+                    <Link className={cx('footer-link')} to="/">
                         <span>Báo chí</span>
-                    </a>
+                    </Link>
                 </div>
                 <div className={cx('footer-item')}>
-                    <a className={cx('footer-link')} href="/">
+                    <Link className={cx('footer-link')} to="/">
                         <span>API</span>
-                    </a>
+                    </Link>
                 </div>
                 <div className={cx('footer-item')}>
-                    <a className={cx('footer-link')} href="/">
+                    <Link className={cx('footer-link')} to="/">
                         <span>Việc làm</span>
-                    </a>
+                    </Link>
                 </div>
                 <div className={cx('footer-item')}>
-                    <a className={cx('footer-link')} href="/">
+                    <Link className={cx('footer-link')} to="/">
                         <span>Quyền riêng tư</span>
-                    </a>
+                    </Link>
                 </div>
                 <div className={cx('footer-item')}>
-                    <a className={cx('footer-link')} href="/">
+                    <Link className={cx('footer-link')} to="/">
                         <span>Điều khoản</span>
-                    </a>
+                    </Link>
                 </div>
                 <div className={cx('footer-item')}>
-                    <a className={cx('footer-link')} href="/">
+                    <Link className={cx('footer-link')} to="/">
                         <span>Vị trí</span>
-                    </a>
+                    </Link>
                 </div>
                 <div className={cx('footer-item')}>
                     <div className={cx('footer-language')}>Ngôn ngữ</div>

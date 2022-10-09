@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
 import { auth, db } from '@/firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 import images from '@/assets/images';
@@ -116,9 +116,9 @@ function LoginForm({ isLogin, propAccounts }) {
         <div className={cx('login')}>
             <div className={cx('login-main')}>
                 <div className={cx('login-header')}>
-                    <a href="/">
+                    <Link to="/">
                         <img className={cx('login-logo')} src={images.logo} alt="insatgram" />
-                    </a>
+                    </Link>
                 </div>
                 <>
                     <div className={cx('login-input')}>
@@ -165,9 +165,9 @@ function LoginForm({ isLogin, propAccounts }) {
                         >
                             Đăng nhập bằng Facebook
                         </Button>
-                        <a href="/account/forgotpassword" className={cx('login-forgot-password')}>
+                        <Link to="/account/forgotpassword" className={cx('login-forgot-password')}>
                             Quên mật khẩu
-                        </a>
+                        </Link>
                     </div>
                 </>
             </div>

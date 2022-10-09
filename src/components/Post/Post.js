@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import images from '@/assets/images';
 import * as icon from '@/assets/icons/icon';
 import Button from '../Button';
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -31,13 +32,13 @@ function Post() {
             <div className={cx('header')}>
                 <div className={cx('header-user')}>
                     <div className={cx('header-user__avatar')}>
-                        <a href="/">
+                        <Link to="/">
                             <img src={images.avatar1} />
-                        </a>
+                        </Link>
                     </div>
-                    <a href="/" className={cx('user-name')}>
+                    <Link to="/" className={cx('user-name')}>
                         nganha.203
-                    </a>
+                    </Link>
                 </div>
                 <div className={cx('header-option')}>{icon.optionIcon}</div>
             </div>
@@ -78,49 +79,49 @@ function Post() {
                     <div className={cx('interactive-action__save')}>{icon.saveIcon}</div>
                 </div>
                 <div className={cx('interactive-count-like')}>
-                    <a href="/" className={cx('user-name')}>
+                    <Link to="/" className={cx('user-name')}>
                         __ngc.dyp__
-                    </a>
+                    </Link>
                     {' và '}
-                    <a href="/" className={cx('user-name')}>
+                    <Link to="/" className={cx('user-name')}>
                         những người khác
-                    </a>
+                    </Link>
                     {' đã thích '}
                 </div>
                 <div className={cx('interactive-main')}>
                     <div className={cx('interactive-main__user-caption')}>
-                        <a href="/" className={cx('user-name')}>
+                        <Link to="/" className={cx('user-name')}>
                             nganha.203
-                        </a>
+                        </Link>
                         <div className={cx('normal-text')}>{'Em la so mot 🤗 '}</div>
                     </div>
                     <div className={cx('interactive-main__more')}>Xem tất cả 33 bình luận</div>
                     <ul className={cx('interactive-main__list-comment')}>
                         <li className={cx('interactive-main__list-item')}>
-                            <a href="/" className={cx('user-name')}>
+                            <Link to="/" className={cx('user-name')}>
                                 khnh.an
-                            </a>
+                            </Link>
                             <div className={cx('normal-text')}>{`Gì mà cute dậy bà dà`}</div>
                             <div className={cx('interactive-main__icon')}>{icon.likeIcon}</div>
                         </li>
                         <li className={cx('interactive-main__list-item')}>
-                            <a href="/" className={cx('user-name')}>
+                            <Link to="/" className={cx('user-name')}>
                                 nganha.203
-                            </a>
+                            </Link>
                             <div className={cx('normal-text')}>
-                                <a href="/" className={cx('tag-name')}>
+                                <Link to="/" className={cx('tag-name')}>
                                     @khhn.an
-                                </a>{' '}
+                                </Link>{' '}
                                 {' Ăn '}
-                                <a href="/" className={cx('tag-name')}>
+                                <Link to="/" className={cx('tag-name')}>
                                     @khhn.an
-                                </a>
+                                </Link>
                             </div>
                         </li>
                         <li className={cx('interactive-main__list-item')}>
-                            <a href="/" className={cx('user-name')}>
+                            <Link to="/" className={cx('user-name')}>
                                 flotino166
-                            </a>
+                            </Link>
                             <div className={cx('normal-text')}>{`ok`}</div>
                         </li>
                     </ul>

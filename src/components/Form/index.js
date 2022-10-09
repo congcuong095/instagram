@@ -7,6 +7,7 @@ import AutoForm from './AutoForm/AutoForm';
 import LoginForm from './LoginForm/LoginForm';
 import RegisterForm from './RegisterForm/RegisterForm';
 import Ask from './Ask/Ask';
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -76,12 +77,12 @@ function Form({ propState, propAccounts, isLogin }) {
                         <div className={cx('app')}>
                             <div className={cx('app-title')}>Tải ứng dụng</div>
                             <div className={cx('app-img')}>
-                                <a href="/">
+                                <Link to="/">
                                     <img src={images.appstore} alt="App Store" className={cx('appstore')} />
-                                </a>
-                                <a href="/">
+                                </Link>
+                                <Link to="/">
                                     <img src={images.googleplay} alt="Google Play" className={cx('googleplay')} />
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </>
