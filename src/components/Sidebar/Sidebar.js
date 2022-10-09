@@ -84,12 +84,16 @@ function Sidebar() {
             <div className={cx('wrapper')}>
                 <div className={cx('user-info')}>
                     <div className={cx('user-avatar')}>
+
                         <Link to={`/${userInfo.username}`}>
+
                             <img src={userInfo.profile_pic_url || images.avatarDefault} />
                         </Link>
                     </div>
                     <div className={cx('user-name')}>
+
                         <Link to={`/${userInfo.username}`} className={cx('username')}>
+
                             {userInfo.username}{' '}
                             {userInfo.is_verified && <span className={cx('account-verified')}></span>}
                         </Link>
@@ -116,12 +120,16 @@ function Sidebar() {
                                     return (
                                         <div className={cx('suggest-item')} key={index}>
                                             <div className={cx('suggester-avatar')}>
+
                                                 <Link to={`/${item.username}`}>
+
                                                     <img src={item.profile_pic_url || images.avatarDefault} />
                                                 </Link>
                                             </div>
                                             <div className={cx('suggester-name')}>
+
                                                 <Link to={`/${item.username}`} className={cx('suggester-username')}>
+
                                                     {item.username} {item.is_verified && <span></span>}
                                                 </Link>
                                                 <div className={cx('suggester-follower')}>

@@ -96,6 +96,7 @@ function Header({ pageInfo }) {
                 <div className={cx('contain-1')}>
                     <div className={cx('contain-2')}>
                         <div className={cx('logo')}>
+
                             <Link
                                 to="/"
                                 className={cx('logo-link')}
@@ -103,6 +104,7 @@ function Header({ pageInfo }) {
                                     window.location.reload();
                                 }}
                             >
+
                                 {icon.logo}
                             </Link>
                         </div>
