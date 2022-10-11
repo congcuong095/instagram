@@ -13,9 +13,10 @@ const cx = classNames.bind(styles);
 
 function ModalUpload({ onCancelUpload }) {
     const [userInfo, setUserInfo] = useState({});
-    const [imgSelected, setImgSelected] = useState('');
+    const [imgSelected, setImgSelected] = useState([]);
     const [caption, setCaption] = useState('');
     const inputRef = useRef();
+    const listImgRef = useRef();
 
     const handleStopPropagation = (e) => {
         e.stopPropagation();
@@ -26,7 +27,8 @@ function ModalUpload({ onCancelUpload }) {
     };
 
     const handleUpload = (e) => {
-        setImgSelected(e.target.files[0]);
+        setImgSelected(e.target.files);
+        console.log(e.target.files);
 
         auth.onAuthStateChanged(async (user) => {
             if (user) {
@@ -40,10 +42,19 @@ function ModalUpload({ onCancelUpload }) {
         });
     };
 
+    const handleNextImg = () => {
+        listImgRef.current.style.transform = `translateX(-750px)`;
+    };
+    const handlePrevImg = () => {
+        listImgRef.current.style.transform = `translateX(750px)`;
+    };
+
     const handleShare = () => {
         auth.onAuthStateChanged(async (user) => {
             if (user) {
                 let UID = user.uid;
+                const docRef = doc(db, 'user', UID);
+                const docSnap = await getDoc(docRef);
 
                 const storageRef = storage.ref(`${UID}\/${imgSelected.name}`);
 
@@ -55,8 +66,14 @@ function ModalUpload({ onCancelUpload }) {
                         if (data) {
                             const docRef = doc(db, 'media', UID);
                             setDoc(docRef, {
+                                uid: UID,
+                                username: docSnap.data().username,
+                                avatar: docSnap.data().profile_pic_url,
+                                post_img_url: [...data],
                                 caption: caption,
-                                post_img_url: data,
+                                comment: [],
+                                like_by: [],
+                                time: '',
                             });
                         }
                     })
@@ -71,24 +88,51 @@ function ModalUpload({ onCancelUpload }) {
             <div className={cx('close')}>{icon.close}</div>
             <div className={cx('modal-wrapper')} onClick={(e) => handleStopPropagation(e)}>
                 <div className={cx('modal-heading')}>
-                    {imgSelected !== '' && (
+                    {imgSelected.length > 0 && (
                         <span className={cx('modal-heading-cancel')} onClick={onCancelUpload}>
                             Hủy
                         </span>
                     )}
                     <span className={cx('modal-heading-title')}>Tạo bài viết mới</span>
-                    {imgSelected !== '' && (
+                    {imgSelected.length > 0 && (
                         <span className={cx('modal-heading-share')} onClick={handleShare}>
                             Chia sẻ
                         </span>
                     )}
                 </div>
                 <div className={cx('modal-content')}>
-                    {imgSelected !== '' ? (
+                    {imgSelected.length > 0 ? (
                         <div className={cx('content-upload')}>
-                            <div className={cx('content-upload-img')}>
-                                <img src={URL.createObjectURL(imgSelected)} />
+                            <div className={cx('content-image__main')}>
+                                <div className={cx('content-image__list')}>
+                                    {/* {imgSelected.map((item, index) => {
+                                        const srcImg = URL.createObjectURL(item);
+                                        return (
+                                            <div key={index} className={cx('content-image__item')}>
+                                                <img src={srcImg} />
+                                            </div>
+                                        );
+                                    })} */}
+                                    <div className={cx('content-image__item')} ref={listImgRef}>
+                                        <img src={URL.createObjectURL(imgSelected[0])} />
+                                        <img src={URL.createObjectURL(imgSelected[1])} />
+                                        <img src={URL.createObjectURL(imgSelected[2])} />
+                                    </div>
+                                </div>
+                                <div className={cx('content-btn-right')} onClick={handleNextImg}>
+                                    <div className={cx('content-btn-img')}></div>
+                                </div>
+
+                                <div className={cx('content-btn-left')} onClick={handlePrevImg}>
+                                    <div className={cx('content-btn-img')}></div>
+                                </div>
+                                <div className={cx('content-pagi')}>
+                                    <div className={cx('content-pagi__step', 'active')}></div>
+                                    <div className={cx('content-pagi__step')}></div>
+                                    <div className={cx('content-pagi__step')}></div>
+                                </div>
                             </div>
+
                             <div className={cx('content-upload-caption')}>
                                 <div className={cx('user-info')}>
                                     <div className={cx('user-avatar')}>
@@ -134,6 +178,7 @@ function ModalUpload({ onCancelUpload }) {
                                     ref={inputRef}
                                     type="file"
                                     name="myFile"
+                                    multiple="multiple"
                                     className={cx('content-input')}
                                     onChange={(e) => handleUpload(e)}
                                 />
