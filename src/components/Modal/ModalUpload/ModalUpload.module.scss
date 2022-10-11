@@ -97,13 +97,14 @@
         width: 750px;
         height: 750px;
         position: relative;
+        overflow: hidden;
     }
     .content-image__list {
-        width: 100%;
+        position: absolute;
         display: flex;
         flex-direction: row;
-        overflow: hidden;
         list-style-type: none;
+        transition: 0.3s ease-in-out;
     }
     .content-image__item {
         object-fit: cover;
@@ -111,7 +112,6 @@
         justify-content: center;
         align-items: center;
         height: 750px;
-        transform: translateX(-750px);
         img {
             width: 750px;
             height: auto;

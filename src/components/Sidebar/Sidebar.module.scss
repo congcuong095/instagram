@@ -104,6 +104,14 @@
         margin-right: 16px;
     }
 }
+
+.suggest-none-item {
+    width: auto;
+    text-align: center;
+    color: var(--secondary-text);
+    font-weight: var(--font-bold);
+    margin: 32px;
+}
 .suggest-list {
     margin-bottom: 4px;
     padding: 8px 0;

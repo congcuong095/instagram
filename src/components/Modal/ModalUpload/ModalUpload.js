@@ -1,9 +1,9 @@
 import styles from './ModalUpload.module.scss';
 import classNames from 'classnames/bind';
 import { storage, auth, db } from '@/firebaseConfig';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 import * as icon from '@/assets/icons/icon';
 import Button from '@/components/Button';
@@ -17,6 +17,14 @@ function ModalUpload({ onCancelUpload }) {
     const [caption, setCaption] = useState('');
     const inputRef = useRef();
     const listImgRef = useRef();
+    const [UID, setUID] = useState('');
+    useEffect(() => {
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                setUID(user.uid);
+            }
+        });
+    }, []);
 
     const handleStopPropagation = (e) => {
         e.stopPropagation();
@@ -26,62 +34,57 @@ function ModalUpload({ onCancelUpload }) {
         inputRef.current.click();
     };
 
-    const handleUpload = (e) => {
-        setImgSelected(e.target.files);
-        console.log(e.target.files);
+    const handleUpload = async (e) => {
+        setImgSelected([...e.target.files]);
 
-        auth.onAuthStateChanged(async (user) => {
-            if (user) {
-                let UID = user.uid;
+        const docRef = doc(db, 'user', UID);
+        const docSnap = await getDoc(docRef);
 
-                const docRef = doc(db, 'user', UID);
-                const docSnap = await getDoc(docRef);
-
-                setUserInfo(docSnap.data());
-            }
-        });
+        setUserInfo(docSnap.data());
     };
 
     const handleNextImg = () => {
-        listImgRef.current.style.transform = `translateX(-1500px)`;
+        if (listImgRef.current.offsetLeft + listImgRef.current.offsetWidth > 750) {
+            listImgRef.current.style.left = `${listImgRef.current.offsetLeft - 750}px`;
+        }
     };
     const handlePrevImg = () => {
-        listImgRef.current.style.transform = `translateX(0px)`;
+        if (
+            listImgRef.current.offsetLeft + listImgRef.current.offsetWidth >= 750 &&
+            listImgRef.current.offsetLeft < 0
+        ) {
+            listImgRef.current.style.left = `${listImgRef.current.offsetLeft + 750}px`;
+        }
     };
 
-    const handleShare = () => {
-        auth.onAuthStateChanged(async (user) => {
-            if (user) {
-                let UID = user.uid;
-                const docRef = doc(db, 'user', UID);
-                const docSnap = await getDoc(docRef);
+    const handleShare = async () => {
+        const docRef = doc(db, 'user', UID);
+        const docSnap = await getDoc(docRef);
 
-                const storageRef = storage.ref(`${UID}\/${imgSelected.name}`);
+        const storageRef = storage.ref(`${UID}\/${imgSelected.name}`);
 
-                await storageRef.put(imgSelected);
+        await storageRef.put(imgSelected);
 
-                await storageRef
-                    .getDownloadURL()
-                    .then((data) => {
-                        if (data) {
-                            const docRef = doc(db, 'media', UID);
-                            setDoc(docRef, {
-                                uid: UID,
-                                username: docSnap.data().username,
-                                avatar: docSnap.data().profile_pic_url,
-                                post_img_url: [...data],
-                                caption: caption,
-                                comment: [],
-                                like_by: [],
-                                time: '',
-                            });
-                        }
-                    })
-                    .catch((error) => {
-                        alert(error);
+        await storageRef
+            .getDownloadURL()
+            .then((data) => {
+                if (data) {
+                    const docRef = doc(db, 'media', UID);
+                    setDoc(docRef, {
+                        uid: UID,
+                        username: docSnap.data().username,
+                        avatar: docSnap.data().profile_pic_url,
+                        post_img_url: [...data],
+                        caption: caption,
+                        comment: [],
+                        like_by: [],
+                        time: '',
                     });
-            }
-        });
+                }
+            })
+            .catch((error) => {
+                alert(error);
+            });
     };
     return (
         <div className={cx('modal')} onClick={onCancelUpload}>
@@ -104,20 +107,15 @@ function ModalUpload({ onCancelUpload }) {
                     {imgSelected.length > 0 ? (
                         <div className={cx('content-upload')}>
                             <div className={cx('content-image__main')}>
-                                <div className={cx('content-image__list')}>
-                                    {/* {imgSelected.map((item, index) => {
+                                <div className={cx('content-image__list')} ref={listImgRef}>
+                                    {imgSelected.map((item, index) => {
                                         const srcImg = URL.createObjectURL(item);
                                         return (
                                             <div key={index} className={cx('content-image__item')}>
                                                 <img src={srcImg} />
                                             </div>
                                         );
-                                    })} */}
-                                    <div className={cx('content-image__item')} ref={listImgRef}>
-                                        <img src={URL.createObjectURL(imgSelected[0])} />
-                                        <img src={URL.createObjectURL(imgSelected[1])} />
-                                        <img src={URL.createObjectURL(imgSelected[2])} />
-                                    </div>
+                                    })}
                                 </div>
                                 <div className={cx('content-btn-right')} onClick={handleNextImg}>
                                     <div className={cx('content-btn-img')}></div>

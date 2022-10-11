@@ -16,38 +16,41 @@ function Sidebar() {
     const [userInfo, setUserInfo] = useState({});
     const [suggestList, setSuggestList] = useState([]);
     const [modalChangeAccount, setModalChangeAccount] = useState(false);
+    const [UID, setUID] = useState('');
 
     //Get data
-    const getData = async () => {
-        auth.onAuthStateChanged(async (user) => {
-            if (user) {
-                let UID = user.uid;
-                const docRef = doc(db, 'user', UID);
-                const docSnap = await getDoc(docRef);
-                const querySnapshot = await getDocs(collection(db, 'user'));
-                let arrUserSuggest = querySnapshot.docs.filter((item) => {
-                    if (item.id !== UID) {
-                        if (docSnap.data().following) {
-                            if (
-                                docSnap.data().following.every((item2) => {
-                                    return item2 !== item.id;
-                                })
-                            ) {
-                                return item;
-                            }
-                        } else {
-                            return item;
-                        }
-                    }
-                });
 
-                setUserInfo(docSnap.data());
-                setSuggestList(arrUserSuggest);
+    const getData = async (UID) => {
+        const docRef = doc(db, 'user', UID);
+        const docSnap = await getDoc(docRef);
+        const querySnapshot = await getDocs(collection(db, 'user'));
+        let arrUserSuggest = querySnapshot.docs.filter((item) => {
+            if (item.id !== UID) {
+                if (docSnap.data().following) {
+                    if (
+                        docSnap.data().following.every((item2) => {
+                            return item2 !== item.id;
+                        })
+                    ) {
+                        return item;
+                    }
+                } else {
+                    return item;
+                }
             }
         });
+
+        setUserInfo(docSnap.data());
+        setSuggestList(arrUserSuggest);
     };
+
     useEffect(() => {
-        getData();
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                setUID(user.uid);
+                getData(user.uid);
+            }
+        });
     }, []);
 
     //Handle change account
@@ -63,18 +66,13 @@ function Sidebar() {
     const handleFollow = async (uidFriend, e) => {
         e.target.innerText = 'Đang theo dõi';
         e.target.style.color = 'rgb(38,38,38)';
-        auth.onAuthStateChanged(async (user) => {
-            if (user) {
-                let UID = user.uid;
-                const userRef = doc(db, 'user', UID);
-                const followRef = doc(db, 'user', uidFriend);
-                await updateDoc(userRef, {
-                    following: arrayUnion(uidFriend),
-                });
-                await updateDoc(followRef, {
-                    followed_by: arrayUnion(UID),
-                });
-            }
+        const userRef = doc(db, 'user', UID);
+        const followRef = doc(db, 'user', uidFriend);
+        await updateDoc(userRef, {
+            following: arrayUnion(uidFriend),
+        });
+        await updateDoc(followRef, {
+            followed_by: arrayUnion(UID),
         });
     };
 
@@ -84,16 +82,12 @@ function Sidebar() {
             <div className={cx('wrapper')}>
                 <div className={cx('user-info')}>
                     <div className={cx('user-avatar')}>
-
                         <Link to={`/${userInfo.username}`}>
-
                             <img src={userInfo.profile_pic_url || images.avatarDefault} />
                         </Link>
                     </div>
                     <div className={cx('user-name')}>
-
                         <Link to={`/${userInfo.username}`} className={cx('username')}>
-
                             {userInfo.username}{' '}
                             {userInfo.is_verified && <span className={cx('account-verified')}></span>}
                         </Link>
@@ -113,23 +107,19 @@ function Sidebar() {
                         </div>
                     </div>
                     <div className={cx('suggest-list')}>
-                        {suggestList.length > 0 &&
+                        {suggestList.length > 0 ? (
                             suggestList.map((rootItem, index) => {
                                 if (index < 5) {
                                     let item = rootItem.data();
                                     return (
                                         <div className={cx('suggest-item')} key={index}>
                                             <div className={cx('suggester-avatar')}>
-
                                                 <Link to={`/${item.username}`}>
-
                                                     <img src={item.profile_pic_url || images.avatarDefault} />
                                                 </Link>
                                             </div>
                                             <div className={cx('suggester-name')}>
-
                                                 <Link to={`/${item.username}`} className={cx('suggester-username')}>
-
                                                     {item.username} {item.is_verified && <span></span>}
                                                 </Link>
                                                 <div className={cx('suggester-follower')}>
@@ -146,7 +136,10 @@ function Sidebar() {
                                         </div>
                                     );
                                 }
-                            })}
+                            })
+                        ) : (
+                            <div className={cx('suggest-none-item')}>Không có gợi ý cho bạn.</div>
+                        )}
                     </div>
                 </div>
                 <div className={cx('footer')}>
