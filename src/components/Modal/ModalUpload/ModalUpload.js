@@ -43,10 +43,10 @@ function ModalUpload({ onCancelUpload }) {
     };
 
     const handleNextImg = () => {
-        listImgRef.current.style.transform = `translateX(-750px)`;
+        listImgRef.current.style.transform = `translateX(-1500px)`;
     };
     const handlePrevImg = () => {
-        listImgRef.current.style.transform = `translateX(750px)`;
+        listImgRef.current.style.transform = `translateX(0px)`;
     };
 
     const handleShare = () => {
