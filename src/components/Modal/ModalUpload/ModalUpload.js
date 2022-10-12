@@ -45,27 +45,39 @@ function ModalUpload({ onCancelUpload }) {
     };
 
     const handleNextImg = (e) => {
-        if (listImgRef.current.offsetLeft + listImgRef.current.offsetWidth > 750) {
-            if (listImgRef.current.offsetLeft % 750 === 0) {
-                listImgRef.current.style.transition = '300ms cubic-bezier(0.215, 0.61, 0.355, 1) 0s';
-                listImgRef.current.style.left = `${listImgRef.current.offsetLeft - 750}px`;
-                listPagi.current.querySelectorAll('div').forEach((item, index) => {
-                    if (window.getComputedStyle(item).getPropertyValue('background-color') == 'rgb(0, 149, 246)') {
-                        item.style.background = 'rgb(166, 166, 166)';
-                        listPagi.current.querySelectorAll('div')[index + 1].style.background = 'rgb(0, 149, 246)';
-                    }
-                });
-            } else {
-                listImgRef.current.style.transition = 'none';
-                listImgRef.current.style.left = `${listImgRef.current.offsetLeft - 750}px`;
-                listPagi.current.querySelectorAll('div').forEach((item, index) => {
-                    if (window.getComputedStyle(item).getPropertyValue('background-color') == 'rgb(0, 149, 246)') {
-                        item.style.background = 'rgb(166, 166, 166)';
-                        listPagi.current.querySelectorAll('div')[index + 1].style.background = 'rgb(0, 149, 246)';
-                    }
-                });
-            }
-        }
+        // if (listImgRef.current.offsetLeft + listImgRef.current.offsetWidth > 750) {
+        //     if (listImgRef.current.offsetLeft % 750 === 0) {
+        //         listImgRef.current.style.transition = '200ms cubic-bezier(0.215, 0.61, 0.355, 1) 0s';
+        //         listImgRef.current.style.left = `${listImgRef.current.offsetLeft - 750}px`;
+        //         listPagi.current.querySelectorAll('div').forEach((item, index) => {
+        //             if (window.getComputedStyle(item).getPropertyValue('background-color') == 'rgb(0, 149, 246)') {
+        //                 item.style.background = 'rgb(166, 166, 166)';
+        //                 listPagi.current.querySelectorAll('div')[index + 1].style.background = 'rgb(0, 149, 246)';
+        //             }
+        //         });
+        //     } else {
+        //         listImgRef.current.style.transition = 'none';
+        //         listImgRef.current.style.left = `${listImgRef.current.offsetLeft - 750}px`;
+        //         listPagi.current.querySelectorAll('div').forEach((item, index) => {
+        //             if (window.getComputedStyle(item).getPropertyValue('background-color') == 'rgb(0, 149, 246)') {
+        //                 item.style.background = 'rgb(166, 166, 166)';
+        //                 listPagi.current.querySelectorAll('div')[index + 1].style.background = 'rgb(0, 149, 246)';
+        //             }
+        //         });
+        //     }
+        // }
+
+        listImgRef.current.setAttribute(
+            'style',
+            'transition: transform 302.827ms cubic-bezier(0.215, 0.61, 0.355, 1) 0s;transform: translateX(-750px);',
+        );
+
+        setImgSelected(([a, ...prev]) => {
+            // listImgRef.current.style.transition = 'none';
+            // listImgRef.current.style.transform = 'translateX(0px)';
+            return [...prev, a];
+        });
+        listImgRef.current.removeAttribute('style');
     };
     const handlePrevImg = () => {
         if (listImgRef.current.offsetLeft < 0) {
@@ -145,7 +157,11 @@ function ModalUpload({ onCancelUpload }) {
                                     {imgSelected.map((item, index) => {
                                         const srcImg = URL.createObjectURL(item);
                                         return (
-                                            <div key={index} className={cx('content-image__item')}>
+                                            <div
+                                                key={index}
+                                                className={cx('content-image__item')}
+                                                style={{ transform: `translateX(${index * 750}px)` }}
+                                            >
                                                 <img src={srcImg} />
                                             </div>
                                         );
