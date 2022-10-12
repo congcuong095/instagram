@@ -17,6 +17,7 @@ function ModalUpload({ onCancelUpload }) {
     const [caption, setCaption] = useState('');
     const inputRef = useRef();
     const listImgRef = useRef();
+    const listPagi = useRef();
     const [UID, setUID] = useState('');
     useEffect(() => {
         auth.onAuthStateChanged(async (user) => {
@@ -43,17 +44,50 @@ function ModalUpload({ onCancelUpload }) {
         setUserInfo(docSnap.data());
     };
 
-    const handleNextImg = () => {
+    const handleNextImg = (e) => {
         if (listImgRef.current.offsetLeft + listImgRef.current.offsetWidth > 750) {
-            listImgRef.current.style.left = `${listImgRef.current.offsetLeft - 750}px`;
+            if (listImgRef.current.offsetLeft % 750 === 0) {
+                listImgRef.current.style.transition = '300ms cubic-bezier(0.215, 0.61, 0.355, 1) 0s';
+                listImgRef.current.style.left = `${listImgRef.current.offsetLeft - 750}px`;
+                listPagi.current.querySelectorAll('div').forEach((item, index) => {
+                    if (window.getComputedStyle(item).getPropertyValue('background-color') == 'rgb(0, 149, 246)') {
+                        item.style.background = 'rgb(166, 166, 166)';
+                        listPagi.current.querySelectorAll('div')[index + 1].style.background = 'rgb(0, 149, 246)';
+                    }
+                });
+            } else {
+                listImgRef.current.style.transition = 'none';
+                listImgRef.current.style.left = `${listImgRef.current.offsetLeft - 750}px`;
+                listPagi.current.querySelectorAll('div').forEach((item, index) => {
+                    if (window.getComputedStyle(item).getPropertyValue('background-color') == 'rgb(0, 149, 246)') {
+                        item.style.background = 'rgb(166, 166, 166)';
+                        listPagi.current.querySelectorAll('div')[index + 1].style.background = 'rgb(0, 149, 246)';
+                    }
+                });
+            }
         }
     };
     const handlePrevImg = () => {
-        if (
-            listImgRef.current.offsetLeft + listImgRef.current.offsetWidth >= 750 &&
-            listImgRef.current.offsetLeft < 0
-        ) {
-            listImgRef.current.style.left = `${listImgRef.current.offsetLeft + 750}px`;
+        if (listImgRef.current.offsetLeft < 0) {
+            if (listImgRef.current.offsetLeft % 750 === 0) {
+                listImgRef.current.style.transition = '300ms cubic-bezier(0.215, 0.61, 0.355, 1) 0s';
+                listImgRef.current.style.left = `${listImgRef.current.offsetLeft + 750}px`;
+                listPagi.current.querySelectorAll('div').forEach((item, index) => {
+                    if (window.getComputedStyle(item).getPropertyValue('background-color') == 'rgb(0, 149, 246)') {
+                        item.style.background = 'rgb(166, 166, 166)';
+                        listPagi.current.querySelectorAll('div')[index - 1].style.background = 'rgb(0, 149, 246)';
+                    }
+                });
+            } else {
+                listImgRef.current.style.transition = 'none';
+                listImgRef.current.style.left = `${listImgRef.current.offsetLeft + 750}px`;
+                listPagi.current.querySelectorAll('div').forEach((item, index) => {
+                    if (window.getComputedStyle(item).getPropertyValue('background-color') == 'rgb(0, 149, 246)') {
+                        item.style.background = 'rgb(166, 166, 166)';
+                        listPagi.current.querySelectorAll('div')[index - 1].style.background = 'rgb(0, 149, 246)';
+                    }
+                });
+            }
         }
     };
 
@@ -117,17 +151,17 @@ function ModalUpload({ onCancelUpload }) {
                                         );
                                     })}
                                 </div>
-                                <div className={cx('content-btn-right')} onClick={handleNextImg}>
+                                <div className={cx('content-btn-right')} onClick={(e) => handleNextImg(e)}>
                                     <div className={cx('content-btn-img')}></div>
                                 </div>
 
-                                <div className={cx('content-btn-left')} onClick={handlePrevImg}>
+                                <div className={cx('content-btn-left')} onClick={(e) => handlePrevImg(e)}>
                                     <div className={cx('content-btn-img')}></div>
                                 </div>
-                                <div className={cx('content-pagi')}>
-                                    <div className={cx('content-pagi__step', 'active')}></div>
-                                    <div className={cx('content-pagi__step')}></div>
-                                    <div className={cx('content-pagi__step')}></div>
+                                <div className={cx('content-pagi')} ref={listPagi}>
+                                    {imgSelected.map((item, index) => {
+                                        return <div key={index} className={cx('content-pagi__step')}></div>;
+                                    })}
                                 </div>
                             </div>
 

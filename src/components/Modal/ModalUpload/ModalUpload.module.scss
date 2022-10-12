@@ -104,7 +104,7 @@
         display: flex;
         flex-direction: row;
         list-style-type: none;
-        transition: 0.3s ease-in-out;
+        transition: 300ms cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
     }
     .content-image__item {
         object-fit: cover;
@@ -169,7 +169,11 @@
         width: 100%;
         position: absolute;
         bottom: 0;
+        :first-child {
+            background: var(--facebook-color);
+        }
     }
+
     .content-pagi__step {
         background: rgb(166, 166, 166);
         border-radius: 50%;
@@ -177,10 +181,6 @@
         width: 6px;
         transition: all 0.2s ease-in-out;
         cursor: pointer;
-    }
-
-    .content-pagi__step.active {
-        background: var(--facebook-color);
     }
 
     .content-pagi__step + .content-pagi__step {
