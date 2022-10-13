@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import { storage, auth, db } from '@/firebaseConfig';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { doc, getDoc, setDoc, Timestamp } from 'firebase/firestore';
+import { arrayUnion, doc, getDoc, setDoc, Timestamp, updateDoc } from 'firebase/firestore';
 
 import * as icon from '@/assets/icons/icon';
 import Button from '@/components/Button';
@@ -110,20 +110,34 @@ function ModalUpload({ onCancelUpload }) {
                     alert(error);
                 });
         }
-        const docMediaRef = doc(db, 'media', UID);
-        let mediaData = [
-            {
-                uid: UID,
-                username: docSnap.data().username,
-                avatar: docSnap.data().profile_pic_url,
-                post_img_url: dataUrlImg,
-                caption: caption,
-                comment: [],
-                like_by: [],
-                time: Timestamp.now(),
-            },
-        ];
-        await setDoc(docMediaRef, mediaData);
+        let mediaData = {
+            uid: UID,
+            username: docSnap.data().username,
+            avatar: docSnap.data().profile_pic_url,
+            post_img_url: dataUrlImg,
+            caption: caption,
+            comment: [],
+            like_by: [],
+            time: Timestamp.now(),
+        };
+        db.collection('media')
+            .doc(UID)
+            .collection('listPost')
+            .add(mediaData)
+            .then((data) => {
+                userInfo.followed_by.forEach(async (uidUser) => {
+                    const docRef = doc(db, 'posts', uidUser);
+                    await updateDoc(docRef, {
+                        post: arrayUnion(`${uidUser}_${data.id}`),
+                    });
+                });
+            })
+            .then(() => {
+                onCancelUpload();
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
     return (
         <div className={cx('modal')} onClick={onCancelUpload}>
