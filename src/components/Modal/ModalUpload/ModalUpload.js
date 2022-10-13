@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import { storage, auth, db } from '@/firebaseConfig';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, Timestamp } from 'firebase/firestore';
 
 import * as icon from '@/assets/icons/icon';
 import Button from '@/components/Button';
@@ -15,10 +15,12 @@ function ModalUpload({ onCancelUpload }) {
     const [userInfo, setUserInfo] = useState({});
     const [imgSelected, setImgSelected] = useState([]);
     const [caption, setCaption] = useState('');
+    const [UID, setUID] = useState('');
+    const [nextImg, setNextImg] = useState(false);
+    const [prevImg, setPrevImg] = useState(false);
     const inputRef = useRef();
     const listImgRef = useRef();
     const listPagi = useRef();
-    const [UID, setUID] = useState('');
     useEffect(() => {
         auth.onAuthStateChanged(async (user) => {
             if (user) {
@@ -37,7 +39,9 @@ function ModalUpload({ onCancelUpload }) {
 
     const handleUpload = async (e) => {
         setImgSelected([...e.target.files]);
-
+        if (e.target.files.length > 1) {
+            setNextImg(true);
+        }
         const docRef = doc(db, 'user', UID);
         const docSnap = await getDoc(docRef);
 
@@ -45,92 +49,81 @@ function ModalUpload({ onCancelUpload }) {
     };
 
     const handleNextImg = (e) => {
-        // if (listImgRef.current.offsetLeft + listImgRef.current.offsetWidth > 750) {
-        //     if (listImgRef.current.offsetLeft % 750 === 0) {
-        //         listImgRef.current.style.transition = '200ms cubic-bezier(0.215, 0.61, 0.355, 1) 0s';
-        //         listImgRef.current.style.left = `${listImgRef.current.offsetLeft - 750}px`;
-        //         listPagi.current.querySelectorAll('div').forEach((item, index) => {
-        //             if (window.getComputedStyle(item).getPropertyValue('background-color') == 'rgb(0, 149, 246)') {
-        //                 item.style.background = 'rgb(166, 166, 166)';
-        //                 listPagi.current.querySelectorAll('div')[index + 1].style.background = 'rgb(0, 149, 246)';
-        //             }
-        //         });
-        //     } else {
-        //         listImgRef.current.style.transition = 'none';
-        //         listImgRef.current.style.left = `${listImgRef.current.offsetLeft - 750}px`;
-        //         listPagi.current.querySelectorAll('div').forEach((item, index) => {
-        //             if (window.getComputedStyle(item).getPropertyValue('background-color') == 'rgb(0, 149, 246)') {
-        //                 item.style.background = 'rgb(166, 166, 166)';
-        //                 listPagi.current.querySelectorAll('div')[index + 1].style.background = 'rgb(0, 149, 246)';
-        //             }
-        //         });
-        //     }
-        // }
+        const style = window.getComputedStyle(listImgRef.current);
+        const matrix = new DOMMatrixReadOnly(style.transform).m41;
+        const length = imgSelected.length * 750;
 
-        listImgRef.current.setAttribute(
-            'style',
-            'transition: transform 302.827ms cubic-bezier(0.215, 0.61, 0.355, 1) 0s;transform: translateX(-750px);',
-        );
-
-        setImgSelected(([a, ...prev]) => {
-            // listImgRef.current.style.transition = 'none';
-            // listImgRef.current.style.transform = 'translateX(0px)';
-            return [...prev, a];
-        });
-        listImgRef.current.removeAttribute('style');
+        if (length + matrix > 750) {
+            if (matrix % 750 === 0 || matrix % 750 === -0) {
+                if (length + matrix == 1500) {
+                    setNextImg(false);
+                }
+                listImgRef.current.style.transform = `translateX(${matrix - 750}px)`;
+                listPagi.current.querySelectorAll('div').forEach((item, index) => {
+                    if (window.getComputedStyle(item).getPropertyValue('background-color') == 'rgb(0, 149, 246)') {
+                        item.style.background = 'rgb(166, 166, 166)';
+                        listPagi.current.querySelectorAll('div')[index + 1].style.background = 'rgb(0, 149, 246)';
+                    }
+                });
+                setPrevImg(true);
+            }
+        }
     };
     const handlePrevImg = () => {
-        if (listImgRef.current.offsetLeft < 0) {
-            if (listImgRef.current.offsetLeft % 750 === 0) {
-                listImgRef.current.style.transition = '300ms cubic-bezier(0.215, 0.61, 0.355, 1) 0s';
-                listImgRef.current.style.left = `${listImgRef.current.offsetLeft + 750}px`;
+        const style = window.getComputedStyle(listImgRef.current);
+        const matrix = new DOMMatrixReadOnly(style.transform).m41;
+
+        if (matrix < 0) {
+            if (matrix % 750 === 0 || matrix % 750 === -0) {
+                if (matrix === -750) {
+                    setPrevImg(false);
+                }
+                listImgRef.current.style.transform = `translateX(${matrix + 750}px)`;
                 listPagi.current.querySelectorAll('div').forEach((item, index) => {
                     if (window.getComputedStyle(item).getPropertyValue('background-color') == 'rgb(0, 149, 246)') {
                         item.style.background = 'rgb(166, 166, 166)';
                         listPagi.current.querySelectorAll('div')[index - 1].style.background = 'rgb(0, 149, 246)';
                     }
                 });
-            } else {
-                listImgRef.current.style.transition = 'none';
-                listImgRef.current.style.left = `${listImgRef.current.offsetLeft + 750}px`;
-                listPagi.current.querySelectorAll('div').forEach((item, index) => {
-                    if (window.getComputedStyle(item).getPropertyValue('background-color') == 'rgb(0, 149, 246)') {
-                        item.style.background = 'rgb(166, 166, 166)';
-                        listPagi.current.querySelectorAll('div')[index - 1].style.background = 'rgb(0, 149, 246)';
-                    }
-                });
+                setNextImg(true);
             }
         }
     };
 
     const handleShare = async () => {
-        const docRef = doc(db, 'user', UID);
-        const docSnap = await getDoc(docRef);
+        const docUserRef = doc(db, 'user', UID);
+        const docSnap = await getDoc(docUserRef);
+        let dataUrlImg = [];
 
-        const storageRef = storage.ref(`${UID}\/${imgSelected.name}`);
+        for (let i = 0; i < imgSelected.length; i++) {
+            const storageRef = storage.ref(`${UID}\/${imgSelected[i].name}`);
 
-        await storageRef.put(imgSelected);
-
-        await storageRef
-            .getDownloadURL()
-            .then((data) => {
-                if (data) {
-                    const docRef = doc(db, 'media', UID);
-                    setDoc(docRef, {
-                        uid: UID,
-                        username: docSnap.data().username,
-                        avatar: docSnap.data().profile_pic_url,
-                        post_img_url: [...data],
-                        caption: caption,
-                        comment: [],
-                        like_by: [],
-                        time: '',
-                    });
-                }
-            })
-            .catch((error) => {
-                alert(error);
-            });
+            await storageRef.put(imgSelected[i]);
+            await storageRef
+                .getDownloadURL()
+                .then((data) => {
+                    if (data) {
+                        dataUrlImg.push(data);
+                    }
+                })
+                .catch((error) => {
+                    alert(error);
+                });
+        }
+        const docMediaRef = doc(db, 'media', UID);
+        let mediaData = [
+            {
+                uid: UID,
+                username: docSnap.data().username,
+                avatar: docSnap.data().profile_pic_url,
+                post_img_url: dataUrlImg,
+                caption: caption,
+                comment: [],
+                like_by: [],
+                time: Timestamp.now(),
+            },
+        ];
+        await setDoc(docMediaRef, mediaData);
     };
     return (
         <div className={cx('modal')} onClick={onCancelUpload}>
@@ -167,17 +160,22 @@ function ModalUpload({ onCancelUpload }) {
                                         );
                                     })}
                                 </div>
-                                <div className={cx('content-btn-right')} onClick={(e) => handleNextImg(e)}>
-                                    <div className={cx('content-btn-img')}></div>
-                                </div>
+                                {nextImg && (
+                                    <div className={cx('content-btn-right')} onClick={(e) => handleNextImg(e)}>
+                                        <div className={cx('content-btn-img')}></div>
+                                    </div>
+                                )}
 
-                                <div className={cx('content-btn-left')} onClick={(e) => handlePrevImg(e)}>
-                                    <div className={cx('content-btn-img')}></div>
-                                </div>
+                                {prevImg && (
+                                    <div className={cx('content-btn-left')} onClick={(e) => handlePrevImg(e)}>
+                                        <div className={cx('content-btn-img')}></div>
+                                    </div>
+                                )}
                                 <div className={cx('content-pagi')} ref={listPagi}>
-                                    {imgSelected.map((item, index) => {
-                                        return <div key={index} className={cx('content-pagi__step')}></div>;
-                                    })}
+                                    {imgSelected.length > 1 &&
+                                        imgSelected.map((item, index) => {
+                                            return <div key={index} className={cx('content-pagi__step')}></div>;
+                                        })}
                                 </div>
                             </div>
 
