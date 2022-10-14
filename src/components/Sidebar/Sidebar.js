@@ -20,6 +20,15 @@ function Sidebar() {
 
     //Get data
 
+    useEffect(() => {
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                setUID(user.uid);
+                getData(user.uid);
+            }
+        });
+    }, []);
+
     const getData = async (UID) => {
         const docRef = doc(db, 'user', UID);
         const docSnap = await getDoc(docRef);
@@ -43,15 +52,6 @@ function Sidebar() {
         setUserInfo(docSnap.data());
         setSuggestList(arrUserSuggest);
     };
-
-    useEffect(() => {
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                setUID(user.uid);
-                getData(user.uid);
-            }
-        });
-    }, []);
 
     //Handle change account
     const handleChangeAccount = () => {

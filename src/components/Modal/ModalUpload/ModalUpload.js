@@ -112,8 +112,6 @@ function ModalUpload({ onCancelUpload }) {
         }
         let mediaData = {
             uid: UID,
-            username: docSnap.data().username,
-            avatar: docSnap.data().profile_pic_url,
             post_img_url: dataUrlImg,
             caption: caption,
             comment: [],
@@ -124,11 +122,15 @@ function ModalUpload({ onCancelUpload }) {
             .doc(UID)
             .collection('listPost')
             .add(mediaData)
-            .then((data) => {
+            .then(async (data) => {
+                const docRef = doc(db, 'posts', UID);
+                await updateDoc(docRef, {
+                    post: arrayUnion(`${UID}_${data.id}`),
+                });
                 userInfo.followed_by.forEach(async (uidUser) => {
                     const docRef = doc(db, 'posts', uidUser);
                     await updateDoc(docRef, {
-                        post: arrayUnion(`${uidUser}_${data.id}`),
+                        post: arrayUnion(`${UID}_${data.id}`),
                     });
                 });
             })
@@ -164,11 +166,7 @@ function ModalUpload({ onCancelUpload }) {
                                     {imgSelected.map((item, index) => {
                                         const srcImg = URL.createObjectURL(item);
                                         return (
-                                            <div
-                                                key={index}
-                                                className={cx('content-image__item')}
-                                                style={{ transform: `translateX(${index * 750}px)` }}
-                                            >
+                                            <div key={index} className={cx('content-image__item')}>
                                                 <img src={srcImg} />
                                             </div>
                                         );
