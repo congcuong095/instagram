@@ -1,10 +1,9 @@
 import styles from './Post.module.scss';
 import classNames from 'classnames/bind';
-import { db } from '@/firebaseConfig';
-import { collection, getDocs } from 'firebase/firestore';
+import { db, auth } from '@/firebaseConfig';
+import { arrayRemove, arrayUnion } from 'firebase/firestore';
 import { useState, useEffect, useRef } from 'react';
 
-import images from '@/assets/images';
 import * as icon from '@/assets/icons/icon';
 import Button from '../Button';
 import { Link } from 'react-router-dom';
@@ -18,11 +17,15 @@ function Post({ code }) {
     const [posts, setPosts] = useState();
     const [userInfo, setUserInfo] = useState();
     const [postComment, setPostComment] = useState([]);
+    const [likeBtn, setLikeBtn] = useState(false);
+    const [commentValue, setCommentValue] = useState('');
+    const [showSubmit, setShowSubmit] = useState(false);
 
     const [nextImg, setNextImg] = useState(true);
     const [prevImg, setPrevImg] = useState(false);
     const listImgRef = useRef();
     const listPagi = useRef();
+    const countLikeRef = useRef();
 
     //get data
     const getData = async () => {
@@ -34,6 +37,7 @@ function Post({ code }) {
             .then((doc) => {
                 setPosts(doc.data());
                 getComment(doc.data().comment);
+                checkLike(doc.data().like_by);
             })
             .catch((error) => {
                 console.log('Error getting document:', error);
@@ -71,11 +75,23 @@ function Post({ code }) {
         });
     };
 
+    const checkLike = (likeList) => {
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                setLikeBtn(
+                    likeList.some((item) => {
+                        return item === user.uid;
+                    }),
+                );
+            }
+        });
+    };
+
     useEffect(() => {
         getData();
     }, []);
 
-    //prev and next image
+    //handle time
     const handleTime = (value) => {
         const date = Date.now();
         const result = Math.round(date / 1000 - value);
@@ -85,18 +101,18 @@ function Post({ code }) {
         const year = day * 365;
 
         if (result < minute) {
-            return `${Math.round(result)} giây trước`;
+            return `${Math.round(result)} giây trước`.toUpperCase();
         } else if (result < hour) {
-            return `${Math.round(result / minute)} phút trước`;
+            return `${Math.round(result / minute)} phút trước`.toUpperCase();
         } else if (result < day) {
-            return `${Math.round(result / hour)} giờ trước`;
+            return `${Math.round(result / hour)} giờ trước`.toUpperCase();
         } else if (result < year) {
-            return `${Math.round(result / day)} ngày trước`;
+            return `${Math.round(result / day)} ngày trước`.toUpperCase();
         } else if (result > year) {
-            return `${Math.round(result / year)} năm trước`;
+            return `${Math.round(result / year)} năm trước`.toUpperCase();
         }
     };
-
+    //prev and next image
     const handleNextImg = () => {
         const style = window.getComputedStyle(listImgRef.current);
         const matrix = new DOMMatrixReadOnly(style.transform).m41;
@@ -139,6 +155,63 @@ function Post({ code }) {
         }
     };
 
+    //Handle like
+    const handleLike = () => {
+        if (likeBtn === true) {
+            setLikeBtn(false);
+            countLikeRef.current.innerText = Number(countLikeRef.current.innerText) - 1;
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    db.collection('media')
+                        .doc(userUid)
+                        .collection('listPost')
+                        .doc(postUid)
+                        .update({ like_by: arrayRemove(user.uid) })
+                        .catch((error) => {
+                            console.log('Error getting document:', error);
+                        });
+                }
+            });
+        } else if (likeBtn === false) {
+            setLikeBtn(true);
+            countLikeRef.current.innerText = Number(countLikeRef.current.innerText) + 1;
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    db.collection('media')
+                        .doc(userUid)
+                        .collection('listPost')
+                        .doc(postUid)
+                        .update({ like_by: arrayUnion(user.uid) })
+                        .catch((error) => {
+                            console.log('Error getting document:', error);
+                        });
+                }
+            });
+        }
+    };
+
+    //Hanlde comment
+    const handleStyleInput = (e) => {
+        const addHeight = Math.round(e.target.value.length / 52);
+        e.target.style.height = `${addHeight * 18}px`;
+        if (e.target.value.trim() !== '') {
+            setShowSubmit(true);
+        }
+    };
+
+    const handleSubmit = () => {
+        // auth.onAuthStateChanged((user) => {
+        //     if (user) {
+        //         setLikeBtn(
+        //             likeList.some((item) => {
+        //                 return item === user.uid;
+        //             }),
+        //         );
+        //     }
+        // });
+        // setPostComment((prev) => prev.push(commentValue));
+    };
+
     return (
         <>
             {posts !== undefined && userInfo !== undefined && (
@@ -163,11 +236,7 @@ function Post({ code }) {
                                     {posts.post_img_url.length > 0 &&
                                         posts.post_img_url.map((item, index) => {
                                             return (
-                                                <div
-                                                    key={index}
-                                                    className={cx('content-image__item')}
-                                                    // style={{ transform: `translateX(${index * 470}px)` }}
-                                                >
+                                                <div key={index} className={cx('content-image__item')}>
                                                     <img src={item} />
                                                 </div>
                                             );
@@ -195,12 +264,23 @@ function Post({ code }) {
                     </div>
                     <div className={cx('interactive')}>
                         <div className={cx('interactive-action')}>
-                            <div className={cx('interactive-action__like')}>{icon.likeIcon}</div>
+                            {likeBtn ? (
+                                <div className={cx('interactive-action__liked')} onClick={handleLike}>
+                                    {icon.likedIcon}
+                                </div>
+                            ) : (
+                                <div className={cx('interactive-action__like')} onClick={handleLike}>
+                                    {icon.likeIcon}
+                                </div>
+                            )}
+
                             <div className={cx('interactive-action__comment')}>{icon.commentIcon}</div>
                             <div className={cx('interactive-action__share')}>{icon.shareIcon}</div>
                             <div className={cx('interactive-action__save')}>{icon.saveIcon}</div>
                         </div>
-                        <div className={cx('interactive-count-like')}>{`${posts.like_by.length} lượt thích`}</div>
+                        <div className={cx('interactive-count-like')}>
+                            <span ref={countLikeRef}>{`${posts.like_by.length}`}</span> lượt thích
+                        </div>
                         <div className={cx('interactive-main')}>
                             <div className={cx('interactive-main__user-caption')}>
                                 <Link to={`/${userInfo.username}`} className={cx('user-name')}>
@@ -234,9 +314,15 @@ function Post({ code }) {
                                     autoCorrect="off"
                                     placeholder="Thêm bình luận"
                                     className={cx('interactive-comment__input')}
+                                    onChange={(e) => {
+                                        setCommentValue(e.target.value);
+                                        handleStyleInput(e);
+                                    }}
+                                    onBlur={() => setShowSubmit(false)}
+                                    value={commentValue}
                                 ></textarea>
                                 <div className={cx('interactive-comment__post')}>
-                                    <Button text small font14 disabled>
+                                    <Button text small font14 disabled={!showSubmit} onClick={handleSubmit}>
                                         Đăng
                                     </Button>
                                 </div>

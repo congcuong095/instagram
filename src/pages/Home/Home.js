@@ -37,11 +37,7 @@ function Home({ propLogin }) {
                     <div className={cx('timeline')}>
                         {listPost.length > 0 &&
                             listPost.map((item, index) => {
-                                return (
-                                    <>
-                                        <Post key={index} code={item} />
-                                    </>
-                                );
+                                return <Post key={index} code={item} />;
                             })}
                     </div>
                     <div className={cx('sidebar')}>
