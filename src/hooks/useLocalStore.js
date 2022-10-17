@@ -4,7 +4,10 @@ function useLocalStore() {
             return JSON.parse(window.localStorage.getItem(key));
         },
         set(key, value) {
-            window.localStorage.setItem(key, JSON.stringify(value));
+            return window.localStorage.setItem(key, JSON.stringify(value));
+        },
+        remove(key) {
+            return window.localStorage.removeItem(key);
         },
     };
 }

@@ -1,7 +1,7 @@
 import styles from './Post.module.scss';
 import classNames from 'classnames/bind';
 import { db, auth } from '@/firebaseConfig';
-import { arrayRemove, arrayUnion } from 'firebase/firestore';
+import { arrayRemove, arrayUnion, getDoc, doc } from 'firebase/firestore';
 import { useState, useEffect, useRef } from 'react';
 
 import * as icon from '@/assets/icons/icon';
@@ -15,11 +15,13 @@ function Post({ code }) {
     const userUid = arrCode[0];
     const postUid = arrCode[1];
     const [posts, setPosts] = useState();
-    const [userInfo, setUserInfo] = useState();
+    const [userPostInfo, setUserPostInfo] = useState();
     const [postComment, setPostComment] = useState([]);
     const [likeBtn, setLikeBtn] = useState(false);
     const [commentValue, setCommentValue] = useState('');
     const [showSubmit, setShowSubmit] = useState(false);
+    const [currentUserUID, setCurrentUserUID] = useState('');
+    const [showAllComment, setShowAllComment] = useState(false);
 
     const [nextImg, setNextImg] = useState(true);
     const [prevImg, setPrevImg] = useState(false);
@@ -46,45 +48,38 @@ function Post({ code }) {
             .doc(userUid)
             .get()
             .then((doc) => {
-                setUserInfo(doc.data());
+                setUserPostInfo(doc.data());
             })
             .catch((error) => {
                 console.log('Error getting document:', error);
             });
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                setCurrentUserUID(user.uid);
+            }
+        });
     };
 
-    const getComment = (data) => {
-        const newData = [];
-        data.forEach(async (item, index) => {
-            const arrCmt = item.split('@');
-            arrCmt.shift();
+    const getComment = async (data) => {
+        let newData = [];
 
-            await db
-                .collection('user')
-                .doc(arrCmt[0])
-                .get()
-                .then((doc) => {
-                    const user = doc.data();
-                    arrCmt.shift();
-                    newData.push({ username: user.username, comment: arrCmt.join(' ') });
-                })
-                .catch((error) => {
-                    console.log('Error getting document:', error);
-                });
-            setPostComment(newData);
-        });
+        for (let i = 0; i < data.length; i++) {
+            const arrCmt = data[i].split('@#_*');
+            const docRef = doc(db, 'user', arrCmt[0]);
+            const docSnap = await getDoc(docRef);
+            const user = docSnap.data();
+            arrCmt.shift();
+            newData.unshift({ username: user.username, comment: arrCmt.join(' ') });
+            setPostComment([...newData]);
+        }
     };
 
     const checkLike = (likeList) => {
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                setLikeBtn(
-                    likeList.some((item) => {
-                        return item === user.uid;
-                    }),
-                );
-            }
-        });
+        setLikeBtn(
+            likeList.some((item) => {
+                return item === currentUserUID;
+            }),
+        );
     };
 
     useEffect(() => {
@@ -200,31 +195,52 @@ function Post({ code }) {
     };
 
     const handleSubmit = () => {
-        // auth.onAuthStateChanged((user) => {
-        //     if (user) {
-        //         setLikeBtn(
-        //             likeList.some((item) => {
-        //                 return item === user.uid;
-        //             }),
-        //         );
-        //     }
-        // });
-        // setPostComment((prev) => prev.push(commentValue));
+        db.collection('user')
+            .doc(currentUserUID)
+            .get()
+            .then((doc) => {
+                setPostComment((prev) => {
+                    return [{ username: doc.data().username, comment: commentValue }, ...prev];
+                });
+            })
+            .then(() => {
+                setCommentValue('');
+            })
+            .then(() => {
+                db.collection('media')
+                    .doc(userUid)
+                    .collection('listPost')
+                    .doc(postUid)
+                    .update({ comment: arrayUnion(`${currentUserUID}@#_*${commentValue}`) })
+                    .catch((error) => {
+                        console.log('Error getting document:', error);
+                    });
+            })
+            .catch((error) => {
+                console.log('Error getting document:', error);
+            });
+    };
+
+    //handleShowFullPost
+
+    const handleShowAllComment = (e) => {
+        setShowAllComment(true);
+        e.target.style.display = 'none';
     };
 
     return (
         <>
-            {posts !== undefined && userInfo !== undefined && (
+            {posts !== undefined && userPostInfo !== undefined && (
                 <div className={cx('wrapper')}>
                     <div className={cx('header')}>
                         <div className={cx('header-user')}>
                             <div className={cx('header-user__avatar')}>
-                                <Link to={`/${userInfo.username}`}>
-                                    <img src={userInfo.profile_pic_url} />
+                                <Link to={`/${userPostInfo.username}`}>
+                                    <img src={userPostInfo.profile_pic_url} />
                                 </Link>
                             </div>
-                            <Link to={`/${userInfo.username}`} className={cx('user-name')}>
-                                {userInfo.username}
+                            <Link to={`/${userPostInfo.username}`} className={cx('user-name')}>
+                                {userPostInfo.username}
                             </Link>
                         </div>
                         <div className={cx('header-option')}>{icon.optionIcon}</div>
@@ -283,25 +299,36 @@ function Post({ code }) {
                         </div>
                         <div className={cx('interactive-main')}>
                             <div className={cx('interactive-main__user-caption')}>
-                                <Link to={`/${userInfo.username}`} className={cx('user-name')}>
-                                    {userInfo.username}
+                                <Link to={`/${userPostInfo.username}`} className={cx('user-name')}>
+                                    {userPostInfo.username}
                                 </Link>
                                 <div className={cx('normal-text')}>{posts.caption}</div>
                             </div>
-                            <div className={cx('interactive-main__more')}>
+                            <div className={cx('interactive-main__more')} onClick={(e) => handleShowAllComment(e)}>
                                 {posts.comment.length > 3 && `Xem tất cả ${posts.comment.length} bình luận`}
                             </div>
                             <ul className={cx('interactive-main__list-comment')}>
                                 {posts.comment.length > 0 &&
                                     postComment.map((item, index) => {
-                                        return (
-                                            <li key={index} className={cx('interactive-main__list-item')}>
-                                                <Link to={`/${item.username}`} className={cx('user-name')}>
-                                                    {item.username}
-                                                </Link>
-                                                <div className={cx('normal-text')}>{item.comment}</div>
-                                            </li>
-                                        );
+                                        if (index < 3) {
+                                            return (
+                                                <li key={index} className={cx('interactive-main__list-item')}>
+                                                    <Link to={`/${item.username}`} className={cx('user-name')}>
+                                                        {item.username}
+                                                    </Link>
+                                                    <div className={cx('normal-text')}>{item.comment}</div>
+                                                </li>
+                                            );
+                                        } else if (showAllComment) {
+                                            return (
+                                                <li key={index} className={cx('interactive-main__list-item')}>
+                                                    <Link to={`/${item.username}`} className={cx('user-name')}>
+                                                        {item.username}
+                                                    </Link>
+                                                    <div className={cx('normal-text')}>{item.comment}</div>
+                                                </li>
+                                            );
+                                        }
                                     })}
                             </ul>
                         </div>
@@ -320,9 +347,14 @@ function Post({ code }) {
                                     }}
                                     onBlur={() => setShowSubmit(false)}
                                     value={commentValue}
+                                    onFocus={() => {
+                                        if (commentValue.trim() !== '') {
+                                            setShowSubmit(true);
+                                        }
+                                    }}
                                 ></textarea>
-                                <div className={cx('interactive-comment__post')}>
-                                    <Button text small font14 disabled={!showSubmit} onClick={handleSubmit}>
+                                <div className={cx('interactive-comment__post')} onClick={handleSubmit}>
+                                    <Button text small font14 disabled={!showSubmit}>
                                         Đăng
                                     </Button>
                                 </div>

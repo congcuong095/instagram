@@ -1,15 +1,17 @@
 import styles from './Search.module.scss';
 import classNames from 'classnames/bind';
-
 import { useEffect, useRef, useState } from 'react';
 import Tippy from '@tippyjs/react/headless';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
+import { db } from '@/firebaseConfig';
 
-import { useDebounced } from '@/hooks';
+import { useDebounced, useLocalStore } from '@/hooks';
 import * as icon from '@/assets/icons/icon';
 import Button from '@/components/Button';
 import { recentSearchApi } from '@/GetDataLocal/GetDataLocal';
-import { Link } from 'react-router-dom';
+import images from '@/assets/images';
 
 const cx = classNames.bind(styles);
 
@@ -20,6 +22,7 @@ function Search() {
     const [showResult, setShowResult] = useState(false);
     const [searchActive, setSearchActive] = useState(false);
     const [loading, setLoading] = useState(false);
+    const localStore = useLocalStore();
     const inputRef = useRef();
 
     const debounced = useDebounced(searchValue, 800);
@@ -30,26 +33,45 @@ function Search() {
     };
 
     useEffect(() => {
+        fetchData();
+    }, [debounced]);
+
+    const fetchData = async () => {
         if (!debounced.trim()) {
             setSearchResult([]);
             return;
         }
         setLoading(true);
-        axios
-            .get('/api/v1/web/search/topsearch/', {
-                params: {
-                    query: debounced,
-                },
-            })
-            .then((res) => {
-                setSearchResult(res.data.users);
-                setLoading(false);
-            })
-            .catch((error) => {
-                console.log(error);
-                setLoading(false);
+
+        const q = query(collection(db, 'user'), where('username', '>=', debounced));
+
+        const querySnapshot = await getDocs(q);
+        const arr = querySnapshot.docs.map((doc) => {
+            return doc.data();
+        });
+        setSearchResult(arr);
+        setLoading(false);
+    };
+
+    const handleClickUser = (uidUser) => {
+        const recentSearchArr = localStore.get('recentSearch');
+        if (recentSearchArr === null) {
+            localStore.set('recentSearch', [uidUser]);
+        } else {
+            let check = recentSearchArr.every((item, index) => {
+                if (item !== uidUser) {
+                    return true;
+                } else {
+                    recentSearchArr.splice(index, 1);
+                    recentSearchArr.unshift(item);
+                    return false;
+                }
             });
-    }, [debounced]);
+            if (check) {
+                localStore.set('recentSearch', [...recentSearchArr, uidUser]);
+            }
+        }
+    };
 
     const handleClear = () => {
         setSearchValue('');
@@ -59,11 +81,33 @@ function Search() {
 
     //Get recent result
     useEffect(() => {
-        setRecentResult(recentSearchApi);
+        fetchRecentSearch();
     }, []);
-    const handleDeleteRecent = (index) => {
+
+    const fetchRecentSearch = async () => {
+        const recentSearchArr = localStore.get('recentSearch');
+        if (recentSearchArr !== null) {
+            for (let i = 0; i < recentSearchArr.length; i++) {
+                const docRef = doc(db, 'user', recentSearchArr[i]);
+                const docSnap = await getDoc(docRef);
+
+                setRecentResult((prev) => {
+                    return [...prev, docSnap.data()];
+                });
+            }
+        }
+    };
+    const handleDeleteRecent = (index, uidUser) => {
         recentResult.splice(index, 1);
         setRecentResult([...recentResult]);
+        const recentSearchArr = localStore.get('recentSearch');
+
+        for (let i = 0; i < recentSearchArr.length; i++) {
+            if (recentSearchArr[i] === uidUser) {
+                recentSearchArr.splice(i, 1);
+            }
+        }
+        localStore.set('recentSearch', recentSearchArr);
     };
 
     return (
@@ -80,25 +124,28 @@ function Search() {
                         <div className={cx('account-list')}>
                             {showResult ? (
                                 searchResult.map((item) => {
-                                    let url = item.user.profile_pic_url.slice(40);
                                     return (
                                         <Link
                                             className={cx('account-item')}
-                                            to={`/${item.user.username}`}
-                                            key={item.user.pk}
+                                            to={`/${item.username}`}
+                                            key={item.uid}
+                                            onClick={() => handleClickUser(item.uid)}
                                         >
                                             <div className={cx('account-img')}>
                                                 {' '}
-                                                <img src={url} className={cx('account-img-link')} />{' '}
+                                                <img
+                                                    src={item.profile_pic_url || images.avatarDefault}
+                                                    className={cx('account-img-link')}
+                                                />{' '}
                                             </div>
                                             <div className={cx('account-info')}>
                                                 <div className={cx('account-username')}>
-                                                    {item.user.username}{' '}
-                                                    {item.user.is_verified && (
+                                                    {item.username}{' '}
+                                                    {item.is_verified && (
                                                         <span className={cx('account-verified')}></span>
                                                     )}
                                                 </div>
-                                                <div className={cx('account-fullname')}>{item.user.full_name}</div>
+                                                <div className={cx('account-fullname')}>{item.full_name}</div>
                                             </div>
                                         </Link>
                                     );
@@ -108,7 +155,13 @@ function Search() {
                                     <div className={cx('recent-title')}>
                                         <h4>Gần đây</h4>
                                         {recentResult.length > 0 && (
-                                            <Button text onClick={() => setRecentResult([])}>
+                                            <Button
+                                                text
+                                                onClick={() => {
+                                                    setRecentResult([]);
+                                                    localStore.remove('recentSearch');
+                                                }}
+                                            >
                                                 Xóa tất cả
                                             </Button>
                                         )}
@@ -120,12 +173,12 @@ function Search() {
                                                     <Link
                                                         className={cx('account-item')}
                                                         to={`/${item.username}`}
-                                                        key={item.id}
+                                                        key={item.uid}
                                                     >
                                                         <div className={cx('account-img')}>
                                                             {' '}
                                                             <img
-                                                                src={item.img_src}
+                                                                src={item.profile_pic_url || images.avatarDefault}
                                                                 className={cx('account-img-link')}
                                                             />{' '}
                                                         </div>
@@ -144,7 +197,7 @@ function Search() {
                                                             className={cx('account-delete')}
                                                             onClick={(e) => {
                                                                 e.preventDefault();
-                                                                handleDeleteRecent(index);
+                                                                handleDeleteRecent(index, item.uid);
                                                             }}
                                                         >
                                                             {icon.close}

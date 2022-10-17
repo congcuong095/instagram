@@ -28,7 +28,7 @@ function Home({ propLogin }) {
     const getData = async (UID) => {
         const docRef = doc(db, 'posts', UID);
         const docSnap = await getDoc(docRef);
-        setListPost(docSnap.data().post);
+        setListPost(docSnap.data().post || []);
     };
     return (
         <>
