@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import { useEffect, useRef, useState } from 'react';
 import { storage, auth, db } from '@/firebaseConfig';
 import { ref, deleteObject } from 'firebase/storage';
-import { doc, updateDoc, deleteField, getDoc } from 'firebase/firestore';
+import { doc, updateDoc, deleteField, getDoc, getDocs, collection, query, where } from 'firebase/firestore';
 
 import images from '@/assets/images';
 import * as icon from '@/assets/icons/icon';
@@ -12,11 +12,41 @@ import { ModalChangeAvatar } from '../Modal';
 
 const cx = classNames.bind(styles);
 
-function UserHeader() {
+function UserHeader({ username }) {
     const [urlImg, setUrlImg] = useState('');
+    const [userInfo, setUserInfo] = useState({});
+    const [isCurrentuser, setIsCurrentuser] = useState(false);
     const [loading, setLoading] = useState(false);
     const [modal, setModal] = useState(false);
     const inputRef = useRef();
+    const [UID, setUID] = useState('');
+
+    //Get data
+
+    useEffect(() => {
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                const docRef = doc(db, 'user', user.uid);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.data().username === username) {
+                    setUID(user.uid);
+                    setUserInfo(docSnap.data());
+                    setUrlImg(docSnap.data().profile_pic_url);
+                    setIsCurrentuser(true);
+                } else {
+                    const userRef = collection(db, 'user');
+                    const q = query(userRef, where('username', '==', username));
+                    const querySnapshot = await getDocs(q);
+                    querySnapshot.forEach((doc) => {
+                        setUID(doc.data().uid);
+                        setUserInfo(doc.data());
+                        setUrlImg(doc.data().profile_pic_url);
+                        // setIsCurrentuser(false);
+                    });
+                }
+            }
+        });
+    }, []);
 
     //Resize image
     const resizeImage = function (settings) {
@@ -113,19 +143,6 @@ function UserHeader() {
             }
         });
     };
-    //Get avatar
-    useEffect(() => {
-        auth.onAuthStateChanged(async (user) => {
-            if (user) {
-                let uid = user.uid;
-                const docRef = doc(db, 'user', uid);
-                const docSnap = await getDoc(docRef);
-                if (docSnap.data().profile_pic_url) {
-                    setUrlImg(docSnap.data().profile_pic_url);
-                }
-            }
-        });
-    }, []);
 
     //Delete Avatar
     const handleDeleteAvatar = () => {
@@ -176,40 +193,56 @@ function UserHeader() {
                 />
             )}
             <div className={cx('wrapper')}>
-                <div className={cx('avatar')}>
-                    <div className={cx('avatar-btn')} onClick={handleOpenModalAvatar}>
-                        {loading && (
-                            <div className={cx('load')}>
-                                <div className={cx('load-icon')}>{icon.loadIcon}</div>
-                            </div>
-                        )}
-                        <img src={urlImg || images.avatarDefault} />
+                {isCurrentuser ? (
+                    <div className={cx('avatar')}>
+                        <div className={cx('avatar-btn')} onClick={handleOpenModalAvatar}>
+                            {loading && (
+                                <div className={cx('load')}>
+                                    <div className={cx('load-icon')}>{icon.loadIcon}</div>
+                                </div>
+                            )}
+                            <img src={urlImg || images.avatarDefault} />
+                        </div>
+
+                        <form className={cx('avatar-form')}>
+                            <input ref={inputRef} type="file" onChange={(e) => handleUpload(e)} />
+                        </form>
                     </div>
-                    <form className={cx('avatar-form')}>
-                        <input ref={inputRef} type="file" onChange={(e) => handleUpload(e)} />
-                    </form>
-                </div>
+                ) : (
+                    <div className={cx('avatar')}>
+                        <div className={cx('avatar-btn')} style={{ cursor: 'auto' }}>
+                            <img src={urlImg || images.avatarDefault} />
+                        </div>
+                    </div>
+                )}
                 <div className={cx('content')}>
                     <div className={cx('content-header')}>
-                        <h2 className={cx('header-name')}>flotino166</h2>
-                        <div className={cx('header-edit')}>
-                            <Button large text outline font14>
-                                Chỉnh sửa trang cá nhân
-                            </Button>
-                        </div>
-                        <div className={cx('header-setting')}>
-                            <button>{icon.settingManage}</button>
-                        </div>
+                        <h2 className={cx('header-name')}>{userInfo && userInfo.username}</h2>
+                        {isCurrentuser && (
+                            <div className={cx('header-edit')}>
+                                <Button large text outline font14>
+                                    Chỉnh sửa trang cá nhân
+                                </Button>
+                            </div>
+                        )}
+                        {isCurrentuser && (
+                            <div className={cx('header-setting')}>
+                                <button>{icon.settingManage}</button>
+                            </div>
+                        )}
                     </div>
                     <div className={cx('content-count')}>
                         <div className={cx('count-item')}>
                             <span>2</span> bài viết
                         </div>
                         <div className={cx('count-item')}>
-                            <span>1</span> người theo dõi
+                            <span>{userInfo.hasOwnProperty('followed_by') ? userInfo.followed_by.length : 0}</span>{' '}
+                            người theo dõi
                         </div>
                         <div className={cx('count-item')}>
-                            Đang theo dõi <span>14</span> người dùng
+                            Đang theo dõi{' '}
+                            <span>{userInfo.hasOwnProperty('following') ? userInfo.following.length : 0}</span> người
+                            dùng
                         </div>
                     </div>
                     <div className={cx('content-description')}>

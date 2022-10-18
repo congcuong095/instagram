@@ -68,23 +68,24 @@ function Sidebar() {
         e.target.style.color = 'rgb(38,38,38)';
         const userRef = doc(db, 'user', UID);
         const followRef = doc(db, 'user', uidFriend);
-        const mediaRef = doc(db, 'media', uidFriend);
         const weekAgos = Timestamp.now().seconds - 604800;
-        // await updateDoc(userRef, {
-        //     following: arrayUnion(uidFriend),
-        // });
-        // await updateDoc(followRef, {
-        //     followed_by: arrayUnion(UID),
-        // });
+        await updateDoc(userRef, {
+            following: arrayUnion(uidFriend),
+        });
+        await updateDoc(followRef, {
+            followed_by: arrayUnion(UID),
+        });
         db.collection('media')
             .doc(uidFriend)
             .collection('listPost')
             .where('time', '>=', weekAgos)
             .get()
             .then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    // doc.data() is never undefined for query doc snapshots
-                    console.log(doc);
+                querySnapshot.forEach(async (item) => {
+                    const docRef = doc(db, 'posts', UID);
+                    await updateDoc(docRef, {
+                        post: arrayUnion(`${uidFriend}@*#_${item.id}`),
+                    });
                 });
             })
             .catch((error) => {
