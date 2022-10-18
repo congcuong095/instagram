@@ -2,7 +2,6 @@ import styles from './Search.module.scss';
 import classNames from 'classnames/bind';
 import { useEffect, useRef, useState } from 'react';
 import Tippy from '@tippyjs/react/headless';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
 import { db } from '@/firebaseConfig';
@@ -10,7 +9,6 @@ import { db } from '@/firebaseConfig';
 import { useDebounced, useLocalStore } from '@/hooks';
 import * as icon from '@/assets/icons/icon';
 import Button from '@/components/Button';
-import { recentSearchApi } from '@/GetDataLocal/GetDataLocal';
 import images from '@/assets/images';
 
 const cx = classNames.bind(styles);

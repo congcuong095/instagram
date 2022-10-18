@@ -94,11 +94,15 @@
     display: flex;
 }
 .content-image__main {
-    width: 470px;
     overflow: hidden;
+    position: relative;
+    width: 470px;
+    height: 470px;
 }
 .content-image__list {
-    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -110,9 +114,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    max-height: 587px;
+    width: 470px;
+    max-height: 470px;
+    overflow: hidden;
+    vertical-align: middle;
     img {
-        width: 470px;
+        width: 100%;
+        height: auto;
     }
 }
 

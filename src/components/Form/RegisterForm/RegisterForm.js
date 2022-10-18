@@ -80,7 +80,6 @@ function RegisterForm({ isLogin }) {
                         await db.collection('noti').doc(uid).set({});
                         await db.collection('followed').doc(uid).set({});
                         await db.collection('media').doc(uid).set({});
-                        await db.collection('suggest-list').doc(uid).set({});
 
                         if (uid) {
                             let allUID = localStore.get('USER_UID');

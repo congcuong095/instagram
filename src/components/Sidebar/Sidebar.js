@@ -1,7 +1,7 @@
 import styles from './Sidebar.module.scss';
 import classNames from 'classnames/bind';
 import { auth, db } from '@/firebaseConfig';
-import { doc, getDoc, getDocs, collection, updateDoc, arrayUnion } from 'firebase/firestore';
+import { doc, getDoc, getDocs, collection, updateDoc, arrayUnion, where, Timestamp } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 
 import images from '@/assets/images';
@@ -68,12 +68,28 @@ function Sidebar() {
         e.target.style.color = 'rgb(38,38,38)';
         const userRef = doc(db, 'user', UID);
         const followRef = doc(db, 'user', uidFriend);
-        await updateDoc(userRef, {
-            following: arrayUnion(uidFriend),
-        });
-        await updateDoc(followRef, {
-            followed_by: arrayUnion(UID),
-        });
+        const mediaRef = doc(db, 'media', uidFriend);
+        const weekAgos = Timestamp.now().seconds - 604800;
+        // await updateDoc(userRef, {
+        //     following: arrayUnion(uidFriend),
+        // });
+        // await updateDoc(followRef, {
+        //     followed_by: arrayUnion(UID),
+        // });
+        db.collection('media')
+            .doc(uidFriend)
+            .collection('listPost')
+            .where('time', '>=', weekAgos)
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    // doc.data() is never undefined for query doc snapshots
+                    console.log(doc);
+                });
+            })
+            .catch((error) => {
+                console.log('Error getting documents: ', error);
+            });
     };
 
     return (

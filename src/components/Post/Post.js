@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
 function Post({ code }) {
-    const arrCode = code.split('_');
+    const arrCode = code.split('@*#_');
     const userUid = arrCode[0];
     const postUid = arrCode[1];
     const [posts, setPosts] = useState();
@@ -31,7 +31,8 @@ function Post({ code }) {
 
     //get data
     const getData = async () => {
-        db.collection('media')
+        await db
+            .collection('media')
             .doc(userUid)
             .collection('listPost')
             .doc(postUid)
@@ -44,7 +45,8 @@ function Post({ code }) {
             .catch((error) => {
                 console.log('Error getting document:', error);
             });
-        db.collection('user')
+        await db
+            .collection('user')
             .doc(userUid)
             .get()
             .then((doc) => {
@@ -53,7 +55,7 @@ function Post({ code }) {
             .catch((error) => {
                 console.log('Error getting document:', error);
             });
-        auth.onAuthStateChanged((user) => {
+        await auth.onAuthStateChanged((user) => {
             if (user) {
                 setCurrentUserUID(user.uid);
             }
@@ -252,7 +254,11 @@ function Post({ code }) {
                                     {posts.post_img_url.length > 0 &&
                                         posts.post_img_url.map((item, index) => {
                                             return (
-                                                <div key={index} className={cx('content-image__item')}>
+                                                <div
+                                                    key={index}
+                                                    className={cx('content-image__item')}
+                                                    style={{ zIndex: `${-index}` }}
+                                                >
                                                     <img src={item} />
                                                 </div>
                                             );

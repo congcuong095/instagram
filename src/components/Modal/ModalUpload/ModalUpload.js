@@ -91,8 +91,6 @@ function ModalUpload({ onCancelUpload }) {
     };
 
     const handleShare = async () => {
-        const docUserRef = doc(db, 'user', UID);
-        const docSnap = await getDoc(docUserRef);
         let dataUrlImg = [];
 
         for (let i = 0; i < imgSelected.length; i++) {
@@ -116,7 +114,7 @@ function ModalUpload({ onCancelUpload }) {
             caption: caption,
             comment: [],
             like_by: [],
-            time: Timestamp.now(),
+            time: Timestamp.now().seconds,
         };
         db.collection('media')
             .doc(UID)
@@ -125,12 +123,12 @@ function ModalUpload({ onCancelUpload }) {
             .then(async (data) => {
                 const docRef = doc(db, 'posts', UID);
                 await updateDoc(docRef, {
-                    post: arrayUnion(`${UID}_${data.id}`),
+                    post: arrayUnion(`${UID}@*#_${data.id}`),
                 });
                 userInfo.followed_by.forEach(async (uidUser) => {
                     const docRef = doc(db, 'posts', uidUser);
                     await updateDoc(docRef, {
-                        post: arrayUnion(`${UID}_${data.id}`),
+                        post: arrayUnion(`${UID}@*#_${data.id}`),
                     });
                 });
             })
