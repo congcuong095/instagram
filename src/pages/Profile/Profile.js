@@ -1,7 +1,7 @@
 import styles from './Profile.module.scss';
 import classNames from 'classnames/bind';
 import Header from '@/components/Header';
-import UserHeader from '@/components/UserHeader/UserHeader';
+import ProfileHeader from '@/components/ProfileHeader/ProfileHeader';
 import Footer from '@/components/Footer';
 import { useLocation } from 'react-router-dom';
 
@@ -14,7 +14,7 @@ function Profile({ propLogin }) {
             <Header isLogin={propLogin} />
             <div className={cx('wrapper')}>
                 <div className={cx('content')}>
-                    <UserHeader username={username} />
+                    <ProfileHeader username={username} />
                     <Footer />
                 </div>
             </div>

@@ -1,9 +1,21 @@
-import styles from './UserHeader.module.scss';
+import styles from './ProfileHeader.module.scss';
 import classNames from 'classnames/bind';
 import { useEffect, useRef, useState } from 'react';
 import { storage, auth, db } from '@/firebaseConfig';
 import { ref, deleteObject } from 'firebase/storage';
-import { doc, updateDoc, deleteField, getDoc, getDocs, collection, query, where } from 'firebase/firestore';
+import {
+    doc,
+    updateDoc,
+    deleteField,
+    getDoc,
+    getDocs,
+    collection,
+    query,
+    where,
+    Timestamp,
+    arrayUnion,
+    arrayRemove,
+} from 'firebase/firestore';
 
 import images from '@/assets/images';
 import * as icon from '@/assets/icons/icon';
@@ -12,40 +24,73 @@ import { ModalChangeAvatar } from '../Modal';
 
 const cx = classNames.bind(styles);
 
-function UserHeader({ username }) {
+function ProfileHeader({ username }) {
     const [urlImg, setUrlImg] = useState('');
     const [userInfo, setUserInfo] = useState({});
-    const [isCurrentuser, setIsCurrentuser] = useState(false);
+    const [isCurrentUser, setIsCurrentUser] = useState(false);
+    const [countPost, setCountPost] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [isFollow, setIsFollow] = useState(false);
     const [modal, setModal] = useState(false);
     const inputRef = useRef();
-    const [UID, setUID] = useState('');
+    const [UIDShow, setUIDShow] = useState('');
+    const [currentUserUID, setCurrentUserUID] = useState('');
 
     //Get data
 
-    useEffect(() => {
+    const getData = async () => {
         auth.onAuthStateChanged(async (user) => {
             if (user) {
                 const docRef = doc(db, 'user', user.uid);
                 const docSnap = await getDoc(docRef);
+                setCurrentUserUID(user.uid);
                 if (docSnap.data().username === username) {
-                    setUID(user.uid);
+                    setUIDShow(user.uid);
+                    getCountPost(user.uid);
                     setUserInfo(docSnap.data());
                     setUrlImg(docSnap.data().profile_pic_url);
-                    setIsCurrentuser(true);
+                    setIsCurrentUser(true);
                 } else {
                     const userRef = collection(db, 'user');
                     const q = query(userRef, where('username', '==', username));
                     const querySnapshot = await getDocs(q);
                     querySnapshot.forEach((doc) => {
-                        setUID(doc.data().uid);
+                        setUIDShow(doc.data().uid);
+                        getCountPost(doc.data().uid);
                         setUserInfo(doc.data());
                         setUrlImg(doc.data().profile_pic_url);
-                        // setIsCurrentuser(false);
+                        setIsCurrentUser(false);
+                        checkFollow(docSnap.data().following, doc.data().uid);
                     });
                 }
             }
         });
+    };
+
+    const getCountPost = (UIDShow) => {
+        db.collection('media')
+            .doc(UIDShow)
+            .collection('listPost')
+            .get()
+            .then((querySnapshot) => {
+                setCountPost(querySnapshot.size);
+            });
+    };
+
+    const checkFollow = (arr, uid) => {
+        if (
+            arr.every((item) => {
+                return item !== uid;
+            })
+        ) {
+            setIsFollow(false);
+        } else {
+            setIsFollow(true);
+        }
+    };
+
+    useEffect(() => {
+        getData();
     }, []);
 
     //Resize image
@@ -183,6 +228,58 @@ function UserHeader({ username }) {
     const handleCancelChange = () => {
         setModal(false);
     };
+
+    //handleFollowBtn
+    const handleFollowBtn = async () => {
+        if (isFollow) {
+            setIsFollow(false);
+            const userRef = doc(db, 'user', currentUserUID);
+            const followRef = doc(db, 'user', UIDShow);
+            await updateDoc(userRef, {
+                following: arrayRemove(UIDShow),
+            });
+            await updateDoc(followRef, {
+                followed_by: arrayRemove(currentUserUID),
+            });
+            const docRef = doc(db, 'posts', currentUserUID);
+            const postArr = await getDoc(docRef);
+            postArr.data().post.forEach((item) => {
+                if (item.includes(UIDShow)) {
+                    updateDoc(docRef, {
+                        post: arrayRemove(item),
+                    });
+                }
+            });
+        } else {
+            setIsFollow(true);
+            const userRef = doc(db, 'user', currentUserUID);
+            const followRef = doc(db, 'user', UIDShow);
+            const weekAgos = Timestamp.now().seconds - 604800;
+            await updateDoc(userRef, {
+                following: arrayUnion(UIDShow),
+            });
+            await updateDoc(followRef, {
+                followed_by: arrayUnion(currentUserUID),
+            });
+
+            db.collection('media')
+                .doc(UIDShow)
+                .collection('listPost')
+                .where('time', '>=', weekAgos)
+                .get()
+                .then((querySnapshot) => {
+                    querySnapshot.forEach(async (item) => {
+                        const docRef = doc(db, 'posts', currentUserUID);
+                        await updateDoc(docRef, {
+                            post: arrayUnion(`${UIDShow}@*#_${item.id}`),
+                        });
+                    });
+                })
+                .catch((error) => {
+                    console.log('Error getting documents: ', error);
+                });
+        }
+    };
     return (
         <>
             {modal && (
@@ -193,7 +290,7 @@ function UserHeader({ username }) {
                 />
             )}
             <div className={cx('wrapper')}>
-                {isCurrentuser ? (
+                {isCurrentUser ? (
                     <div className={cx('avatar')}>
                         <div className={cx('avatar-btn')} onClick={handleOpenModalAvatar}>
                             {loading && (
@@ -218,22 +315,46 @@ function UserHeader({ username }) {
                 <div className={cx('content')}>
                     <div className={cx('content-header')}>
                         <h2 className={cx('header-name')}>{userInfo && userInfo.username}</h2>
-                        {isCurrentuser && (
-                            <div className={cx('header-edit')}>
-                                <Button large text outline font14>
-                                    Chỉnh sửa trang cá nhân
-                                </Button>
-                            </div>
-                        )}
-                        {isCurrentuser && (
-                            <div className={cx('header-setting')}>
-                                <button>{icon.settingManage}</button>
-                            </div>
-                        )}
+                        <div className={cx('header-tool')}>
+                            {isCurrentUser ? (
+                                <>
+                                    <div className={cx('header-edit')}>
+                                        <Button large text outline font14>
+                                            Chỉnh sửa trang cá nhân
+                                        </Button>
+                                    </div>
+                                    <div className={cx('header-setting')}>
+                                        <button>{icon.settingManage}</button>
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <div className={cx('header-inbox')}>
+                                        <Button large text outline font14>
+                                            Nhắn tin
+                                        </Button>
+                                    </div>
+                                    <div className={cx('header-follow-btn')} onClick={handleFollowBtn}>
+                                        {isFollow ? (
+                                            <Button large text outline font14>
+                                                Đang theo dõi
+                                            </Button>
+                                        ) : (
+                                            <Button large primary font14>
+                                                Theo dõi
+                                            </Button>
+                                        )}
+                                    </div>
+                                    <div className={cx('header-setting')}>
+                                        <button>{icon.settingManage}</button>
+                                    </div>
+                                </>
+                            )}
+                        </div>
                     </div>
                     <div className={cx('content-count')}>
                         <div className={cx('count-item')}>
-                            <span>2</span> bài viết
+                            <span>{countPost}</span> bài viết
                         </div>
                         <div className={cx('count-item')}>
                             <span>{userInfo.hasOwnProperty('followed_by') ? userInfo.followed_by.length : 0}</span>{' '}
@@ -246,17 +367,17 @@ function UserHeader({ username }) {
                         </div>
                     </div>
                     <div className={cx('content-description')}>
-                        <div className={cx('description-fullname')}>M I N</div>
+                        <div className={cx('description-fullname')}>{userInfo.full_name}</div>
                         <div className={cx('description-introduce')}>
-                            ✨Dr for job <br /> 𝐇𝐚𝐢 𝐏𝐡𝐨𝐧𝐠 - 𝐇𝐚 𝐍𝐨𝐢 <br /> 𝗡𝗲𝘄 𝗧𝗶𝗸𝘁𝗼𝗸 𝗻𝗲 𝗜𝗗: 𝗺𝗶𝗻𝗵𝗻𝗴𝗵𝗶𝗮𝟭𝟯𝟱𝟮𝟮 <br /> Đồ tui
-                            mặc ở đây👇🏻
+                            {/* ✨Dr for job <br /> 𝐇𝐚𝐢 𝐏𝐡𝐨𝐧𝐠 - 𝐇𝐚 𝐍𝐨𝐢 <br /> 𝗡𝗲𝘄 𝗧𝗶𝗸𝘁𝗼𝗸 𝗻𝗲 𝗜𝗗: 𝗺𝗶𝗻𝗵𝗻𝗴𝗵𝗶𝗮𝟭𝟯𝟱𝟮𝟮 <br /> Đồ tui
+                            mặc ở đây👇🏻 <br />
+                            <a href="/" className={cx('description-link')}>
+                                beacons.ai/minngneee
+                            </a> */}
                         </div>
-                        <a href="/" className={cx('description-link')}>
-                            beacons.ai/minngneee
-                        </a>
-                        <div className={cx('description-followed')}>
+                        {/* <div className={cx('description-followed')}>
                             Có <span>nganha.203</span>, <span>q.cutee0812</span> và <span>khvan191</span> theo dõi
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
@@ -264,4 +385,4 @@ function UserHeader({ username }) {
     );
 }
 
-export default UserHeader;
+export default ProfileHeader;

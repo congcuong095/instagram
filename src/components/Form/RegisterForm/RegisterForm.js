@@ -9,6 +9,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import images from '@/assets/images';
 import Button from '@/components/Button';
 import { useLocalStore } from '@/hooks';
+import { collection, where, getDocs, query } from 'firebase/firestore';
 
 const cx = classNames.bind(styles);
 
@@ -113,6 +114,15 @@ function RegisterForm({ isLogin }) {
             .catch((error) => alert(error.message));
     };
 
+    //handleCheckEmail
+    const handleCheckEmail = async (e) => {
+        const checkValue = await getDocs(query(collection(db, 'user'), where('email', '==', e.target.value)));
+
+        if (!checkValue.empty) {
+            alert('email da ton tai');
+        }
+    };
+
     return (
         <div className={cx('register')}>
             <div className={cx('login')}>
@@ -144,6 +154,7 @@ function RegisterForm({ isLogin }) {
                                     hanldeNoteInput(e);
                                     setEmail(e.target.value);
                                 }}
+                                onBlur={(e) => handleCheckEmail(e)}
                             />
                             <span className={cx('login-input-note')}>Số điện thoại, tên người dùng hoặc email</span>
                         </div>

@@ -233,7 +233,13 @@ function Header({ pageInfo }) {
                                             <div className={cx('arrow')}></div>
                                             <div className={cx('user-wrapper')}>
                                                 <div className={cx('user-item', 'mt4')}>
-                                                    <Link to={`/${userInfo.username}`}>
+                                                    <Link
+                                                        to={`/${userInfo.username}`}
+                                                        onClick={() => {
+                                                            navigate(`/${userInfo.username}`);
+                                                            window.location.reload();
+                                                        }}
+                                                    >
                                                         <div className={cx('user-page__icon')}>{icon.userManage}</div>
                                                         <div className={cx('user-page__title')}>Trang cá nhân</div>
                                                     </Link>
