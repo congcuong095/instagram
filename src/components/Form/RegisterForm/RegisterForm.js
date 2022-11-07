@@ -1,6 +1,6 @@
 import styles from '../Form.module.scss';
 import classNames from 'classnames/bind';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
 import { auth, db } from '@/firebaseConfig';
@@ -17,8 +17,10 @@ function RegisterForm({ isLogin }) {
     const [activeButton, setActiveButton] = useState(false);
     const [typePass, setTypePass] = useState('password');
     const [email, setEmail] = useState('');
+    const [checkEmail, setCheckEmail] = useState(false);
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
+    const [checkUsername, setCheckUsername] = useState(false);
     const [fullname, setFullname] = useState('');
     const navigate = useNavigate();
     const localStore = useLocalStore();
@@ -28,7 +30,7 @@ function RegisterForm({ isLogin }) {
         const inputArr = Array.from(document.querySelectorAll('input[class*="login-input-"]'));
 
         let inputFill = inputArr.every((input) => {
-            return input.value != '';
+            return input.value !== '';
         });
         if (e.target.className.includes('password')) {
             e.target.parentElement.querySelector('[class*="show"]').style.display = 'block';
@@ -43,7 +45,7 @@ function RegisterForm({ isLogin }) {
             e.target.nextSibling.style.display = 'block';
             e.target.style.paddingTop = '14px';
             inputArr.forEach((input) => {
-                if (input.value == '') {
+                if (input.value === '') {
                     input.nextSibling.style.display = 'none';
                 }
             });
@@ -52,7 +54,7 @@ function RegisterForm({ isLogin }) {
 
     // handle show pass
     const handleShowPass = (e) => {
-        if (typePass == 'text') {
+        if (typePass === 'text') {
             setTypePass('password');
             e.target.innerHTML = 'Hiển thị';
         } else {
@@ -64,62 +66,102 @@ function RegisterForm({ isLogin }) {
     //handle SignUp
     const handleSignUp = async (event) => {
         event.preventDefault();
+        if (checkEmail && checkUsername && activeButton) {
+            await auth
+                .createUserWithEmailAndPassword(email, password)
+                .then(() => {
+                    auth.onAuthStateChanged(async (user) => {
+                        if (user) {
+                            let uid = user.uid;
+                            await db.collection('user').doc(uid).set({
+                                username: username,
+                                full_name: fullname,
+                                email: email,
+                                uid: uid,
+                            });
+                            await db.collection('posts').doc(uid).set({});
+                            await db.collection('noti').doc(uid).set({});
+                            await db.collection('followed').doc(uid).set({});
+                            await db.collection('media').doc(uid).set({});
 
-        await auth
-            .createUserWithEmailAndPassword(email, password)
-            .then(() => {
-                auth.onAuthStateChanged(async (user) => {
-                    if (user) {
-                        let uid = user.uid;
-                        await db.collection('user').doc(uid).set({
-                            username: username,
-                            full_name: fullname,
-                            email: email,
-                            uid: uid,
-                        });
-                        await db.collection('posts').doc(uid).set({});
-                        await db.collection('noti').doc(uid).set({});
-                        await db.collection('followed').doc(uid).set({});
-                        await db.collection('media').doc(uid).set({});
-
-                        if (uid) {
-                            let allUID = localStore.get('USER_UID');
-                            if (allUID === null) {
-                                allUID = [{ email: email, uid: uid, username: username, password: password }];
-                            } else {
-                                let check = allUID.every((item) => {
-                                    if (item.uid !== uid) {
-                                        return true;
-                                    } else {
-                                        return false;
-                                    }
-                                });
-                                if (check) {
-                                    allUID.unshift({
-                                        email: email,
-                                        uid: uid,
-                                        username: username,
-                                        avatar: undefined,
-                                        password: password,
+                            if (uid) {
+                                let allUID = localStore.get('USER_UID');
+                                if (allUID === null) {
+                                    allUID = [{ email: email, uid: uid, username: username, password: password }];
+                                } else {
+                                    let check = allUID.every((item) => {
+                                        if (item.uid !== uid) {
+                                            return true;
+                                        } else {
+                                            return false;
+                                        }
                                     });
+                                    if (check) {
+                                        allUID.unshift({
+                                            email: email,
+                                            uid: uid,
+                                            username: username,
+                                            avatar: undefined,
+                                            password: password,
+                                        });
+                                    }
                                 }
+                                localStore.set('USER_UID', allUID);
+                                isLogin(true);
+                                navigate('/');
                             }
-                            localStore.set('USER_UID', allUID);
-                            isLogin(true);
-                            navigate('/');
                         }
-                    }
-                });
-            })
-            .catch((error) => alert(error.message));
+                    });
+                })
+                .catch((error) => alert(error.message));
+        } else {
+            alert('Thông tin đăng ký chưa hợp lệ. Vui lòng kiểm tra lại!');
+        }
     };
 
-    //handleCheckEmail
-    const handleCheckEmail = async (e) => {
-        const checkValue = await getDocs(query(collection(db, 'user'), where('email', '==', e.target.value)));
+    //Check username exist
+    useEffect(() => {
+        setCheckUsername(getUsername());
+    }, [username]);
 
-        if (!checkValue.empty) {
-            alert('email da ton tai');
+    // //Check email exist
+    useEffect(() => {
+        setCheckEmail(getEmail());
+    }, [email]);
+
+    //handleCheckEmail
+    const getEmail = async () => {
+        const checkValue = await getDocs(query(collection(db, 'user'), where('email', '==', email)));
+        const isExist = !checkValue.empty;
+        if (isExist) {
+            return false;
+        } else {
+            return true;
+        }
+    };
+    const handleCheckEmail = async () => {
+        const checkValue = await getDocs(query(collection(db, 'user'), where('email', '==', email)));
+        const isExist = !checkValue.empty;
+        if (isExist) {
+            alert('Email đã tồn tại. Vui lòng chọn email khác!');
+        }
+    };
+
+    //handleCheckUsername
+    const getUsername = async () => {
+        const checkValue = await getDocs(query(collection(db, 'user'), where('username', '==', username)));
+        const isExist = !checkValue.empty;
+        if (isExist) {
+            return false;
+        } else {
+            return true;
+        }
+    };
+    const handleCheckUsername = async () => {
+        const checkValue = await getDocs(query(collection(db, 'user'), where('username', '==', username)));
+        const isExist = !checkValue.empty;
+        if (isExist) {
+            alert('Tên người dùng đã tồn tại. Vui lòng chọn tên khác!');
         }
     };
 
@@ -181,6 +223,7 @@ function RegisterForm({ isLogin }) {
                                     hanldeNoteInput(e);
                                     setUsername(e.target.value);
                                 }}
+                                onBlur={(e) => handleCheckUsername(e)}
                             />
                             <span className={cx('login-input-note')}>Tên người dùng</span>
                         </div>
