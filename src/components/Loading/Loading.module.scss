@@ -1,0 +1,54 @@
+.load {
+    background-color: rgba(250, 250, 250, 0.5);
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    width: 100%;
+    height: 100%;
+
+    z-index: 999;
+}
+
+.load-icon {
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    box-sizing: border-box;
+    position: absolute;
+
+    animation: loadSpin 0.8s steps(8) infinite;
+
+    @keyframes loadSpin {
+        0% {
+            transform: rotate(180deg);
+        }
+        100% {
+            transform: rotate(540deg);
+        }
+    }
+}
+
+.small {
+    svg {
+        width: 10px;
+        height: 10px;
+    }
+}
+
+.medium {
+    svg {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+.large {
+    svg {
+        width: 30px;
+        height: 30px;
+    }
+}

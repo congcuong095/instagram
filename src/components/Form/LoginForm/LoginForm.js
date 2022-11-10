@@ -10,6 +10,7 @@ import { useState } from 'react';
 import images from '@/assets/images';
 import Button from '@/components/Button';
 import { useLocalStore } from '@/hooks';
+import Loading from '@/components/Loading/Loading';
 
 const cx = classNames.bind(styles);
 
@@ -18,6 +19,7 @@ function LoginForm({ isLogin, propAccounts }) {
     const [typePass, setTypePass] = useState('password');
     const [email, setEmail] = useState(propAccounts.length > 0 ? propAccounts[0].email : '');
     const [password, setPassword] = useState(propAccounts.length > 0 ? propAccounts[0].password : '');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const localStorage = useLocalStore();
 
@@ -62,7 +64,7 @@ function LoginForm({ isLogin, propAccounts }) {
     //Handle SignIn
     const handleSignIn = async (event) => {
         event.preventDefault();
-
+        setLoading(true);
         await auth
             .signInWithEmailAndPassword(email, password)
             .then(() => {
@@ -108,8 +110,12 @@ function LoginForm({ isLogin, propAccounts }) {
                         }
                     }
                 });
+                setLoading(false);
             })
-            .catch((error) => alert(error.message));
+            .catch((error) => {
+                alert(error.message);
+                setLoading(false);
+            });
     };
 
     return (
@@ -151,8 +157,8 @@ function LoginForm({ isLogin, propAccounts }) {
                                 Hiển thị
                             </Button>
                         </div>
-
                         <Button primary disabled={!activeButton} className={cx('login-btn')} onClick={handleSignIn}>
+                            {loading && <Loading medium />}
                             Đăng nhập
                         </Button>
                     </div>

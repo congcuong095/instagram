@@ -11,6 +11,7 @@ import Button from '@/components/Button';
 import { ModalAutoForm } from '@/components/Modal';
 import Ask from '../Ask/Ask';
 import { useLocalStore } from '@/hooks';
+import Loading from '@/components/Loading/Loading';
 
 const cx = classNames.bind(styles);
 
@@ -19,11 +20,13 @@ function AutoForm({ onChangeLogin, onChangeAutoOne, propState, propAccounts, isL
     const [autoFormAccounts, setAutoFormAccounts] = useState(propAccounts);
     const [modal, setModal] = useState(false);
     const [nameDelete, setNameDelete] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const localStore = useLocalStore();
 
     const handleLogin = async (event, index) => {
         event.preventDefault();
+        setLoading(true);
         let allUID = localStore.get('USER_UID');
         const moveItem = allUID[index];
 
@@ -48,6 +51,7 @@ function AutoForm({ onChangeLogin, onChangeAutoOne, propState, propAccounts, isL
             isLogin(true);
             navigate('/');
             window.location.reload();
+            setLoading(false);
         }
     };
 
@@ -63,6 +67,7 @@ function AutoForm({ onChangeLogin, onChangeAutoOne, propState, propAccounts, isL
 
                         <div className={cx('one-account-btn')}>
                             <Button primary small onClick={(e) => handleLogin(e, 0)}>
+                                {loading && <Loading medium />}
                                 Tiếp tục dưới tên {autoFormAccounts[0].username}
                             </Button>
                         </div>
@@ -81,7 +86,7 @@ function AutoForm({ onChangeLogin, onChangeAutoOne, propState, propAccounts, isL
                         <div className={cx('login-account-name')}>{account.username}</div>
                         <div className={cx('login-account-btn')}>
                             <Button medium primary onClick={(e) => handleLogin(e, index)}>
-                                Đăng nhập
+                                {loading && <Loading medium />} Đăng nhập
                             </Button>
                             <div className={cx('login-account-delete')} onClick={() => handleChooseDelete(account.uid)}>
                                 <FontAwesomeIcon icon={faX} className={cx('login-account-delete-icon')} />

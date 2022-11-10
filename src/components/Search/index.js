@@ -10,6 +10,7 @@ import { useDebounced, useLocalStore } from '@/hooks';
 import * as icon from '@/assets/icons/icon';
 import Button from '@/components/Button';
 import images from '@/assets/images';
+import Loading from '../Loading/Loading';
 
 const cx = classNames.bind(styles);
 
@@ -241,7 +242,7 @@ function Search() {
                                 <div className={cx('search-delete')} onClick={handleClear}></div>
                             ) : (
                                 <div className={cx('search-load')}>
-                                    <div className={cx('search-load-icon')}>{icon.loadIcon}</div>
+                                    <Loading medium />
                                 </div>
                             )}
                         </div>

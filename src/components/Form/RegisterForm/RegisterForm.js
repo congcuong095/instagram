@@ -5,11 +5,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
 import { auth, db } from '@/firebaseConfig';
 import { Link, useNavigate } from 'react-router-dom';
+import { collection, where, getDocs, query } from 'firebase/firestore';
 
 import images from '@/assets/images';
 import Button from '@/components/Button';
 import { useLocalStore } from '@/hooks';
-import { collection, where, getDocs, query } from 'firebase/firestore';
+import Loading from '@/components/Loading/Loading';
 
 const cx = classNames.bind(styles);
 
@@ -22,6 +23,7 @@ function RegisterForm({ isLogin }) {
     const [username, setUsername] = useState('');
     const [checkUsername, setCheckUsername] = useState(false);
     const [fullname, setFullname] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const localStore = useLocalStore();
 
@@ -66,6 +68,7 @@ function RegisterForm({ isLogin }) {
     //handle SignUp
     const handleSignUp = async (event) => {
         event.preventDefault();
+        setLoading(true);
         if (checkEmail && checkUsername && activeButton) {
             await auth
                 .createUserWithEmailAndPassword(email, password)
@@ -109,13 +112,18 @@ function RegisterForm({ isLogin }) {
                                 localStore.set('USER_UID', allUID);
                                 isLogin(true);
                                 navigate('/');
+                                setLoading(false);
                             }
                         }
                     });
                 })
-                .catch((error) => alert(error.message));
+                .catch((error) => {
+                    alert(error.message);
+                    setLoading(false);
+                });
         } else {
             alert('Thông tin đăng ký chưa hợp lệ. Vui lòng kiểm tra lại!');
+            setLoading(false);
         }
     };
 
@@ -254,6 +262,7 @@ function RegisterForm({ isLogin }) {
                     </p>
 
                     <Button primary disabled={!activeButton} className={cx('login-btn')} onClick={handleSignUp}>
+                        {loading && <Loading medium />}
                         Đăng ký
                     </Button>
 

@@ -119,17 +119,27 @@ function ProfileHeader({ username }) {
                     height *= maxSize / width;
                     width = maxSize;
                 }
+                canvas.width = maxSize;
+                canvas.height = maxSize;
+                canvas.getContext('2d').drawImage(image, 0, maxSize / 2 - height / 2, width, height);
+                let dataUrl = canvas.toDataURL('image/jpeg');
+                return dataURItoBlob(dataUrl);
             } else {
                 if (height > maxSize) {
                     width *= maxSize / height;
                     height = maxSize;
                 }
+                canvas.width = maxSize;
+                canvas.height = maxSize;
+                canvas.getContext('2d').drawImage(image, maxSize / 2 - width / 2, 0, width, height);
+                let dataUrl = canvas.toDataURL('image/jpeg');
+                return dataURItoBlob(dataUrl);
             }
-            canvas.width = width;
-            canvas.height = height;
-            canvas.getContext('2d').drawImage(image, 0, 0, width, height);
-            let dataUrl = canvas.toDataURL('image/jpeg');
-            return dataURItoBlob(dataUrl);
+            // canvas.width = maxSize;
+            // canvas.height = maxSize;
+            // canvas.getContext('2d').drawImage(image, 0, 0, width, height);
+            // let dataUrl = canvas.toDataURL('image/jpeg');
+            // return dataURItoBlob(dataUrl);
         };
         return new Promise(function (ok, no) {
             if (!file.type.match(/image.*/)) {
@@ -227,6 +237,7 @@ function ProfileHeader({ username }) {
 
     const handleCancelChange = () => {
         setModal(false);
+        setLoading(false);
     };
 
     //handleFollowBtn
