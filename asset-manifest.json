@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/instagram/static/css/main.968bd291.css",
-    "main.js": "/instagram/static/js/main.0305e711.js",
+    "main.css": "/instagram/static/css/main.51bb4f89.css",
+    "main.js": "/instagram/static/js/main.a9b7c1c1.js",
     "static/media/post-image.jpg": "/instagram/static/media/post-image.d3122cb018d428a0e51c.jpg",
     "static/media/login-slide-1.png": "/instagram/static/media/login-slide-1.8073c02a21c4c8fb4dc6.png",
     "static/media/login-slide-4.png": "/instagram/static/media/login-slide-4.b1eacf1f6f6f4c47a49a.png",
@@ -13,11 +13,11 @@
     "static/media/avatar-default.jpg": "/instagram/static/media/avatar-default.7fe14f0accd9979e3303.jpg",
     "static/media/googleplay.png": "/instagram/static/media/googleplay.d255a6c504315fa57d4d.png",
     "index.html": "/instagram/index.html",
-    "main.968bd291.css.map": "/instagram/static/css/main.968bd291.css.map",
-    "main.0305e711.js.map": "/instagram/static/js/main.0305e711.js.map"
+    "main.51bb4f89.css.map": "/instagram/static/css/main.51bb4f89.css.map",
+    "main.a9b7c1c1.js.map": "/instagram/static/js/main.a9b7c1c1.js.map"
   },
   "entrypoints": [
-    "static/css/main.968bd291.css",
-    "static/js/main.0305e711.js"
+    "static/css/main.51bb4f89.css",
+    "static/js/main.a9b7c1c1.js"
   ]
 }
