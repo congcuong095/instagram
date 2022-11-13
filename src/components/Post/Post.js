@@ -338,7 +338,7 @@ function Post({ code }) {
                                     })}
                             </ul>
                         </div>
-                        <div className={cx('interactive-time')}>{handleTime(posts.time.seconds)}</div>
+                        <div className={cx('interactive-time')}>{handleTime(posts.time)}</div>
                         <div className={cx('interactive-comment')}>
                             <form className={cx('interactive-comment__form')}>
                                 <div className={cx('interactive-comment__emotion')}>{icon.emotionIcon}</div>

@@ -31,43 +31,6 @@
     display: none;
 }
 
-.load {
-    background-color: rgba(250, 250, 250, 0.5);
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    z-index: 3;
-}
-
-.load-icon {
-    width: 100%;
-    height: 100%;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    display: flex;
-    box-sizing: border-box;
-    position: absolute;
-    svg {
-        width: 30px;
-        height: 30px;
-    }
-
-    animation: loadSpin 0.8s steps(8) infinite;
-
-    @keyframes loadSpin {
-        0% {
-            transform: rotate(180deg);
-        }
-        100% {
-            transform: rotate(540deg);
-        }
-    }
-}
-
 .content {
     flex-basis: 30px;
     flex-grow: 2;

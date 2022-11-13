@@ -3,12 +3,12 @@ import classNames from 'classnames/bind';
 import { auth, db } from '@/firebaseConfig';
 import { doc, getDoc, getDocs, collection, updateDoc, arrayUnion, where, Timestamp } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import images from '@/assets/images';
 import Button from '@/components/Button/index';
 import FooterSidebar from '@/components/FooterSidebar/FooterSidebar';
 import { ModalChangeAccount } from '@/components/Modal';
-import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -64,6 +64,7 @@ function Sidebar() {
 
     //Handle follow
     const handleFollow = async (uidFriend, e) => {
+        e.preventDefault();
         e.target.innerText = 'Đang theo dõi';
         e.target.style.color = 'rgb(38,38,38)';
         const userRef = doc(db, 'user', UID);

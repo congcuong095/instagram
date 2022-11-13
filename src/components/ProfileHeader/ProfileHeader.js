@@ -21,6 +21,7 @@ import images from '@/assets/images';
 import * as icon from '@/assets/icons/icon';
 import Button from '@/components/Button';
 import { ModalChangeAvatar } from '../Modal';
+import Loading from '../Loading/Loading';
 
 const cx = classNames.bind(styles);
 
@@ -304,11 +305,7 @@ function ProfileHeader({ username }) {
                 {isCurrentUser ? (
                     <div className={cx('avatar')}>
                         <div className={cx('avatar-btn')} onClick={handleOpenModalAvatar}>
-                            {loading && (
-                                <div className={cx('load')}>
-                                    <div className={cx('load-icon')}>{icon.loadIcon}</div>
-                                </div>
-                            )}
+                            {loading && <Loading large />}
                             <img src={urlImg || images.avatarDefault} />
                         </div>
 

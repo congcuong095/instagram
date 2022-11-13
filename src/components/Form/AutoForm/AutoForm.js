@@ -67,7 +67,6 @@ function AutoForm({ onChangeLogin, onChangeAutoOne, propState, propAccounts, isL
 
                         <div className={cx('one-account-btn')}>
                             <Button primary small onClick={(e) => handleLogin(e, 0)}>
-                                {loading && <Loading medium />}
                                 Tiếp tục dưới tên {autoFormAccounts[0].username}
                             </Button>
                         </div>
@@ -86,7 +85,7 @@ function AutoForm({ onChangeLogin, onChangeAutoOne, propState, propAccounts, isL
                         <div className={cx('login-account-name')}>{account.username}</div>
                         <div className={cx('login-account-btn')}>
                             <Button medium primary onClick={(e) => handleLogin(e, index)}>
-                                {loading && <Loading medium />} Đăng nhập
+                                Đăng nhập
                             </Button>
                             <div className={cx('login-account-delete')} onClick={() => handleChooseDelete(account.uid)}>
                                 <FontAwesomeIcon icon={faX} className={cx('login-account-delete-icon')} />
@@ -159,7 +158,10 @@ function AutoForm({ onChangeLogin, onChangeAutoOne, propState, propAccounts, isL
                         </Link>
                     </div>
                     <div className={cx('login-content')}>
-                        <div className={cx('login-accounts')}>{autoFormAccounts && renderAccounts()}</div>
+                        <div className={cx('login-accounts')}>
+                            {loading && <Loading large />}
+                            {autoFormAccounts && renderAccounts()}
+                        </div>
                         {autoFormAccounts.length > 1 && (
                             <div className={cx('login-manage')}>
                                 <Button text medium onClick={(e) => handleManage(e)}>

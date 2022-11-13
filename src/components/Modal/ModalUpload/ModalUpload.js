@@ -3,11 +3,12 @@ import classNames from 'classnames/bind';
 import { storage, auth, db } from '@/firebaseConfig';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { arrayUnion, doc, getDoc, setDoc, Timestamp, updateDoc } from 'firebase/firestore';
+import { arrayUnion, doc, getDoc, Timestamp, updateDoc } from 'firebase/firestore';
 
 import * as icon from '@/assets/icons/icon';
 import Button from '@/components/Button';
 import images from '@/assets/images';
+import Loading from '@/components/Loading/Loading';
 
 const cx = classNames.bind(styles);
 
@@ -18,6 +19,7 @@ function ModalUpload({ onCancelUpload }) {
     const [UID, setUID] = useState('');
     const [nextImg, setNextImg] = useState(false);
     const [prevImg, setPrevImg] = useState(false);
+    const [loading, setLoading] = useState(false);
     const inputRef = useRef();
     const listImgRef = useRef();
     const listPagi = useRef();
@@ -91,6 +93,7 @@ function ModalUpload({ onCancelUpload }) {
     };
 
     const handleShare = async () => {
+        setLoading(true);
         let dataUrlImg = [];
 
         for (let i = 0; i < imgSelected.length; i++) {
@@ -134,9 +137,11 @@ function ModalUpload({ onCancelUpload }) {
             })
             .then(() => {
                 onCancelUpload();
+                setLoading(false);
             })
             .catch((err) => {
                 console.log(err);
+                setLoading(false);
             });
     };
     return (
@@ -152,6 +157,7 @@ function ModalUpload({ onCancelUpload }) {
                     <span className={cx('modal-heading-title')}>Tạo bài viết mới</span>
                     {imgSelected.length > 0 && (
                         <span className={cx('modal-heading-share')} onClick={handleShare}>
+                            {loading && <Loading medium />}
                             Chia sẻ
                         </span>
                     )}

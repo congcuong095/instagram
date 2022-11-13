@@ -107,10 +107,10 @@ function LoginForm({ isLogin, propAccounts }) {
                             isLogin(true);
                             navigate('/');
                             window.location.reload();
+                            setLoading(false);
                         }
                     }
                 });
-                setLoading(false);
             })
             .catch((error) => {
                 alert(error.message);
